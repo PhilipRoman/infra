@@ -24,3 +24,7 @@ mkdir  -pvm 755 $BINPREFIX/bin/
 install -vm 755 fzf/* $BINPREFIX/bin/
 install -vm 755 misc/* $BINPREFIX/bin/
 install -vm 755 nano/syntaxlist $BINPREFIX/bin/
+
+if [ -w /usr/share/source-highlight ]; then
+	install -vm 644 source-highlight/* /usr/share/source-highlight
+fi

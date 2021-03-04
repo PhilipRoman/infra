@@ -24,7 +24,7 @@ build/gitconfig: git/gitconfig
 
 build/nanorc: nano/nanorc
 	mkdir -p build
-	m4 -I nano -P $< > $@
+	(cd nano; m4 -P nanorc) > $@
 
 build/%.nanorc: nano/nano-syntax/%.nanorc
 	mkdir -p build
