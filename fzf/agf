@@ -1,0 +1,2 @@
+#!/bin/sh
+ag --nopager --color --color-match '1;91' "$@" | fzf-locations

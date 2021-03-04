@@ -1,0 +1,41 @@
+#!/bin/sh
+
+name=i
+compare='<'
+initial=0
+while [ "$#" != 0 ]; do
+	case "$1" in
+		'-j')
+			name=j
+			;;
+		'-k')
+			name=k
+			;;
+		'-1')
+			compare='<='
+			initial=1
+			;;
+		*)
+			break
+	esac
+	shift 1
+done
+
+[ -z "$expr" ] && read -r expr
+[ -z "$expr" ] || exit 1
+
+
+type="$(fzf-tmux << EOM
+int
+unsigned
+size_t
+long
+unsigned long
+EOM
+)"
+
+if grep -q '[()]' <<< "$expr"; then
+	printf 'for(%s %s = %s, limit = %s; %s %s limit; %s++)' "$type" "$name" "$initial"   "$expr"   "$name" "$compare"   "$name"
+else
+	printf 'for(%s %s = %s; %s %s %s; %s++)' "$type" "$name" "$initial"    "$name" "$compare" "$expr"    "$name"
+fi

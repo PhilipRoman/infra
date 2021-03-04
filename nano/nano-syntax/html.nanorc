@@ -1,0 +1,48 @@
+m4_include(colors.m4)
+## HTML syntax highlighting rules for Nano
+
+syntax "html" "\.(s?html?(.j2)?|xml)$"
+magic "HTML document"
+header ".*?(<html>|<!DOCTYPE)"
+comment "<!--|-->"
+
+linter html-validator-nano
+
+color brightyellow start="<script>" end="</script>"
+color brightyellow start="<style>" end="</style>"
+
+color brightblack "<[^>]*>"
+
+## Tags
+color black,yellow "</?[qwertys][^ >]*"
+color ,blue        "</?[uiop][^ >]*"
+color ,red         "</?[ad][^ >]*"
+color ,green         "</?[fgk][^ >]*"
+color ,cyan        "</?[hjzx][^ >]*"
+color ,magenta     "</?[lcvbnm][^ >]*"
+
+color brightblack "[<>]"
+
+color brightblack "<!DOCTYPE [^>]+>"
+
+## URLs
+color brightcyan "https?://[^' <>]+"
+color brightcyan "[^"' <>]+\.(js|css)"?"
+
+## Named character references and entities
+color blue "&#?[[:alnum:]]*;"
+
+## Template strings (not in the HTML spec, but very commonly used)
+# color magenta "\{[^\}]*\}"
+# color brightgreen "[[:space:]]((end)?if|(end)?for|in|not|(end)?block)[[:space:]]"
+
+## Comments
+color green start="<!--" end="-->"
+
+## Trailing spaces
+color ,green "[[:space:]]+$"
+
+## Mixed spaces and tabs
+color ,red " +	"
+## only color the spaces (this is a tab)
+color ,black "	"

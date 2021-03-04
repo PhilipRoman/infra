@@ -1,0 +1,24 @@
+#!/usr/bin/lua
+
+-- [scm:info] Outputs the largest of all numbers entered in stdin to stdout
+
+if (...) == "--help" then
+	io.stderr:write [[
+Outputs the largest of all numbers entered in stdin to stdout
+Exits with status 1 if no numbers were given
+Ignores all non-numeric input
+]]
+return
+end
+
+local max = 0
+local hasInput = false
+for line in io.lines() do
+	hasInput = true
+	max = math.max(max, tonumber(line) or max)
+end
+print(string.format("%f", max))
+if not hasInput then
+	os.exit(1)
+end
+

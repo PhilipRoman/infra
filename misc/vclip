@@ -1,0 +1,40 @@
+#!/bin/sh
+mkdir -p /var/clip || exit 1
+
+clip=default
+action=input
+
+for arg; do
+	case "$arg" in
+		'-o')
+			action=output
+			continue
+		;;
+		'-e')
+			action=edit
+			continue
+		;;
+		*)
+			clip="$arg"
+			continue
+		;;
+	esac
+done
+
+pathchk -P -- "$clip" || exit 1
+(echo "$clip" | grep -q /) && exit 1
+
+case $action in
+	edit)
+		subl '\\wsl$\Artix'"/var/clip/$clip"
+		break
+	;;
+	output)
+		cat "/var/clip/$clip"
+		break
+	;;
+	input)
+		cat > "/var/clip/$clip"
+		break
+	;;
+esac

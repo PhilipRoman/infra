@@ -1,0 +1,3 @@
+#!/bin/sh
+# -h removes the file name
+grep '^include' ~/.nanorc /etc/nanorc | sed "s/^include  *//; s:~:$HOME:"|xargs grep -hs '^syntax'|sed -E 's/^syntax +"?([^ "]*).*$/\1/'

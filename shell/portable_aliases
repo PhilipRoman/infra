@@ -1,0 +1,73 @@
+#!/bin/sh
+
+alias .....='cd ../../../..'
+alias ....='cd ../../..'
+alias ...='cd ../..'
+alias ..='cd ..'
+alias ag='ag --pager $PAGER'
+alias beep='tput bel'
+alias bell='tput bel'
+alias cp='cp -v'
+alias dir='dir --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias f='file'
+alias filesize='du -sbh'
+alias fs='du -sbh'
+alias g='git'
+alias gd='git diff --color=auto'
+alias gg='git log --color=always --all --decorate --oneline --graph'
+alias gs='git status'
+alias grep='grep --color=auto'
+alias grepi='grep -i'
+alias igrep='grep -i'
+alias ks='ls'
+alias la='ls -A'
+alias le='less'
+alias ll='ls -la'
+alias l='ls -CF'
+alias ls='ls -v --color=auto --group-directories-first'
+alias mk='make'
+alias mv='mv -v'
+alias nanos2='nano --tabstospaces --tabsize=2'
+alias nanos4='nano --tabstospaces --tabsize=4'
+alias n='nano'
+alias obd='objdump -D'
+alias relf='readelf'
+alias sane='stty sane'
+alias str='strings'
+alias rm='rm -iv'
+alias serve='php -S localhost:80'
+alias ta='tmux attach'
+alias tl='tmux list-sessions'
+alias tree='tree -v'
+alias wh='which'
+alias xco='xclip -o'
+alias xc='xclip'
+
+awksum() {
+	expr="${1:-\$1}"
+	awk "{ s += $expr } END { print s }"
+}
+
+# backup a file
+bak() {
+	cp "$1" "$1.bak"
+}
+# code-grep
+cgrep() {
+	grep --color=always -rIn "$1" "${2:-.}" | less
+}
+sig() {
+	([ -z "$1" ] || [ -z "$2" ]) && return 1;
+	command kill -s "$1" $(pgrep "$2" || echo "$2");
+}
+xxd() {
+	command xxd -c $[$COLUMNS / 4 - 2] "$@";
+}
+=() {
+	echo $(("$@"));
+}
+settitle() {
+	echo -ne "\033]0;$1\007";
+}

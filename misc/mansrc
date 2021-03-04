@@ -1,0 +1,3 @@
+#!/bin/sh
+
+zcat -f $(readlink -e $(man -w $@))

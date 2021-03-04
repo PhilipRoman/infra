@@ -1,0 +1,62 @@
+#!/bin/sh
+escape="${1:-'}"
+if [ -n "$lvgroff" ]; then
+sed -E "
+	s/${escape}([aeiuAEIU])/\1\\\*[_]/g;
+	s/${escape}([szcSZC])/\1\\\*[v]/g;
+	s/${escape}([gklnGKLN])/\1\\\*[,]/g;
+	s/${escape}([aeiuAEIU])/\1\\\*[_]/g;
+	s/${escape}([szcSZC])/\1\\\*[v]/g;
+	s/${escape}([gklnGKLN])/\1\\\*[,]/g;
+"
+elif [ -n "$lvrev" ]; then
+sed "
+	s/ā/'a/g;
+	s/ē/'e/g;
+	s/ī/'i/g;
+	s/ū/'u/g;
+	s/š/'s/g;
+	s/ģ/'g/g;
+	s/ķ/'k/g;
+	s/ļ/'l/g;
+	s/ž/'z/g;
+	s/č/'c/g;
+	s/ņ/'n/g;
+	s/Ā/'A/g;
+	s/Ē/'E/g;
+	s/Ī/'I/g;
+	s/Ū/'U/g;
+	s/Š/'S/g;
+	s/Ģ/'G/g;
+	s/Ķ/'K/g;
+	s/Ļ/'L/g;
+	s/Ž/'Z/g;
+	s/Č/'C/g;
+	s/Ņ/'N/g;
+"
+else
+sed "
+	s/${escape}a/ā/g;
+	s/${escape}e/ē/g;
+	s/${escape}i/ī/g;
+	s/${escape}u/ū/g;
+	s/${escape}s/š/g;
+	s/${escape}g/ģ/g;
+	s/${escape}k/ķ/g;
+	s/${escape}l/ļ/g;
+	s/${escape}z/ž/g;
+	s/${escape}c/č/g;
+	s/${escape}n/ņ/g;
+	s/${escape}A/Ā/g;
+	s/${escape}E/Ē/g;
+	s/${escape}I/Ī/g;
+	s/${escape}U/Ū/g;
+	s/${escape}S/Š/g;
+	s/${escape}G/Ģ/g;
+	s/${escape}K/Ķ/g;
+	s/${escape}L/Ļ/g;
+	s/${escape}Z/Ž/g;
+	s/${escape}C/Č/g;
+	s/${escape}N/Ņ/g;
+"
+fi

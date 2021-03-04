@@ -1,0 +1,63 @@
+m4_changequote({{,}})m4_dnl
+m4_changecom({{###}})m4_dnl
+m4_define(NEWGIT,
+	m4_ifelse(-1,m4_regexp(m4_esyscmd(git --version),version 2),no,yes))m4_dnl
+# This is Git's per-user configuration file.
+[user]
+	name = PhilipRoman
+	email = dev.philipjohn@gmail.com
+	signingkey = 3C678982A21FDE84
+[pager]
+m4_syscmd({{command -v diff-so-fancy > /dev/null}})m4_dnl
+	diff = m4_ifelse(NEWGIT,yes,{{m4_ifelse(m4_sysval,0,diff-so-fancy | )less}},true)
+[core]
+	pager = less
+	editor = nano
+	eol = lf
+	excludesFile = /etc/gitignore
+[push]
+	m4_ifelse(yes,NEWGIT,default = simple)
+[commit]
+	gpgsign = true
+
+[diff]
+#	tool = vimdiff
+	algorithm = patience
+
+[difftool]
+	prompt = false
+
+[alias]
+	s = status
+	c = checkout
+	a = add
+	d = diff
+	b = branch
+# log --date-order --date=iso --graph --full-history --all --pretty=format:'%x08%x09%C(red)%h %C(cyan)%ad%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08 %C(bold blue)%aN%C(reset)%C(bold yellow)%d %C(reset)%s'
+	hist = log --date-order --date=iso --graph --full-history --all --pretty=format:'%x08%x09%C(red)%h %C(cyan)%ad%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08 %C(bold blue)%aN%C(reset)%C(bold yellow)%d %C(reset)%s'
+
+	graph = log --color=always --all --decorate --oneline --graph
+[color]
+	ui = true
+[color "diff-highlight"]
+m4_define({{RED_FG}},{{203}})m4_dnl
+m4_define({{RED_BG}},{{52}})m4_dnl
+	oldNormal    = RED_FG bold RED_BG
+	oldHighlight = white  bold red
+	newNormal    = white  bold 238
+	newHighlight = white  bold 241
+m4_ifelse(no,NEWGIT,{{m4_define(italic,)}})
+[color "diff"]
+	old          = RED_FG RED_BG
+	new          = white bold 238
+	context      = 250 233
+	whitespace   = green reverse
+	meta         = blue italic
+	frag         = white 18 bold
+	commit       = blue italic
+[diff-so-fancy]
+	first-run = true
+[credential]
+	helper = store
+[gpg]
+	program = gpg

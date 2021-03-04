@@ -1,0 +1,56 @@
+m4_include(colors.m4)
+## Here is an example for Java.
+##
+syntax "java" "\.(java|groovy)$"
+
+header "^(public +class +[[:upper:]])|(import( +static?) +[[:lower:]_[:digit:].*])"
+
+comment "//"
+
+color CALL "[[:alpha:]]*\("
+
+color LOCAL "\<(int|short|byte|long|float|double|char|boolean)\> *[[:alnum:]]+"
+color DEFAULT "\<(int|short|byte|long|float|double|char|boolean)\> *"
+color CAST "\(\<(int|short|byte|long|float|double|char|boolean)\>\) *"
+
+color DECLARATION "\b[a-zA-Z0-9_]+ *\([][a-zA-Z0-9_.<?>, ]*?\) *(throws *[a-zA-Z0-9_. ,]+)? *\{\s*"
+color DEFAULT "\([^)]*)\s*.*\{$"
+color DEFAULT "throws .*[;{]"
+color ARRAY "[[:alnum:]]+\["
+color OPERATOR "[][+*/^&%!<>=-]"
+color KEYWORD "[?:]"
+color bold,brightblack "<[[:alnum:][:space:],?<>]*>"
+
+color DEFAULT "import( +static)? +([a-zA-Z0-9_]+[.;])*"
+color brightblack "import( +static)? +([a-zA-Z0-9_]+\.)*"
+color DEFAULT "\.\*"
+
+color DECLARATION "\<class *[[:alnum:]_]+\>"
+color KEYWORD "\<(class|extends|implements|import|void|instanceof|interface|package|super|throws|new|this)\> *"
+color KEYWORD_VISIBILITY "\<(abstract|private|protected|public)\>"
+color KEYWORD_STORAGE "\<(static|final|transient|native|strictfp|synchronized|volatile|default)\>"
+color KEYWORD_FLOW "\<(do|else|for|if|switch|try|while)\> *"
+color KEYWORD_JUMP "\<(break|continue|return|throw)\s*\>"
+color KEYWORD_JUMP "\<(case|catch|finally)\s*\>"
+color KEYWORD_JUMP "\<(default:)"
+icolor NUMBER "\b(([1-9][0-9]+)|0+)\.[0-9]+\b" "\b[1-9][0-9]*\b" "\b0[0-7]*\b" "\b0x[1-9a-f][0-9a-f]*\b"
+
+color DEFAULT "@[A-Za-z_0-9]+"
+
+# comments
+color COMMENT "//.*"
+color COMMENT start="/\*" end="\*/"
+color COMMENT_DOC start="/\*\*" end="\*/"
+color ESCAPE "@(since|code|see|link|linkplain|deprecated|implNote|apiNote|param|return|throws)"
+color ESCAPE "</?[a-z]+>"
+color ESCAPE "[a-zA-Z0-9_.]*#[a-zA-Z0-9_]+"
+color brightwhite,red "Copyright\s+\([cC]\).+"
+
+color STRING ""[^"]*""
+color STRING "'[^']*'"
+
+color KEYWORD_FLOW "[{}]"
+color black,orange "^	}"
+color DEFAULT "^	"
+
+m4_include(common.m4)

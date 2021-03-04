@@ -1,0 +1,90 @@
+m4_include(colors.m4)
+##############################################################################
+#
+# Lua syntax highlighting for Nano.
+#
+# Author:  Matthew Wild <mwild1 (at) gmail.com>
+# License: GPL 2  or later
+#
+# Version: 2007-06-06
+#
+# Notes: Originally based on Ruby syntax rc by Josef 'Jupp' Schugt
+##############################################################################
+
+# Automatically use for '.lua' files
+syntax "lua" ".*\.lua$"
+
+header "^#!.*/(env +)?lua(4|5|jit)?"
+
+comment "--"
+
+linter luacheck --no-global --formatter plain
+
+# General
+color DEFAULT ".+"
+
+# Locals
+color LOCAL "\<local +[a-zA-Z_][a-zA-Z_0-9., ]*"
+color LOCAL "\<for +[a-zA-Z_][a-zA-Z_0-9., ]*?(\<in\>|=)"
+
+# Functions
+color DECLARATION "\<function +[a-zA-Z_][a-zA-Z_0-9.]*"
+# Remove extra underlines
+color black "\<function +"
+
+# Operators
+color OPERATOR "[:*/%+><=.]|-|\^|>=|<=|~=|\<(not|and|or)\>"
+
+# Statements
+color KEYWORD_FLOW "\<(do|end|while|repeat|until|if|elseif|then|else|for|in)\>"
+color KEYWORD_JUMP "\<(return|break|goto)\>"
+color PRIMARY "\<(function|local)\>"
+
+# Standard library
+color STDLIB "\<(debug|string|math|table|io|coroutine|os|utf8|bit32)\>\."
+color STDLIB "\<(_ENV|_G|_VERSION|assert|collectgarbage|dofile|error|getfenv|getmetatable|ipairs|load|loadfile|module|next|pairs|pcall|print|rawequal|rawget|rawlen|rawset|require|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall)\s*\("
+
+color STDLIB "(io\.|:)\<(close|flush|input|lines|open|output|popen|read|tmpfile|type|write)\>"
+color STDLIB "math\.\<(abs|acos|asin|atan2|atan|ceil|cosh|cos|deg|exp|floor|fmod|frexp|huge|ldexp|log10|log|max|maxinteger|min|mininteger|modf|pi|pow|rad|random|randomseed|sinh|sqrt|tan|tointeger|type|ult)\>"
+color STDLIB "os\.\<(clock|date|difftime|execute|exit|getenv|remove|rename|setlocale|time|tmpname)\>"
+color STDLIB "package\.\<(config|cpath|loaded|loadlib|path|preload|seeall|searchers|searchpath)\>"
+color STDLIB "(string\.|:)\<(byte|char|dump|find|format|gmatch|gsub|len|lower|match|pack|packsize|rep|reverse|sub|unpack|upper)\>"
+color STDLIB "table\.\<(concat|insert|maxn|move|pack|remove|sort|unpack)\>"
+color STDLIB "utf8\.\<(char|charpattern|codes|codepoint|len|offset)\>"
+color STDLIB "coroutine\.\<(create|isyieldable|resume|running|status|wrap|yield)\>"
+color STDLIB "debug\.\<(debug|getfenv|gethook|getinfo|getlocal|getmetatable|getregistry|getupvalue|getuservalue|setfenv|sethook|setlocal|setmetatable|setupvalue|setuservalue|traceback|upvalueid|upvaluejoin)\>"
+color STDLIB "bit(32)?\.\<(arshift|band|bnot|bor|btest|bxor|extract|replace|lrotate|lshift|rrotate|rshift)\>"
+
+# File handle methods
+color STDLIB "\:\<(close|flush|lines|read|seek|setvbuf|write)\>"
+
+# false, nil, true
+#color brightmagenta "\<(false|nil|true)\>"
+
+# External files
+color brightgreen "(\<(dofile|require|include)|%q|%!|%Q|%r|%x)\>"
+
+color ARRAY "[[:alnum:]_.]+\["
+color ARRAY "#[[:alnum:]_.]+"
+color ARRAY "[][{}]"
+color pink "[(),]"
+
+# Multiline strings
+color STRING start="\s*\[\[" end="\]\]"
+
+# Escapes
+color ESCAPE "\\[0-7][0-7][0-7]|\\x[0-9a-fA-F][0-9a-fA-F]|\\[abefnrs]|(\\c|\\C-|\\M-|\\M-\\C-)."
+
+# Shebang
+color brightcyan "^#!.*"
+
+# Simple comments
+color COMMENT "\-\-.*$"
+
+# Strings
+color STRING "\"(\\.|[^\\\"])*\"|'(\\.|[^\\'])*'"
+
+# Multiline comments
+color COMMENT start="\s*\-\-\s*\[\[" end="\]\]"
+
+m4_include(common.m4)

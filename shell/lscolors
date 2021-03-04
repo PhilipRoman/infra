@@ -1,0 +1,40 @@
+#!/usr/bin/env colorspec -Fls
+
+default: white
+
+files: bright white
+
+other writable: red
+directories: 17 on bright white
+
+executable files: italic 220
+sticky other writable: bright white on red
+
+setuid: inverted 22
+
+block devices: black on magenta
+char devices: black on bright red
+
+symlinks: underline
+
+named pipe: bright white on green
+socket: bright white on blue
+
+*.c: bright cyan
+*.h: cyan
+*.lua: bright cyan
+*.java: bright cyan
+*rc: blue
+*Makefile: blue
+*makefile: blue
+*.gradle: blue
+*.o: bright black
+*.class: bright black
+*.png: bright black
+*.pdf: bright black
+*.1: bright black
+*.3: bright black
+*.html: bright black
+*_history: bright black
+*.swp: bright black
+*~: bright black

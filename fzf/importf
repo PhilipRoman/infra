@@ -1,0 +1,14 @@
+#!/bin/sh
+# jimage list $JAVA_HOME/lib/modules | grep '^ *java/'|grep -vF '$'|cut -c5- | tr / . |sed 's/\.class//' > /var/cache/classes
+
+CACHE=/var/cache/classes
+LIST=/var/cache/classlist
+
+touch $LIST
+touch $CACHE
+{
+	cat $CACHE;
+	cat $LIST | grep -vF -f $CACHE;
+} | fzf-tmux -- --multi -d'\.' -n-1 | sort | tee -a $CACHE | sed -E 's:^(.*)$:import \1;:'
+
+sort $CACHE | uniq -c | sort -rn | sed 's/^[0-9 ]*//' | head -n 50 | sponge $CACHE

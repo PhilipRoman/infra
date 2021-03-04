@@ -1,0 +1,89 @@
+set morespace
+set nohelp
+
+#set multibuffer
+set locking
+set afterends
+set tabsize 3
+set mouse
+set linenumbers
+set trimblanks
+set autoindent
+set atblanks
+unset wordbounds
+set softwrap
+unset casesensitive
+unset constantshow
+set wordchars "_"
+# set regexp
+set smarthome
+set suspendable
+set matchbrackets "({[<")}]>""
+set historylog
+set positionlog
+set zap
+
+set titlecolor bold,brightred
+set statuscolor cyan
+set keycolor cyan
+set functioncolor brightblack
+set numbercolor bold,brightblack
+set selectedcolor black,brightwhite
+
+bind ^/ comment main
+# ^H = ctrl-backspace
+bind ^H cutwordleft all
+bind ^] findbracket all
+bind ^D cutwordright all
+bind ^R replace main
+bind ^F whereis all
+bind ^C casesens all
+bind ^S casesens all
+bind ^R replace all
+bind ^R regexp replace
+bind ^R regexp search
+bind ^B backwards all
+bind ^Z undo all
+bind ^Y redo all
+bind ^Space complete all
+bind ^E execute all
+bind ^P flippipe all
+bind ^G gotoline all
+bind ^F browser insert
+bind ^E flipexecute all
+bind ^E execute main
+bind ^N flipnewbuffer all
+bind ^N findnext main
+bind ^P findprevious main
+bind ^O insert all
+bind ^W writeout all
+bind ^S savefile main
+bind M-F formatter all
+bind M-L linter all
+bind M-Z suspend all
+bind M-W whitespacedisplay all
+bind M-H nohelp all
+bind M-R recordmacro all
+bind M-X runmacro all
+
+bind ^Q cancel all
+bind ^Q exit main
+bind ^X exit main
+
+bind M-A anchor main
+bind M-N nextanchor main
+bind M-P prevanchor main
+
+set indicator
+set scrollercolor orange
+
+# for older nano versions:
+# bind ^C copytext main
+# bind ^V uncut all
+# for newer nano versions:
+bind ^C copy main
+bind ^V paste all
+
+# enable advanced syntax highlighting
+m4_esyscmd((ls -1 -- nano-syntax; echo hexproc.nanorc) | sed -E 's:^(.*)$:include /usr/local/share/nano-syntax/\1:')
+include "/usr/share/nano-syntax-highlighting/python.nanorc"

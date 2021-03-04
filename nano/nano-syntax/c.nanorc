@@ -1,0 +1,115 @@
+m4_include(colors.m4)
+syntax "c" "\.(c(c|pp|xx)?|C)$" "\.(h(h|pp|xx)?|H)$" "\.ii?$" "\.(def)$"
+
+header "#(pragma|include|ifndef)"
+
+comment "/*|*/"
+
+linter gcc -fsyntax-only
+
+## members
+color FIELD "(\.|->)[[:alnum:]]+"
+
+## function invocations
+color CALL "[a-zA-Z_][a-zA-Z0-9_]*\("
+color brightblack "[()]"
+## make simple function calls more subtle
+
+color KEYWORD_FLOW "[{}]"
+
+## standard types
+color KEYWORD "\<\(?(\* *)?(float|double|bool|char|wchar_t|int|(un)?signed( *int)?|short|long|void)\)?\>"
+## types with C namespace prefix (struct/enum/union)
+color KEYWORD "\<(\* *)?(struct|enum|union)\>([[:space:]]+[a-zA-Z0-9_]+)?"
+## typedef types
+color PRIMARY "\<\(?(\* *)?((s?size)|(char(16|32))|((u_?)?int(_fast|_least)?(8|16|32|64))|u?int(max|ptr))_t\)?\>"
+
+## modifiers
+color brightblack "\<(static|typedef|extern|inline)\>"
+color KEYWORD_STORAGE "\<(volatile|register|const)\>"
+color OPERATOR "\<(alignas|alignof|offsetof|asm|static_assert|thread_local)\>"
+
+
+## loop/branch statements
+color KEYWORD_FLOW "\<(for|if|while|do|else|switch)\>"
+## labels
+color LABEL "\<([[:alnum:]]*):"
+color DEFAULT "\<(case|default)\>[^:]*:"
+color LABEL "\<(case|default)\>"
+## jump-related statements
+color KEYWORD_JUMP "\<(break|continue|goto|return)\>"
+
+
+## gcc builtins
+color magenta "__attribute__[[:space:]]*\(\([^)]*\)\)" "__(aligned|volatile|asm|builtin|hidden|inline|packed|restrict|section|typeof|weak|format)__"
+
+## operators
+color KEYWORD_FLOW "[:?]"
+color OPERATOR "[+|\%~<>\^/-]"
+color OPERATOR "[!&*]"
+color OPERATOR "="
+color OPERATOR "[+*|!\%~&\^/-]="
+color OPERATOR "[=!><]="
+color ARRAY "[[:alnum:]_]+[[:space:]]*\["
+color FIELD "[][]"
+color brightblack "[,;.]"
+color brightblack "->"
+color brightblack "\<(sizeof)\>"
+
+m4_define({{ESCAPE_REGEX}},\\(m4_dnl
+[0abfnrtv"'\\?]|m4_dnl
+x[[:xdigit:]]+|m4_dnl
+[0-7]{3}|m4_dnl
+x[0-7]{3}|m4_dnl
+u[[:xdigit:]]{4}|m4_dnl
+U[[:xdigit:]]{8}))
+
+## char literals
+color ERROR "["']"
+color STRING "'[^\\]'"
+color STRING "'ESCAPE_REGEX'"
+
+## comment highlighting
+color COMMENT "//([^"]*"[^"]*")*[^"]*$"
+color COMMENT start="/\*" end="\*/"
+
+## string literals
+color STRING """"
+color STRING "".*[^\\]""
+color ERROR "\\"
+color ERROR "\\x.."
+color ESCAPE "ESCAPE_REGEX"
+color ESCAPE "ESCAPE_REGEX"
+color ESCAPE "ESCAPE_REGEX"
+
+## highlight macro name in '#define'
+color red "^[[:space:]]*#[[:space:]]*(define)[[:space:]]*[^([:space:]]+"
+color red "^[[:space:]]*#[[:space:]]*(undef)[[:space:]]*[^[:space:]]+?$"
+
+## make text of #error/#warning like a comment
+color COMMENT "^[[:space:]]*#[[:space:]]*(error|warning).*$"
+## included files
+color ERROR "^[[:space:]]*#\s*[^[:space:]]+"
+color white "^[[:space:]]*#\s*include\s.*"
+## preprocessor directives
+color bold,brightwhite "^[[:space:]]*#[[:space:]]*(define|include|undef|warning|error|pragma)\>"
+## highlight preprocessor conditionals (ifdef, etc.)
+color brightblack "^[[:space:]]*#[[:space:]]*([0-9]).*$"
+color cyan "^[[:space:]]*#[[:space:]]*(if(n?def)?).+$"
+color brightwhite,blue "^[[:space:]]*#[[:space:]]*(if(n?def)?)"
+## highlight preprocessor else/elif directives
+color black,white "^[[:space:]]*#[[:space:]]*el(if|se)"
+## highlight end of preprocessor conditional
+color brightwhite,red "^[[:space:]]*#[[:space:]]*(endif)"
+
+## preprocessor token pasting
+color black,yellow "##"
+
+## This string is VERY resource intensive!
+#color cyan start=""(\\.|[^"])*\\[[:space:]]*$" end="^(\\.|[^"])*""
+
+m4_include(common.m4)
+
+## space after '\'
+color TRAILING_SPACE "\\ "
+color ,blue "\\$"

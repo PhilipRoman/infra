@@ -1,0 +1,17 @@
+m4_include(colors.m4)
+syntax "diff" "\.diff"
+
+## accept both GNU diff (starts with "1,2c3,4" or "---" when using -u)
+## and Git diff (starts with "diff --git")
+header "(^[0-9]+(,[0-9]+)?[dac][0-9]+(,[0-9]+)?)|(^diff --git.*)|(^---)"
+
+color red "^[<\-].*"
+color green "^[>+].*"
+
+color brightblack,red "^---.*"
+color brightblack,green "^\+\+\+.*"
+
+color brightblack "^[^<> +@0-9\-].*"
+color brightblack "@@.*@@"
+color brightblack "^---$"
+color brightblack "^[0-9].*"

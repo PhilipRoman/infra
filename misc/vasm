@@ -1,0 +1,91 @@
+#!/usr/bin/env lua
+local prefixes = {
+	repne = 1,
+	rep = 1,
+	repz = 1,
+	repnz = 1,
+	repe = 1,
+	rex = 1,
+	scas = 1,
+	cs = 1,
+	ds = 1,
+	ss = 1,
+	es = 1,
+	fs = 1,
+	gs = 1,
+	lock = 1,
+	wait = 1,
+	data16 = 1,
+}
+
+local opcolors = {['-'] = 22}
+
+local function opcolor(op)
+	op = op:lower():match '([^.]+)%S-$'
+	if opcolors[op] then
+		return opcolors[op]
+	end
+	local b1, b2 = op:byte(1, 2)
+	b1 = b1 * b1 * b1
+	local hash = ((b1 + b2 + 1)*(b1 + b2))/2
+	local col = 34 + (hash % (231 - 34))
+	opcolors[op] = col
+	return col
+end
+
+local function present(line)
+	local addr = line:lower():match '^([^:]-):'
+	if not addr then
+		return line
+	end
+	local addrprefix = addr:match '^(%X*%s*)'
+	if addrprefix ~= '' then
+		addr = addr:sub(#addrprefix + 1)
+		addrprefix = '+'
+	else
+		addrprefix = ' '
+	end
+
+	addr = addr:match '^0?x?0*(.*)$'
+
+	local rest = line:match '^[^:]*:%s(.*)'
+	if not rest then return end
+
+	while rest:match '^%x%x%s' do
+		rest = rest:sub(4)
+	end
+	local opcode, args = rest:match '^%s*(%S+)%s*(.*)$'
+	opcode = opcode or '-'
+	-- while last word of opcode is a prefix, move next word from args to opcode
+	local prefix = opcode:match '%S+$'
+	while args ~= "" and prefixes[prefix] do
+		prefix, args = args:match '^(%S+)%s*(.*)$'
+		opcode = opcode..' '..prefix
+	end
+	args = args or ''
+	local comment = args:match '(#.*)$'
+	if comment then
+		args = args:match '^([^#]-)%s*#'
+	end
+	local arglist = {}
+	(args or ""):gsub('[^,]+', function(x) arglist[#arglist+1] = x end)
+	local argcount = #arglist
+	arglist[#arglist+1] = comment
+
+	return string.format(
+		'%s\x1b[90m%3s:\x1b[0m \x1b[38:5:%dm%-10s\x1b[0m%32s %s %s %s %s   %s',
+		addrprefix, addr, opcolor(opcode), opcode,
+		arglist[1] or '', argcount >= 2 and '~' or ' ', arglist[2] or '', argcount >= 3 and '~' or ' ', arglist[3] or '', arglist[4] or ''
+	):gsub('([^\x1b]%[.-%])', '\x1b[93m%1\x1b[0m'):gsub('(<[^>]->)', '\x1b[90m%1\x1b[0m'):gsub('<([^@>]-)@', '<\x1b[36m%1\x1b[90m@')
+end
+
+local input  = ... and io.open((...), 'r') or io.stdin
+
+for line in input:lines() do
+	line = line:match '^%s*(.*)%s*$'
+	if line:match ':$' or line == '' then
+		print(line)
+	else
+		print((present(line)))
+	end
+end

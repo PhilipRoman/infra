@@ -1,0 +1,30 @@
+#!/usr/bin/lua
+
+-- [scm:info] Outputs the smallest of all numbers entered in stdin to stdout
+
+if (...) == "--help" then
+	io.stderr:write [[
+Outputs the smallest of all numbers entered in stdin to stdout
+Exits with status 1 if no numbers were given
+Ignores all non-numeric input
+]]
+	return
+end
+
+local min = nil
+local hasInput = false
+for line in io.lines() do
+	if tonumber(line) then
+		if not hasInput then
+			min = tonumber(line)
+			hasInput = true
+		else
+			min = math.min(min, tonumber(line))
+		end
+	end
+end
+print(string.format("%f", min))
+if not hasInput then
+	os.exit(1)
+end
+

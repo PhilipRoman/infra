@@ -1,0 +1,2 @@
+#!/bin/sh
+global --result grep --color=always $@".*" | fzf-locations

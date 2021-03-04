@@ -1,0 +1,15 @@
+#!/bin/sh
+CACHE=/var/cache/headers
+ROOTS='/usr/include /usr/local/include /usr/lib'
+
+touch $CACHE
+{
+	cat $CACHE;
+	{
+		find $ROOTS -maxdepth 1 -type f -printf '%P\n';
+		find $ROOTS -mindepth 2 -type f -printf '%P\n';
+	} | grep -v -f $CACHE;
+} | grep -v 'bits/' | fzf-tmux -- --multi -d/ -n-1 |
+	tee -a $CACHE | sort | sed -E 's:^(.*)$:#include <\1>:'
+
+sort $CACHE | uniq -c | sort -rn | sed 's/^[0-9 ]*//' | head -n 50 | sponge $CACHE

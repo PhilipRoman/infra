@@ -1,0 +1,34 @@
+m4_include(colors.m4)
+## Here is an example for Autoconf.
+
+# screw autoconf; this syntax is for M4 itself
+
+syntax m4 "\.(m4)$"
+
+# Keywords:
+# color brightcyan "\<(if|test|then|elif|else|fi|for|in|do|done)\>"
+# color red "(=|!=|&&|\|\||,)"
+
+color white "[[:alnum:]_]+?\("
+
+color CALL "[[:alnum:]_]+\("
+color CALL "[[:upper:][:digit:]_]{3,}"
+color DECLARATION "\<m4_define\([^,]*,"
+color cyan "\<(m4_)?(define|change(com|quote)|if(n?def|else|)|defu?n|(un)?divert|e?syscmd|regexp|patsubst|errprint|copy|include|m4exit)\("
+color cyan "\<(m4_)?(sysval)\>"
+color OPERATOR "[()]"
+color KEYWORD_FLOW "[`']"
+color KEYWORD_FLOW "[][{}]"
+
+color blue "\<m4_"
+color OPERATOR ","
+
+# Comments:
+color COMMENT "^[[:blank:]]*#.*"  "\<(m4_)?dnl.*"
+
+# Parameters
+color black,brightwhite "\$[[:digit:]]"
+color black,brightcyan "\$1"
+color black,brightyellow "\$2"
+
+m4_include(common.m4)

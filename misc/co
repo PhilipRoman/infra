@@ -1,0 +1,24 @@
+#!/bin/sh
+
+printf '%s' "$(fzf-tmux <<EOM
+int main(int argc, char **argv) 
+public class Main 
+public static int main(String[] args) 
+Scanner sc = new Scanner(System.in);
+for line in io.lines() do
+for(int i = 0; i < ; i++)
+import java.util.*;
+import java.io.*;
+import java.util.concurrent.*;
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
+#include <stddef.h>
+#pragma once
+printf("", );
+fprintf(stderr, "", );
+#!/bin/sh
+#!/usr/bin/env lua
+EOM
+)"

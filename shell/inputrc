@@ -1,0 +1,50 @@
+m4_changequote({{,}})
+
+TAB: menu-complete
+# Shift-Tab
+"\e[Z": menu-complete-backward
+
+"\C-h": backward-kill-word
+"\C-b": insert-self
+
+# Disable mouse for ST terminal
+"\C-e": ""
+"\C-y": ""
+
+"\C-x\C-e": edit-and-execute-command
+"\C-u": undo
+
+"\el": kill-whole-line
+"\eb": backward-kill-word
+"\ef": kill-word
+"\eu": universal-argument
+
+m4_define({{forloop}}, {{m4_pushdef({{$1}}, {{$2}})_forloop($@)m4_popdef({{$1}})}})
+m4_define({{_forloop}}, {{$4{{}}m4_ifelse($1, {{$3}}, {{}}, {{m4_define({{$1}}, m4_incr($1))$0($@)}})}})
+
+m4_define({{REPEAT}},{{forloop(__ignorethis__,1,$1,$2)}})
+
+# Alt + number moves cursor to n-th word
+"\e0": "REPEAT(20,{{\e[1;5D}})"
+"\e1": "REPEAT(20,{{\e[1;5D}})REPEAT(1,{{\e[1;5C}})"
+"\e2": "REPEAT(20,{{\e[1;5D}})REPEAT(2,{{\e[1;5C}})"
+"\e3": "REPEAT(20,{{\e[1;5D}})REPEAT(3,{{\e[1;5C}})"
+"\e4": "REPEAT(20,{{\e[1;5D}})REPEAT(4,{{\e[1;5C}})"
+"\e5": "REPEAT(20,{{\e[1;5D}})REPEAT(5,{{\e[1;5C}})"
+"\e6": "REPEAT(20,{{\e[1;5D}})REPEAT(6,{{\e[1;5C}})"
+
+"\e[1;5D": backward-word
+"\e[1;5C": forward-word
+
+"C-d": kill-region
+
+set blink-matching-paren off
+set colored-completion-prefix on
+set colored-stats on
+set completion-ignore-case on
+set show-all-if-ambiguous on
+set bell-style none
+set isearch-terminators "C-C"
+set visible-stats on
+set enable-bracketed-paste on
+set history-size 100

@@ -1,0 +1,8 @@
+if [ -z "$1" ]; then
+	exit 0;
+fi
+lastmod="$(stat -c %Y $@)"
+now="$(date +%s)"
+for modtime in $lastmod; do
+	printf '%d\n' "$((now - modtime))";
+done

@@ -1,0 +1,9 @@
+set disassembly-flavor intel
+define xdisassemble
+	dont-repeat
+	pipe disas/r $pc,$pc+128|vasm
+end
+
+document xdisassemble
+	Disassembles the instructions at current PC and presents them
+end

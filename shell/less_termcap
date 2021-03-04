@@ -1,0 +1,41 @@
+#!/bin/sh
+
+# Black:   0
+# Red:     1
+# Green:   2
+# Yellow:  3
+# Blue:    4
+# Magenta: 5
+# Cyan:    6
+# White:   7
+
+# setaf = foreground
+# setab = background
+# bold  = bold
+# dim   = hald-bright
+# smul  = underline
+# rmul  = exit underline
+# rev   = reverse
+# smso  = standout
+# rmso  = exit standout
+# sgr0  = reset
+
+export LESS_TERMCAP_mb="m4_esyscmd(tput bold; tput setab 235)"
+export LESS_TERMCAP_md="m4_esyscmd(tput bold; tput setab 235)"
+export LESS_TERMCAP_me="m4_esyscmd(tput sgr0)"
+
+export LESS_TERMCAP_so="m4_esyscmd(tput bold; tput setaf 20; tput setab 15)"
+export LESS_TERMCAP_se="m4_esyscmd(tput sgr0)"
+
+export LESS_TERMCAP_us="m4_esyscmd(tput sitm; tput setaf 220)"
+export LESS_TERMCAP_ue="m4_esyscmd(tput sgr0)"
+
+export LESS_TERMCAP_mr="m4_esyscmd(tput rev)"
+export LESS_TERMCAP_mh="m4_esyscmd(tput dim)"
+
+export LESS_TERMCAP_ZN="m4_esyscmd(tput ssubm)"
+export LESS_TERMCAP_ZV="m4_esyscmd(tput rsubm)"
+export LESS_TERMCAP_ZO="m4_esyscmd(tput ssupm)"
+export LESS_TERMCAP_ZW="m4_esyscmd(tput rsupm)"
+
+export GROFF_NO_SGR=1

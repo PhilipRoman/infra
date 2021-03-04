@@ -1,0 +1,2 @@
+pkg load symbolic
+graphics_toolkit "gnuplot"

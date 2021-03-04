@@ -1,0 +1,28 @@
+#!/bin/sh
+diff=no
+pager=cat
+if command -v less >/dev/null; then
+	pager=less
+fi
+if command -v bat >/dev/null; then
+	pager='bat -ldiff'
+fi
+while getopts 'd' opt; do
+	case "$opt" in
+		d)
+			diff=yes
+			;;
+	esac
+done
+
+shift $((OPTIND - 1))
+
+if [ $diff == yes ]; then
+	while read filename; do
+		eval "$@ '$filename' | diff -u $filename -"
+	done | $pager
+else
+	while read filename; do
+		< "$filename" $@ | sponge "$filename"
+	done
+fi

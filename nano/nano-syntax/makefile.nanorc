@@ -1,0 +1,61 @@
+m4_include(colors.m4)
+syntax "makefile" "[Mm]akefile$"
+header "(^#!.*/(env +)?[bg]?make( |$)|^\.[A-Za-z_/0-9-]+:)"
+
+# color conditionals
+color black,blue  "\<(ifeq|ifdef|ifneq|ifndef)\>"
+color brightblack,yellow "\<else\>"
+color black,red "\<endif\>"
+
+# keywords
+color cyan  "^(export|include|override)\>"
+# ???
+# color green  "^[^:+	]+\+"
+
+# targets
+color blue  "^[^:+=	]+(:)"
+
+# assignments
+color brightred  "^[^:+=	]+([?:+]?=)"
+# assignment operators
+color brightmagenta "[=,<>]" " *(\+=|\?=|:=|&&|\|\|)"
+
+# functions, etc.
+color brightblue "\$\((abspath|addprefix|addsuffix|and|basename|call|dir)[[:space:]]"
+color brightblue "\$\((error|eval|filter|filter-out|findstring|firstword)[[:space:]]"
+color brightblue "\$\((flavor|foreach|if|info|join|lastword|notdir|or)[[:space:]]"
+color brightblue "\$\((origin|patsubst|realpath|shell|sort|strip|suffix)[[:space:]]"
+color brightblue "\$\((value|warning|wildcard|word|wordlist|words)[[:space:]]"
+
+# strings
+color yellow "\"(\\.|[^\"])*\"|'(\\.|[^'])*'"
+
+# variable expansions
+color brightred "\$+(\{[^} ]+\}|\([^) ]+\))"
+# automatic variable expansions
+color italic,brightwhite,blue "\$[@^<*?%|+]|\$\([@^<*?%+-][DF]\)"
+
+# parameterized targets/dependencies suffix
+color italic,brightwhite,blue "%[^/ :]*"
+# parameterized target/dependencies
+color italic,brightwhite,magenta "%"
+
+# escapes
+color black,yellow   "\$\$|\\.?"
+
+# comments
+color brightblack "(^|[[:space:]])#([^{].*)?$"
+
+# surrounding part of variables/functions
+color brightmagenta    "\$\(" ")"
+
+# '@' symbol
+color blue "^[[:space:]]@"
+
+# flags for command
+color brightyellow "[[:space:]](--?[a-zA-Z0-9]*)"
+
+# show trailing whitespace
+color white,red "[[:space:]]+$"
+# warn about spaces
+color white,red "^ *"

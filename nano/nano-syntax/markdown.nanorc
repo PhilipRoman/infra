@@ -1,0 +1,36 @@
+m4_include(colors.m4)
+# Markdown syntax
+
+syntax "markdown" "\.(md)$"
+
+comment "<!---|-->"
+
+# Headings
+color italic,brightgreen  "^ *#+.*"
+color brightgreen  "^ *#+ *"
+
+color white start="^```" end="^```"
+color white start="^---" end="^..."
+color black,mint "^```"
+color brightyellow "'[^']*'"
+color brightyellow ""[^"]*""
+color brightblack "\.(:|\+|=|-|\^|\*|/)"
+color brightyellow "(:|\+|=|-|\^|\*|/)"
+color brightgreen "="
+color red "~~"
+
+# MathJax
+color brightblack "[{}]"
+color brightwhite "\\[{}]"
+color brightwhite "[()]"
+color yellow "\\[a-zA-Z]+(_[a-z0-9A-Z{ ])?"
+color brightblack "\\"
+color mauve "_([a-z0-9A-Z]|\{[^}]+}) "
+color black,latte "\$"
+color brightcyan "\[[^]]*](\([^)]*\))?"
+color cyan "[][]"
+
+## Trailing spaces
+color ,green "[[:space:]]+$"
+## Mixed spaces/tabs
+color ,red " +	"
