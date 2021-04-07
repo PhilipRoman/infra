@@ -8,7 +8,7 @@ if [ ! -e "$1" ] ; then
 fi
 
 if [ -d "$1" ] ; then
-	ls -alF -- "$1"
+	ls -alF --sort=t --color -- "$1"
 	exit
 fi
 

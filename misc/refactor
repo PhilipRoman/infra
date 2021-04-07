@@ -1,0 +1,49 @@
+#!/bin/sh
+
+from="$1"
+to="$2"
+
+if [ -z "$from" -o -z "$to" ]; then
+	echo 'Two arguments needed' >&2
+	exit 1
+fi
+
+if grep -q '[^_[:alnum:]]' <<< "${from}${to}"; then
+	echo 'Only alphanumeric characters and underscores allowed' >&2
+	exit 1
+fi
+
+lsof_warn() {
+	if lsof "$1" >/dev/null; then
+		printf 'Warning: file "%s" is currently in use\n' "$1"
+	fi
+}
+
+tmpfile="$(mktemp)"
+
+(
+	ag --color --nopager -- "$from" | ifne fzf --ansi --multi --prompt '(Select occurrences to rename)' -d: -n 1,3.. | while read line; do
+		file="$(cut -d: -f1 <<< "$line")"
+		lsof_warn "$file"
+		lineno="$(cut -d: -f2 <<< "$line")"
+		printf 'sed "%ds/%s/%s/g" "%s" | sponge "%s"\n' "$lineno" "$from" "$to" "$file" "$file"
+	done;
+
+	ag -l | grep -- "$from" | ifne fzf --ansi --multi --prompt '(Select files to rename)' | while read line; do
+		lsof_warn "$line"
+		renamed="$(sed "s/$from/$to/g" <<< "$line")"
+		lsof_warn "$renamed"
+		printf 'mv -iv -- "%s" "%s"\n' "$line" "$renamed"
+	done;
+) > "$tmpfile"
+
+cat "$tmpfile"
+
+echo "Confirm commands? [yN]"
+read -r answer
+if [ "$answer" = 'y' -o "$answer" = 'Y' ]; then
+	sh "$tmpfile"
+	rm -v "$tmpfile"
+else
+	echo "Cancelled"
+fi

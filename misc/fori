@@ -21,8 +21,9 @@ while [ "$#" != 0 ]; do
 	shift 1
 done
 
+expr="$*"
 [ -z "$expr" ] && read -r expr
-[ -z "$expr" ] || exit 1
+[ -z "$expr" ] && exit 1
 
 
 type="$(fzf-tmux << EOM

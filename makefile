@@ -3,7 +3,7 @@
 
 all: build/bashrc build/inputrc build/tmux.conf build/gitconfig build/nanorc $(addprefix build/,$(notdir $(wildcard nano/nano-syntax/*.nanorc)))
 
-install:
+install: all
 	sh install.sh
 
 build/bashrc: shell/bashrc shell/less_termcap shell/portable_aliases shell/promptfunc

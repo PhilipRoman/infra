@@ -1,0 +1,19 @@
+#!/bin/sh
+paneid="$1"
+
+if [ ! -t 0 ]; then
+	echo "Not a tty" >&2
+	exit 1
+fi
+
+STTY="$(stty -g)"
+
+if [ -z "$paneid" ]; then
+	paneid="$(tmux list-panes -a | fzf | cut -d: -f 1,2)"
+fi
+
+stty -echo raw -icrnl
+while read -rN1 key; do
+	tmux send-keys -t "$paneid" -l -- "${key/;/\\;}" || (stty -a "$STTY"; exit 1)
+done
+stty -a "$STTY"

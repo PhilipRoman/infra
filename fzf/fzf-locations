@@ -1,0 +1,3 @@
+#!/bin/sh
+sed -E 's/^([^:]+:[^:]+:)\s+/\1/' |
+	fzf --ansi -d: --nth 1,3.. --with-nth 3.. --bind 'Ctrl-e:execute(nano -- +{2} {1} </dev/tty),Ctrl-n:execute(nano -- {1} </dev/tty),Ctrl-t:execute-silent(tmux neww nano -- +{2} {1}),Ctrl-l:execute(less +{2}gmx {1} </dev/tty),Ctrl-k:execute-silent(printf '%s' {1} | xclip)' "$@"

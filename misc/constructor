@@ -1,0 +1,4 @@
+#!/bin/sh
+text="$(cat)"
+indent="$(grep -o '^[[:blank:]]*' <<< "$text")"
+printf '%s' "$text" | tr -s '[:blank:]' '[\n*]' | grep . | sed -E 's/(.*)/'"${indent}"'this.\1 = \1;/'

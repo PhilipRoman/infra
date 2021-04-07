@@ -23,10 +23,11 @@ alias grepi='grep -i'
 alias igrep='grep -i'
 alias ks='ls'
 alias la='ls -A'
-alias le='less'
-alias ll='ls -la'
-alias l='ls -CF'
-alias ls='ls -v --color=auto --group-directories-first'
+alias le='LESSOPEN= less'
+alias lo='less'
+alias ll='ls -lav --group-directories-first'
+alias l='ls -CFv --group-directories-first'
+alias ls='ls --color=auto'
 alias mk='make'
 alias mv='mv -v'
 alias nanos2='nano --tabstospaces --tabsize=2'
@@ -52,7 +53,7 @@ awksum() {
 
 # backup a file
 bak() {
-	cp "$1" "$1.bak"
+	cp -rv "$1" "$1.bak"
 }
 # code-grep
 cgrep() {

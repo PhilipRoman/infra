@@ -25,6 +25,12 @@ fi
 shopt -s checkwinsize
 
 if [ -z "$TMUX" ] && [ -z "$SSH_CLIENT" ] && command -v tmux > /dev/null; then
+#	if ! timeout -s KILL 1s tmux run-shell true; then
+#		pkill -9 'tmux: server'
+#		pkill -9 'tmux: client'
+#		echo 'Forcefully killed tmux' >&2
+#		sleep 1
+#	fi
 	SHLVL=0 tmux new -A -c ~
 fi
 
@@ -40,6 +46,7 @@ bind -x '"\e[1;5B": "cd ..; $PROMPT_COMMAND"'
 bind    '"\C-k": "git commit -m \"\"\e[D"'
 bind    '"\C-f": "!! | grep '\'\''\e[D"'
 bind -x '"\ec": "history -s $READLINE_LINE"'
+bind    '"\\": "|"'
 
 # list files upon completing empty line
 complete -Ef
@@ -86,9 +93,9 @@ command -v lesspipe >/dev/null && eval "$(SHELL=/bin/sh lesspipe)"
 
 m4_include(less_termcap)
 
-export PAGER=less
-export EDITOR=nano
-export VISUAL=nano
+export PAGER="$(command -v less)"
+export EDITOR="$(command -v nano)"
+export VISUAL="$EDITOR"
 export LESSGLOBALTAGS=global
 
 command -v lesspipe.sh >/dev/null && export LESSOPEN='||lesspipe.sh %s'
