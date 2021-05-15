@@ -5,6 +5,8 @@ syntax "java" "\.(java|groovy)$"
 
 header "^(public +class +[[:upper:]])|(import( +static?) +[[:lower:]_[:digit:].*])"
 
+linter javac -d /tmp
+
 comment "//"
 
 color CALL "[[:alpha:]]*\("

@@ -63,7 +63,7 @@ shopt -u extdebug
 #trap 'kill $(jobs -p) 2>/dev/null' EXIT
 
 export LANG='en_US.utf8'
-export IGNOREEOF='1'
+export IGNOREEOF='0'
 export JAVA_OPTS='-Djava.awt.headless=true'
 export FIGNORE='..:.'
 export GRADLE_OPTS=''
@@ -94,6 +94,7 @@ command -v lesspipe >/dev/null && eval "$(SHELL=/bin/sh lesspipe)"
 m4_include(less_termcap)
 
 export PAGER="$(command -v less)"
+export DELTA_PAGER="$PAGER --" # seems like adding any option (like --) prevents delta from adding its own options
 export EDITOR="$(command -v nano)"
 export VISUAL="$EDITOR"
 export LESSGLOBALTAGS=global

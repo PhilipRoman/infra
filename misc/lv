@@ -1,5 +1,10 @@
-#!/bin/sh
-escape="${1:-'}"
+#!/bin/bash
+escape="'"
+if [ -n "$lvnano" ]; then
+	[ -f "$1" ] || (echo "No such file: $1"; exit 2)
+	exec 0<"$1"
+	exec 1> >(sponge "$1")
+fi
 if [ -n "$lvgroff" ]; then
 sed -E "
 	s/${escape}([aeiuAEIU])/\1\\\*[_]/g;
@@ -59,4 +64,9 @@ sed "
 	s/${escape}C/Č/g;
 	s/${escape}N/Ņ/g;
 "
+fi
+
+if [ -n "$lvnano" ]; then
+	exec 1<&-
+	wait
 fi

@@ -65,6 +65,8 @@ bind M-W whitespacedisplay all
 bind M-H nohelp all
 bind M-R recordmacro all
 bind M-X runmacro all
+bind M-3 linenumbers all
+bind M-? help all
 
 bind ^Q cancel all
 bind ^Q exit main
@@ -87,3 +89,4 @@ bind ^V paste all
 # enable advanced syntax highlighting
 m4_esyscmd((ls -1 nano-syntax; echo hexproc.nanorc) | sed -E 's:^(.*)$:include /etc/nanorc.d/\1:')
 include "/usr/share/nano-syntax-highlighting/python.nanorc"
+include "/usr/share/nano-syntax-highlighting/glsl.nanorc"
