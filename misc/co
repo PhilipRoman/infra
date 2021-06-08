@@ -1,6 +1,8 @@
 #!/bin/sh
 
-printf '%s' "$(fzf-tmux <<EOM
+args="$@"
+tmp="$(mktemp)"
+tmux popup -E "fzf $FZF_DEFAULT_OPTS -1 -q \"$args\" > \"$tmp\" <<EOM
 int main(int argc, char **argv) 
 public class Main 
 public static void main(String[] args) 
@@ -21,5 +23,6 @@ printf("", );
 fprintf(stderr, "", );
 #!/bin/sh
 #!/usr/bin/env lua
-EOM
-)"
+EOM"
+cat "$tmp"
+rm "$tmp"

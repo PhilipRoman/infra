@@ -64,7 +64,6 @@ shopt -u extdebug
 
 export LANG='en_US.utf8'
 export IGNOREEOF='0'
-export JAVA_OPTS='-Djava.awt.headless=true'
 export FIGNORE='..:.'
 export GRADLE_OPTS=''
 # export TERM='xterm-256color'

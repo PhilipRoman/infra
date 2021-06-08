@@ -1,4 +1,3 @@
-set morespace
 set nohelp
 
 #set multibuffer
@@ -22,6 +21,7 @@ set matchbrackets "({[<")}]>""
 set historylog
 set positionlog
 set zap
+set speller ispell
 
 set titlecolor bold,brightred
 set statuscolor cyan
@@ -54,14 +54,19 @@ bind ^E flipexecute all
 bind ^E execute main
 bind ^N flipnewbuffer all
 bind ^N findnext main
+bind ^T mark main
 bind ^P findprevious main
 bind ^O insert all
 bind ^W writeout all
 bind ^S savefile main
+bind ^B end all
+bind ^A home all
 bind M-F formatter all
 bind M-L linter all
+bind M-S speller all
 bind M-Z suspend all
-bind M-W whitespacedisplay all
+bind M-I whitespacedisplay all
+bind M-W softwrap main
 bind M-H nohelp all
 bind M-R recordmacro all
 bind M-X runmacro all
@@ -69,6 +74,9 @@ bind M-3 linenumbers all
 bind M-? help all
 
 bind ^Q cancel all
+
+
+
 bind ^Q exit main
 bind ^X exit main
 

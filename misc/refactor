@@ -14,7 +14,7 @@ if grep -q '[^_[:alnum:]]' <<< "${from}${to}"; then
 fi
 
 lsof_warn() {
-	if lsof "$1" >/dev/null; then
+	if [ -f "$1" ] && lsof "$1" >/dev/null; then
 		printf 'Warning: file "%s" is currently in use\n' "$1"
 	fi
 }

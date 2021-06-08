@@ -2,22 +2,41 @@ m4_include(colors.m4)
 ## Here is an example for nanorc files.
 ##
 syntax "nanorc" "\.?nanorc$"
+comment "#"
+
 ## Possible errors and parameters
-icolor red "^[[:space:]]*((un)?set|include|syntax|i?color).*$"
-## Keywords
-icolor brightgreen "^[[:space:]]*(set|unset)[[:space:]]+(allow_insecure_backup|autoindent|backup|backupdir|backwards|boldtext|brackets|casesensitive|const|cut|fill|historylog|matchbrackets|morespace|mouse|multibuffer|noconvert|nofollow|nohelp|nonewlines|nowrap|operatingdir|poslog|positionlog|preserve|punct)\>" "^[[:space:]]*(set|unset)[[:space:]]+(quickblank|quotestr|rebinddelete|rebindkeypad|regexp|smarthome|smooth|softwrap|speller|suspend|suspendenable|tabsize|tabstospaces|tempfile|undo|view|whitespace|wordbounds)\>"
-icolor green "^[[:space:]]*(bind|set|unset|syntax|header|include|magic)\>"
-## Colors
-icolor yellow "^[[:space:]]*i?color[[:space:]]*(bright)?(white|black|red|blue|green|yellow|magenta|cyan)?(,(white|black|red|blue|green|yellow|magenta|cyan))?\>"
-icolor magenta "^[[:space:]]*i?color\>" "\<(start|end)="
+icolor ERROR "^[[:space:]]*((un)?set|include|syntax|i?color).*$"
+
+color bold,brightwhite "^[[:blank:]]*(i?color)[[:blank:]]+[[:upper:]_]+"
+
+# Color names
+color KEYWORD_JUMP "^[[:blank:]]*(i?color|set[[:blank:]]+((error|function|key|number|prompt|scroller|selected|spotlight|status|stripe|title)color))[[:blank:]]+(bold,)?(italic,)?(((bright|light)?(white|black|red|blue|green|yellow|magenta|cyan))|normal|pink|purple|mauve|lagoon|mint|lime|peach|orange|latte|grey|gray)?(,(((light)?(white|black|red|blue|green|yellow|magenta|cyan))|normal|pink|purple|mauve|lagoon|mint|lime|peach|orange|latte|grey|gray))?\>"
+
+# Keywords
+color KEYWORD "^[[:blank:]]*(set|unset)[[:blank:]]+(afterends|allow_insecure_backup|atblanks|autoindent|backup|boldtext|bookstyle|breaklonglines|casesensitive|constantshow|cutfromcursor|emptyline|historylog|indicator|jumpyscrolling|linenumbers|locking|magic|minibar|mouse|multibuffer|noconvert|nohelp|nonewlines|positionlog|preserve|quickblank|rawsequences|rebinddelete|regexp|saveonexit|showcursor|smarthome|softwrap|stateflags|suspendable|tabstospaces|trimblanks|unix|wordbounds|zap)\>"
+color KEYWORD "^[[:blank:]]*set[[:blank:]]+(backupdir|brackets|errorcolor|functioncolor|keycolor|matchbrackets|numbercolor|operatingdir|promptcolor|punct|quotestr|scrollercolor|selectedcolor|speller|spotlightcolor|statuscolor|stripecolor|titlecolor|whitespace|wordchars)[[:blank:]]+"
+color KEYWORD "^[[:blank:]]*set[[:blank:]]+(fill[[:blank:]]+-?[[:digit:]]+|(guidestripe|tabsize)[[:blank:]]+[1-9][0-9]*)\>"
+color KEYWORD_FLOW "^[[:blank:]]*bind[[:blank:]]+((\^([A-Za-z]|[]/@\^_`-]|Space)|([Ss][Hh]-)?[Mm]-[A-Za-z]|[Mm]-([][!"#$%&'()*+,./0-9:;<=>?@\^_`{|}~-]|Space))|F([1-9]|1[0-9]|2[0-4])|Ins|Del)[[:blank:]]+([a-z]+|".*")[[:blank:]]+(main|help|search|replace(with)?|yesno|gotoline|writeout|insert|browser|whereisfile|gotodir|execute|spell|linter|all)([[:blank:]]+#|[[:blank:]]*$)"
+color KEYWORD_FLOW "^[[:blank:]]*unbind[[:blank:]]+((\^([A-Za-z]|[]/@\^_`-]|Space)|([Ss][Hh]-)?[Mm]-[A-Za-z]|[Mm]-([][!"#$%&'()*+,./0-9:;<=>?@\^_`{|}~-]|Space))|F([1-9]|1[0-9]|2[0-4])|Ins|Del)[[:blank:]]+(all|main|search|replace(with)?|yesno|gotoline|writeout|insert|ext(ernal)?cmd|help|spell|linter|browser|whereisfile|gotodir)([[:blank:]]+#|[[:blank:]]*$)"
+color KEYWORD_STORAGE "^[[:blank:]]*extendsyntax[[:blank:]]+[[:alpha:]]+[[:blank:]]+(i?color|header|magic|comment|formatter|linter|tabgives)[[:blank:]]+.*"
+color KEYWORD_STORAGE "^[[:blank:]]*(syntax[[:blank:]]+[^[:space:]]+|(formatter|linter)[[:blank:]]+.+)"
+color PRIMARY "^[[:blank:]]*((un)?(bind|set)|include|syntax|header|magic|comment|formatter|linter|tabgives|extendsyntax)\>"
+
+icolor white "^[[:space:]]*i?color\>" "\<(start|end)="
+
 ## Strings
-icolor brightwhite ""(\\.|[^"])*""
+color STRING "([[:blank:]]|(start|end)=)".+"([[:blank:]]|$)"
+
+# Control codes
+color CONTROL "[[:cntrl:]]"
+
 ## regex
 color brightgreen "[()|]"
 color yellow "[*?+]"
 color red "\\."
 color blue "\[?\[:(upper|lower|al(pha|num)|x?digit|punct|blank|space|cntrl|graph|print):]]?"
+
 ## Comments
-icolor brightblack "^[[:space:]]*##?.*$"
+color COMMENT "^[[:space:]]*##?.*$"
 
 color ,black "[[:space:]]"

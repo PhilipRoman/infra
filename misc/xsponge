@@ -1,0 +1,4 @@
+#!/bin/sh
+file="$(mktemp --suffix="$1")"
+cat > "$file"
+printf '%s\n' "$file"

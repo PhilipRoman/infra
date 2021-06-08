@@ -40,9 +40,11 @@ case "$1" in
 *.zip|*.jar|*.nbm) zipinfo -- "$1"; exit ;;
 *.rpm) rpm -qpivl --changelog -- "$1"; exit ;;
 *.cpi|*.cpio) cpio -itv < "$1"; exit ;;
+*.o) objdump -D | vasm; exit ;;
 *.gif|*.jpeg|*.jpg|*.pcd|*.png|*.tga|*.tiff|*.tif)
 	if command -v identify >/dev/null; then
 		identify "$1"
+		tiv "$1" || true
 		exit
 	elif command -v gm >/dev/null; then
 		gm identify "$1"
@@ -55,7 +57,7 @@ case "$1" in
 esac
 
 if command -v source-highlight >/dev/null; then
-	source-highlight --out-format esc --input "$1" && exit
+	source-highlight --out-format esc256 --style-file esc256.style --input "$1" && exit
 fi
 
 exit 1

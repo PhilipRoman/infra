@@ -27,8 +27,18 @@ m4_syscmd({{command -v diff-so-fancy > /dev/null}})m4_dnl
 [difftool]
 	prompt = false
 
+[delta]
+	tabs = 3
+	minus-style = "syntax #420707"
+	minus-empth-style = "syntax #420707 italic"
+	plus-style = "syntax #111111 bold"
+	plus-emph-style = "syntax #333333 bold"
+#	word-diff-regex = "[^{} \\t(),]+"
+#	max-line-distance = 0.2
+	line-numbers = true
+
 [alias]
-m4_define({{DELTA_OPTIONS}},{{-n -w $((COLUMNS - 4)) --plus-style "syntax\\ \\#222222\\ bold"}})m4_dnl
+m4_define({{DELTA_OPTIONS}},{{-w $((COLUMNS - 4)) }})m4_dnl
 	delta = -c 'pager.diff=delta DELTA_OPTIONS' diff
 	deltas = -c 'pager.diff=delta DELTA_OPTIONS -s' diff
 	s = status
