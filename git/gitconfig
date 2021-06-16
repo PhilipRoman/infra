@@ -36,6 +36,7 @@ m4_syscmd({{command -v diff-so-fancy > /dev/null}})m4_dnl
 #	word-diff-regex = "[^{} \\t(),]+"
 #	max-line-distance = 0.2
 	line-numbers = true
+	navigate = true
 
 [alias]
 m4_define({{DELTA_OPTIONS}},{{-w $((COLUMNS - 4)) }})m4_dnl
@@ -48,6 +49,7 @@ m4_define({{DELTA_OPTIONS}},{{-w $((COLUMNS - 4)) }})m4_dnl
 	de = delta
 	des = deltas
 	b = branch
+	ls = !git ls-files | grep -vF / | xargs ls --color
 # log --date-order --date=iso --graph --full-history --all --pretty=format:'%x08%x09%C(red)%h %C(cyan)%ad%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08 %C(bold blue)%aN%C(reset)%C(bold yellow)%d %C(reset)%s'
 	hist = log --date-order --date=iso --graph --full-history --all --pretty=format:'%x08%x09%C(red)%h %C(cyan)%ad%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08 %C(bold blue)%aN%C(reset)%C(bold yellow)%d %C(reset)%s'
 

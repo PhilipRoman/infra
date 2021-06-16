@@ -1,4 +1,6 @@
 set nohelp
+set backup
+set backupdir /var/backup
 
 #set multibuffer
 set locking
@@ -98,3 +100,5 @@ bind ^V paste all
 m4_esyscmd((ls -1 nano-syntax; echo hexproc.nanorc) | sed -E 's:^(.*)$:include /etc/nanorc.d/\1:')
 include "/usr/share/nano-syntax-highlighting/python.nanorc"
 include "/usr/share/nano-syntax-highlighting/glsl.nanorc"
+include "/usr/share/nano-syntax-highlighting/awk.nanorc"
+include "/usr/share/nano-syntax-highlighting/yaml.nanorc"

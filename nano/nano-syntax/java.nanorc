@@ -5,7 +5,7 @@ syntax "java" "\.(java|groovy)$"
 
 header "^(public +class +[[:upper:]])|(import( +static?) +[[:lower:]_[:digit:].*])"
 
-linter javac -d /tmp
+linter javac -Xlint -d /tmp
 
 comment "//"
 

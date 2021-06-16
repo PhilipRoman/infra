@@ -1,0 +1,25 @@
+#!/usr/bin/awk -f
+BEGIN {
+	if(K == "")
+		K = 20
+}
+
+match($0, /[0-9]+(\.[0-9]+)?/) {
+	bins[int(substr($0,RSTART, RLENGTH)*K)]++
+}
+
+END {
+	for(k in bins) {
+		first=k
+		break
+	}
+	for(k in bins) {
+		last=k
+	}
+	for(k=first; k<=last; k++) {
+		printf "%.2f\t%3d\t",k/K,bins[k];
+		for(i=0;i<bins[k];i++)
+			printf "#";
+		print""
+	}
+}

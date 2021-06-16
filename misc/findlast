@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ $# == 0 ]; then
+	exit 1
+fi
+
+last=''
+while read line; do
+	if "${@/\{\}/$line}"; then
+		last="$line"
+	fi
+done
+printf '%s\n' "$last"

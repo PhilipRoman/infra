@@ -50,6 +50,7 @@ bind    '"\\": "|"'
 
 # list files upon completing empty line
 complete -Ef
+complete -o bashdefault -o default -o nospace -F __git_wrap__git_main g
 
 shopt -s histreedit
 shopt -s histverify
@@ -62,6 +63,7 @@ shopt -u extdebug
 
 #trap 'kill $(jobs -p) 2>/dev/null' EXIT
 
+export GTAGSLABEL=ctags
 export LANG='en_US.utf8'
 export IGNOREEOF='0'
 export FIGNORE='..:.'
@@ -104,14 +106,6 @@ command -v lesspipe.sh >/dev/null && export LESSOPEN='||lesspipe.sh %s'
 unset command_not_found_handle
 
 m4_include(portable_aliases)
-
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-	. /etc/bash_completion
-fi
-
 
 m4_syscmd(command -v colorspec >/dev/null)
 m4_ifelse(0,m4_sysval,{{

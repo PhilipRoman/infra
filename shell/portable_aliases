@@ -72,3 +72,7 @@ xxd() {
 settitle() {
 	echo -ne "\033]0;$1\007";
 }
+
+expid() {
+	(echo "Copied \"$BASHPID\""; printf %d "$BASHPID" | tmux loadb -; exec "$@")
+}

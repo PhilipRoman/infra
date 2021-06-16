@@ -1,2 +1,2 @@
 #!/bin/sh
-exec source-highlight --out-format esc256 --style-file esc256.style "$@"
+exec source-highlight --out-format esc256 --style-file esc256.style -i "$1"
