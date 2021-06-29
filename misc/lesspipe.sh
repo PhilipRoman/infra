@@ -57,7 +57,7 @@ case "$1" in
 esac
 
 if command -v source-highlight >/dev/null; then
-	source-highlight --out-format esc256 --style-file esc256.style --input "$1" && exit
+	source-highlight --out-format esc256 --style-file __my__.style --input "$1" && exit
 fi
 
 exit 1

@@ -1,3 +1,5 @@
 #!/bin/sh
 sed -E 's/^([^:]+:[^:]+:)\s+/\1/' |
-	fzf --ansi -d: --nth 1,3.. --with-nth 3.. --bind 'Ctrl-e:execute(nano -- +{2} {1} </dev/tty),Ctrl-n:execute(nano -- {1} </dev/tty),Ctrl-t:execute-silent(tmux neww nano -- +{2} {1}),Ctrl-l:execute(less +{2}gmx {1} </dev/tty),Ctrl-k:execute-silent(printf '%s' {1} | xclip)' "$@"
+	fzf --ansi -d: --nth .. --with-nth 3.. --bind 'Ctrl-e:execute(nano -- +{2} {1} </dev/tty),Ctrl-f:execute(nano -- {1} </dev/tty),Ctrl-t:execute-silent(tmux neww nano -- +{2} {1}),Ctrl-l:execute(less +{2}gmx {1} </dev/tty),Ctrl-k:execute-silent(printf %s {1} | xclip),Tab:preview(printf "%s:%s\n" {1} {2}; hl {1} -n" " --line-range {2} --range-context 4)' \
+	--preview-window="$([ "${COLUMNS:-80}" -ge "${ROWS:-80}" ] && printf right || printf down):50%:hidden" \
+	--prompt='(k=copy e=edit f=editfile t=editwin l=less)' "$@"

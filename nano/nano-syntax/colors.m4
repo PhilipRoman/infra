@@ -14,11 +14,11 @@ m4_define({{KEYWORD_JUMP}},{{bold,lagoon}})
 
 m4_define({{OPERATOR}},{{brightcyan}})
 m4_define({{NUMBER}},white)
-m4_define({{ARRAY}},{{brightyellow}})
+m4_define({{ARRAY}},{{mint}})
 m4_define({{FIELD}},{{brightcyan}})
 m4_define({{CAST}},brightblack)
 
-m4_define({{STRING}},{{bold,brightblack}})
+m4_define({{STRING}},{{green}})
 m4_define({{ESCAPE}},{{bold,pink}})
 m4_define({{EXPANSION}},{{bold,cyan}})
 m4_define({{COMMENT}},{{italic,brightblack}})

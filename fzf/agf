@@ -1,2 +1,2 @@
 #!/bin/sh
-ag --nopager --color --color-match '1;91' "$@" | fzf-locations
+ag --nopager --color --color-match '7;37' --color-path '36' --color-line-number '96' "$@" | fzf-locations

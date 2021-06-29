@@ -24,13 +24,16 @@ set historylog
 set positionlog
 set zap
 set speller ispell
+set indicator
 
-set titlecolor bold,brightred
+#set titlecolor bold,brightred
+set titlecolor bold,brightwhite
 set statuscolor cyan
 set keycolor cyan
 set functioncolor brightblack
 set numbercolor bold,brightblack
-set selectedcolor black,brightwhite
+set selectedcolor bold,black,brightwhite
+set scrollercolor brightblack
 
 bind ^/ comment main
 # ^H = ctrl-backspace
@@ -85,9 +88,6 @@ bind ^X exit main
 bind M-A anchor main
 bind M-N nextanchor main
 bind M-P prevanchor main
-
-set indicator
-set scrollercolor orange
 
 # for older nano versions:
 # bind ^C copytext main

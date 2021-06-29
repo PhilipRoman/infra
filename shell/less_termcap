@@ -27,7 +27,7 @@ export LESS_TERMCAP_me="m4_esyscmd(tput sgr0)"
 export LESS_TERMCAP_so="m4_esyscmd(tput bold; tput setaf 20; tput setab 15)"
 export LESS_TERMCAP_se="m4_esyscmd(tput sgr0)"
 
-export LESS_TERMCAP_us="m4_esyscmd(tput sitm; tput setaf 220)"
+export LESS_TERMCAP_us="m4_esyscmd(tput sitm; tput setaf 75)"
 export LESS_TERMCAP_ue="m4_esyscmd(tput sgr0)"
 
 export LESS_TERMCAP_mr="m4_esyscmd(tput rev)"

@@ -3,26 +3,55 @@
 m4_changequote({{,}})
 m4_changecom({{###}})
 
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
+# =========================================
+# this part is executed regardless of whether the shell is interactive
+# =========================================
 
-# If not running interactively, don't do anything
+m4_syscmd(command -v colorspec >/dev/null)
+m4_ifelse(0,m4_sysval,{{
+export GREP_COLORS="m4_esyscmd(colorspec -Fgrep grepcolors)"
+export LS_COLORS="m4_esyscmd(colorspec -Fls lscolors)"
+export GCC_COLORS="m4_esyscmd(colorspec -Fgcc gcccolors)"
+}})
+if [ -f ~/.path ]; then
+	export PATH="$(cat ~/.path | grep '^/' | tr '\n' ':' | sed -E 's/::+/:/g; s/:$//')"
+else
+	export PATH='/usr/local/bin:/usr/bin:bin'
+fi
+export GTAGSLABEL=ctags
+export LANG='en_US.utf8'
+export IGNOREEOF='0'
+export FIGNORE='..:.'
+export GRADLE_OPTS=''
+less_prompt='file\ %g\ (%i\ of\ %m)\ line\ %lt╱%L\ =\ %Pt\%'
+export LESS='--jump-target=2 --tabs=3 --RAW-CONTROL-CHARS --QUIET --ignore-case --clear-screen -P'"$less_prompt"
+export MANOPT='--nh -r '"${less_prompt/\%g/\$MAN_PN}"
+export GPG_TTY="$(tty)"
+export PAGER="$(command -v less)"
+export DELTA_PAGER="$PAGER --" # seems like adding any option (like --) prevents delta from adding its own options
+export EDITOR="$(command -v nano)"
+export VISUAL="$EDITOR"
+export LESSGLOBALTAGS=global
+command -v lesspipe.sh >/dev/null && export LESSOPEN='||lesspipe.sh %s'
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+# set tab size to 4
+tabs 4
+# by default, create rwx directories, but don't let anyone else near them
+umask 077
+# allow core dumps
+ulimit -c unlimited
+
+# =========================================
+# If not running interactively, return here
+# =========================================
 [ -z "$PS1" ] && return
 
 m4_include(promptfunc)
 
 $PROMPT_COMMAND
 
-if [ -f ~/.path ]; then
-	export PATH="$(cat ~/.path | grep '^/' | tr '\n' ':' | sed -E 's/::+/:/g; s/:$//')"
-else
-	export PATH='/usr/local/bin:/usr/bin:bin'
-fi
-
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
 
 if [ -z "$TMUX" ] && [ -z "$SSH_CLIENT" ] && command -v tmux > /dev/null; then
 #	if ! timeout -s KILL 1s tmux run-shell true; then
@@ -63,27 +92,6 @@ shopt -u extdebug
 
 #trap 'kill $(jobs -p) 2>/dev/null' EXIT
 
-export GTAGSLABEL=ctags
-export LANG='en_US.utf8'
-export IGNOREEOF='0'
-export FIGNORE='..:.'
-export GRADLE_OPTS=''
-# export TERM='xterm-256color'
-BROWSER_AGENT='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36'
-
-less_prompt='file\ %g\ (%i\ of\ %m)\ line\ %lt╱%L\ =\ %Pt\%'
-export LESS='--jump-target=2 --tabs=3 --RAW-CONTROL-CHARS --QUIET --ignore-case --clear-screen -P'"$less_prompt"
-export MANOPT='--nh -r '"${less_prompt/\%g/\$MAN_PN}"
-export GPG_TTY="$(tty)"
-
-# set tab size to 4
-tabs 4
-
-# by default, create rwx directories, but don't let anyone else near them
-umask 077
-# allow core dumps
-ulimit -c unlimited
-
 HISTCONTROL=ignoredups:ignorespace
 unset HISTFILE
 # append to the history file, don't overwrite it
@@ -94,24 +102,11 @@ command -v lesspipe >/dev/null && eval "$(SHELL=/bin/sh lesspipe)"
 
 m4_include(less_termcap)
 
-export PAGER="$(command -v less)"
-export DELTA_PAGER="$PAGER --" # seems like adding any option (like --) prevents delta from adding its own options
-export EDITOR="$(command -v nano)"
-export VISUAL="$EDITOR"
-export LESSGLOBALTAGS=global
-
-command -v lesspipe.sh >/dev/null && export LESSOPEN='||lesspipe.sh %s'
-
 # disable the "command not found" event if it's slow
 unset command_not_found_handle
 
 m4_include(portable_aliases)
 
-m4_syscmd(command -v colorspec >/dev/null)
-m4_ifelse(0,m4_sysval,{{
-export LS_COLORS="m4_esyscmd(colorspec -Fls lscolors)"
-export GCC_COLORS="m4_esyscmd(colorspec -Fgcc gcccolors)"
-}})
 if [ -f /usr/local/etc/bashrc ]; then
 	. /usr/local/etc/bashrc
 fi

@@ -1,0 +1,19 @@
+#!/bin/sh
+
+[ -n "$1" ] || (echo 'Missing argument' >&2; exit 1)
+[ -n "$EDITOR" ] || (echo 'Set EDITOR' >&2; exit 1)
+command -v entr >/dev/null 2>&1 || (echo 'Missing utility "entr"'; exit 1)
+if command -v sxiv >/dev/null 2>&1; then
+	IMAGEVIEWER="${IMAGEVIEWER:-sxiv}"
+fi
+[ -n "$IMAGEVIEWER" ] || (echo 'Set IMAGEVIEWER or provide sxiv on PATH' >&2; exit 1)
+
+tmp="$(mktemp /tmp/tmp.XXXXXX.png)"
+
+entr -n dot -Tpng "$1" -o"$tmp" <<< "$1" >/dev/null 2>&1 &
+sleep 1
+"$IMAGEVIEWER" "$tmp" >/dev/null 2>&1 &
+
+"$EDITOR" "$1"
+kill $(jobs -p)
+rm "$tmp"

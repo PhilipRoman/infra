@@ -1,0 +1,11 @@
+#!/usr/bin/env colorspec -Fgrep
+
+context lines: bright black
+
+matching: white reverse
+
+file name: cyan
+
+line number: bright cyan
+
+separator: blue
