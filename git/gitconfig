@@ -20,6 +20,8 @@ m4_syscmd({{command -v diff-so-fancy > /dev/null}})m4_dnl
 [commit]
 	gpgsign = true
 
+[stash]
+	showPatch = true
 [diff]
 #	tool = vimdiff
 	algorithm = patience

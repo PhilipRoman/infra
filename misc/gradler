@@ -15,4 +15,4 @@ remotedir="$remotehome/${PWD////_}"
 rsync -ircu --exclude build --exclude .gradle --exclude '**.swp' --delete . "$remote:$remotedir"
 # https://stackoverflow.com/questions/6592376/prevent-ssh-from-breaking-up-shell-script-parameters
 ssh -t "$remote" gradle -p "$remotedir" "${@@Q}" "; mkdir -p $remotedir/build"
-rsync --delete -ircu "$remote:$remotedir/build" . | (grep -v '/$' || true)
+rsync --delete -ircuq "$remote:$remotedir/build" . | (grep -v '/$' || true)

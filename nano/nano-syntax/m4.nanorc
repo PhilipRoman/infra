@@ -1,8 +1,4 @@
 m4_include(colors.m4)
-## Here is an example for Autoconf.
-
-# screw autoconf; this syntax is for M4 itself
-
 syntax m4 "\.(m4)$"
 
 # Keywords:

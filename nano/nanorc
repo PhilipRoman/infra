@@ -25,6 +25,7 @@ set positionlog
 set zap
 set speller ispell
 set indicator
+set minibar
 
 #set titlecolor bold,brightred
 set titlecolor bold,brightwhite
@@ -77,6 +78,14 @@ bind M-R recordmacro all
 bind M-X runmacro all
 bind M-3 linenumbers all
 bind M-? help all
+bind M-( "()[D" main
+bind M-{ "{}[D" main
+bind M-9 "co" main
+bind M-8 "headerf" main
+bind M-7 "importf" main
+bind M-6 "function() end[D[D[D[D[D" all
+bind M-5 "|lv" main
+bind M-3 linenumbers main
 
 bind ^Q cancel all
 
@@ -100,5 +109,4 @@ bind ^V paste all
 m4_esyscmd((ls -1 nano-syntax; echo hexproc.nanorc) | sed -E 's:^(.*)$:include /etc/nanorc.d/\1:')
 include "/usr/share/nano-syntax-highlighting/python.nanorc"
 include "/usr/share/nano-syntax-highlighting/glsl.nanorc"
-include "/usr/share/nano-syntax-highlighting/awk.nanorc"
 include "/usr/share/nano-syntax-highlighting/yaml.nanorc"

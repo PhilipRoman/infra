@@ -11,14 +11,14 @@ comment "//"
 
 color CALL "[[:alpha:]]*\("
 
-color LOCAL "\<(int|short|byte|long|float|double|char|boolean)\> *[[:alnum:]]+"
+color LOCAL "\<(int|short|byte|long|float|double|char|boolean)\> *[[:alnum:]_]+"
 color DEFAULT "\<(int|short|byte|long|float|double|char|boolean)\> *"
 color CAST "\(\<(int|short|byte|long|float|double|char|boolean)\>\) *"
 
 color DECLARATION "\b[a-zA-Z0-9_]+ *\([][a-zA-Z0-9_.<?>, ]*?\) *(throws *[a-zA-Z0-9_. ,]+)? *\{\s*"
 color DEFAULT "\([^)]*)\s*.*\{$"
 color DEFAULT "throws .*[;{]"
-color ARRAY "[[:alnum:]]+\["
+color ARRAY "[[:alnum:]_]+\["
 color OPERATOR "[][+*/^&%!<>=-]"
 color KEYWORD "[?:]"
 color bold,brightblack "<[[:alnum:][:space:],?<>]*>"

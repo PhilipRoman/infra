@@ -19,7 +19,7 @@ m4_define({{FIELD}},{{brightcyan}})
 m4_define({{CAST}},brightblack)
 
 m4_define({{STRING}},{{green}})
-m4_define({{ESCAPE}},{{bold,pink}})
+m4_define({{ESCAPE}},{{blue}})
 m4_define({{EXPANSION}},{{bold,cyan}})
 m4_define({{COMMENT}},{{italic,brightblack}})
 m4_define({{COMMENT_DOC}},{{bold,italic,brightblack}})

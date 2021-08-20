@@ -38,8 +38,7 @@ command -v lesspipe.sh >/dev/null && export LESSOPEN='||lesspipe.sh %s'
 shopt -s checkwinsize
 # set tab size to 4
 tabs 4
-# by default, create rwx directories, but don't let anyone else near them
-umask 077
+umask 022
 # allow core dumps
 ulimit -c unlimited
 
@@ -79,10 +78,13 @@ bind    '"\\": "|"'
 
 # list files upon completing empty line
 complete -Ef
-complete -o bashdefault -o default -o nospace -F __git_wrap__git_main g
+complete -F _git g
+complete -F _make mk
+complete -F _pacman pm
 
 shopt -s histreedit
 shopt -s histverify
+shopt -s histappend
 shopt -s autocd
 shopt -s dirspell
 shopt -s cdspell
@@ -92,8 +94,8 @@ shopt -u extdebug
 
 #trap 'kill $(jobs -p) 2>/dev/null' EXIT
 
-HISTCONTROL=ignoredups:ignorespace
-unset HISTFILE
+HISTCONTROL=ignoredups:ignorespace:erasedups
+#unset HISTFILE
 # append to the history file, don't overwrite it
 # shopt -s histappend
 

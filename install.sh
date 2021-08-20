@@ -22,6 +22,7 @@ install -vm 644 git/gitignore $PREFIX/etc/gitignore
 
 mkdir  -pvm 755 $BINPREFIX/bin/
 install -vm 755 tmux/tsend $BINPREFIX/bin/
+install -vm 755 tmux/tmux-popup-session $BINPREFIX/bin/
 install -vm 755 fzf/* $BINPREFIX/bin/
 install -vm 755 misc/* $BINPREFIX/bin/
 install -vm 755 nano/syntaxlist $BINPREFIX/bin/
