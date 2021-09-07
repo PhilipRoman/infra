@@ -3,6 +3,7 @@ syntax "AWK" "\.awk$"
 header "^#!.*bin/(env +)?awk( |$)"
 magic "awk script"
 comment "#"
+linter "sh -c 'awk --lint -f $1 </dev/null' sh "
 
 color black,white "\$[A-Za-z0-9_!@#$*?-]+"
 color black,brightwhite "\$0"

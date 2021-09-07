@@ -36,7 +36,7 @@ m4_define({{REPEAT}},{{forloop(__ignorethis__,1,$1,$2)}})
 "\e[1;5D": backward-word
 "\e[1;5C": forward-word
 
-"C-d": kill-region
+"\C-d": kill-region
 
 set blink-matching-paren off
 set colored-completion-prefix on

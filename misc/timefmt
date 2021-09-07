@@ -1,0 +1,9 @@
+#!/bin/sh
+while read num; do
+	if echo "$num" | grep -Eq '[0-9]+'; then
+		[ "$num" -ge 86400 ] && printf '%d days and ' $((num / 86400))
+		[ "$num" -ge 3600 ] && printf '%02d:' $((num / 3600 % 24))
+		[ "$num" -ge 60 ] && printf '%02d:' $((num / 60 % 60))
+		printf '%02d%s\n' $((num % 60)) "$([ "$num" -lt 60 ] && echo ' seconds')"
+	fi
+done
