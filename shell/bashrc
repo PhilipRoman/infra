@@ -67,8 +67,6 @@ stty ixoff
 stty ek # fix ctrl+backspace
 stty ixany
 
-_clear_bytes="$(clear -x)"
-bind -x '"\C-l": printf %s "$_clear_bytes"; echo; $PROMPT_COMMAND'
 # Ctrl-Down
 bind -x '"\e[1;5B": "cd ..; $PROMPT_COMMAND"'
 bind    '"\C-k": "git commit -m \"\"\e[D"'

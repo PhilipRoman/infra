@@ -20,40 +20,7 @@ _on_command_error() {
 }
 trap '_on_command_error' ERR
 
-#	saveIFS="$IFS"
-#	IFS=';' read -sdR -p $'\E[6n' ROW COL
-#	ROW="${ROW#*[}"
-_topline() {
-	white_fg='[97m'
-	darkgray_bg='[48;5;235m'
-	primary_bg="[48;5;${promptcolor}m"
-	primary_fg="[38;5;${promptcolor}m"
-	bold='[1m'
-	normal='[0m'
-	string=" ${primary_bg} ${darkgray_bg}${bold} ${PWD//\//$primary_fg/$white_fg} ${primary_bg} "
-	shopt -s extglob
-	plainstring=${string//*([^m])m/}
-	if [ "${#plainstring}" -lt "$COLUMNS" ]; then
-		printf "m4_syscmd(tput sc; tput cup 0 0)%*s\r%*s%s${normal}m4_syscmd(tput rc)" "$COLUMNS" '' "$((COLUMNS/2 - ${#plainstring}/2 - 2))" '' "$string"
-	fi
-}
-
-# when shell started, move down one row
-echo
-
-trap '_topline' SIGWINCH
-
 _promptfunc() {
-#	promptcolor=$["$promptcolor" + 1]
-#	if [ "$promptcolor" -gt 225 ]; then
-#		promptcolor=208
-#	fi
-	_topline
-	brightwhite_fg='\\]'
-	normal='\[\e[0m\]'
-	primary=""
-
-	# ❭
 	PS1="\[\e[38;5;${promptcolor}m\]${SSH_CLIENT/?*/R}${SHLVL/#1}ᛋ \[\e[97;1m\]"
 }
 if echo "$TERM" | grep -q 256; then
