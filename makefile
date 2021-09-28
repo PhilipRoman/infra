@@ -26,6 +26,6 @@ build/nanorc: nano/nanorc
 	mkdir -p build
 	(cd nano; m4 -P nanorc) > $@
 
-build/%.nanorc: nano/nano-syntax/%.nanorc
+build/%.nanorc: nano/nano-syntax/%.nanorc $(wildcard nano/nano-syntax/*.m4)
 	mkdir -p build
 	m4 -I nano/nano-syntax -P $< > $@

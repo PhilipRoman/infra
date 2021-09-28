@@ -8,8 +8,7 @@ m4_define(NEWGIT,
 	email = dev.philipjohn@gmail.com
 	signingkey = 3C678982A21FDE84
 [pager]
-m4_syscmd({{command -v diff-so-fancy > /dev/null}})m4_dnl
-	diff = m4_ifelse(NEWGIT,yes,{{m4_ifelse(m4_sysval,0,diff-so-fancy | )less}},true)
+	diff = less
 [core]
 	pager = less
 	editor = nano
@@ -23,18 +22,19 @@ m4_syscmd({{command -v diff-so-fancy > /dev/null}})m4_dnl
 [stash]
 	showPatch = true
 [diff]
-#	tool = vimdiff
 	algorithm = patience
 
 [difftool]
 	prompt = false
 
+m4_define({{RED_FG}},{{210}})m4_dnl
+m4_define({{RED_BG}},{{52}})m4_dnl
 [delta]
 	tabs = 3
-	minus-style = "syntax #420707"
-	minus-empth-style = "syntax #420707 italic"
-	plus-style = "syntax #111111 bold"
-	plus-emph-style = "syntax #333333 bold"
+	minus-style = "RED_FG RED_BG"
+	minus-emph-style = "RED_FG 88"
+	plus-style = "syntax #303030"
+	plus-emph-style = "syntax #606060"
 #	word-diff-regex = "[^{} \\t(),]+"
 #	max-line-distance = 0.2
 	line-numbers = true
@@ -51,6 +51,7 @@ m4_define({{DELTA_OPTIONS}},{{-w $((COLUMNS - 4)) }})m4_dnl
 	de = delta
 	des = deltas
 	b = branch
+	g = log --color=always --all --decorate --oneline --graph --date-order
 	ls = !cd -- "${GIT_PREFIX:-.}" && git ls-files | cut -d/ -f1 | uniq | xargs ls -d --group-directories-first --color
 	nls = !cd -- "${GIT_PREFIX:-.}" && find -mindepth 1 -maxdepth 1 | cut -c3- | sort | comm -23 - <(git ls-files | cut -d/ -f1 | sort | uniq ) | xargs ls -d --group-directories-first --color
 # log --date-order --date=iso --graph --full-history --all --pretty=format:'%x08%x09%C(red)%h %C(cyan)%ad%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08 %C(bold blue)%aN%C(reset)%C(bold yellow)%d %C(reset)%s'
@@ -59,24 +60,15 @@ m4_define({{DELTA_OPTIONS}},{{-w $((COLUMNS - 4)) }})m4_dnl
 	graph = log --color=always --all --decorate --oneline --graph
 [color]
 	ui = true
-[color "diff-highlight"]
-m4_define({{RED_FG}},{{203}})m4_dnl
-m4_define({{RED_BG}},{{52}})m4_dnl
-	oldNormal    = RED_FG bold RED_BG
-	oldHighlight = white  bold red
-	newNormal    = white  bold 238
-	newHighlight = white  bold 241
 m4_ifelse(no,NEWGIT,{{m4_define(italic,)}})
 [color "diff"]
-	old          = RED_FG RED_BG
-	new          = white bold 238
-	context      = 250 233
+	old          = red
+	new          = brightgreen
+	context      = brightyellow
 	whitespace   = green reverse
 	meta         = blue italic
 	frag         = white 18 bold
 	commit       = blue italic
-[diff-so-fancy]
-	first-run = true
 [credential]
 	helper = store
 [gpg]

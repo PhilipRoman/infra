@@ -75,7 +75,7 @@ color COMMENT start="/\*" end="\*/"
 
 ## string literals
 color STRING """"
-color STRING "".*[^\\]""
+color STRING "".*?[^\\]""
 color ERROR "\\"
 color ERROR "\\x.."
 color ESCAPE "ESCAPE_REGEX"
