@@ -57,7 +57,16 @@ case "$1" in
 esac
 
 if command -v source-highlight >/dev/null; then
-	source-highlight --out-format esc256 --style-file __my__.style --input "$1" && exit
+	magic="$(file "$1")"
+	language=''
+	if printf %s "$magic" | fgrep -q 'C++ source'; then
+		language='-s cpp'
+	elif printf %s "$magic" | fgrep -q 'C source'; then
+		language='-s c'
+	elif printf %s "$magic" | fgrep -q 'Java source'; then
+		language='-s java'
+	fi
+	source-highlight --out-format esc256 --style-file __my__.style $language --input "$1" && exit
 fi
 
 exit 1
