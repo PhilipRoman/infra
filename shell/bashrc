@@ -20,6 +20,7 @@ else
 fi
 export GTAGSLABEL=ctags
 export LANG='en_US.utf8'
+export LC_MESSAGES='lv_LV.utf8'
 export IGNOREEOF='0'
 export FIGNORE='..:.'
 export GRADLE_OPTS=''
@@ -69,7 +70,7 @@ stty ixany
 
 # Ctrl-Down
 bind -x '"\e[1;5B": "cd ..; $PROMPT_COMMAND"'
-bind    '"\C-k": "git commit -m \"\"\e[D"'
+bind    '"\C-g\C-k": "git commit -m \"\"\e[D"'
 bind    '"\C-f": "!! | grep '\'\''\e[D"'
 bind -x '"\ec": "history -s $READLINE_LINE"'
 bind    '"\\": "|"'
@@ -92,6 +93,7 @@ shopt -u extdebug
 
 #trap 'kill $(jobs -p) 2>/dev/null' EXIT
 
+HISTSIZE=2000
 HISTCONTROL=ignoredups:ignorespace:erasedups
 #unset HISTFILE
 # append to the history file, don't overwrite it

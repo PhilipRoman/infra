@@ -1,2 +1,2 @@
 pkg load symbolic
-graphics_toolkit "gnuplot"
+graphics_toolkit "qt"
