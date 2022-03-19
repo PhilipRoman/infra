@@ -38,9 +38,11 @@ set scrollercolor brightblack
 
 bind ^/ comment main
 # ^H = ctrl-backspace
-bind ^H cutwordleft all
+# before version 6.0 prefix chop was called cut
+bind ^H chopwordleft all
 bind ^] findbracket all
-bind ^D cutwordright all
+# before version 6.0 prefix chop was called cut
+bind ^D chopwordright all
 bind ^R replace main
 bind ^F whereis all
 bind ^C casesens all
