@@ -1,6 +1,6 @@
 set nohelp
 set backup
-set backupdir /var/backup
+set backupdir "/var/backup"
 
 #set multibuffer
 set locking
@@ -23,18 +23,18 @@ set matchbrackets "({[<")}]>""
 set historylog
 set positionlog
 set zap
-set speller ispell
+set speller "ispell"
 set indicator
 set minibar
 
-#set titlecolor bold,brightred
-set titlecolor bold,brightwhite
+#set titlecolor bold,lightred
+set titlecolor bold,lightwhite
 set statuscolor cyan
 set keycolor cyan
-set functioncolor brightblack
-set numbercolor bold,brightblack
-set selectedcolor bold,black,brightwhite
-set scrollercolor brightblack
+set functioncolor lightblack
+set numbercolor bold,lightblack
+set selectedcolor bold,black,lightwhite
+set scrollercolor lightblack
 
 bind ^/ comment main
 # ^H = ctrl-backspace
@@ -54,8 +54,8 @@ bind ^B backwards all
 bind ^Z undo all
 bind ^Y redo all
 bind ^Space complete all
-bind ^E execute all
-bind ^P flippipe all
+bind ^E execute main
+bind ^E flippipe execute
 bind ^G gotoline all
 bind ^F browser insert
 bind ^E flipexecute all
@@ -82,16 +82,13 @@ bind M-3 linenumbers all
 bind M-? help all
 bind M-( "()[D" main
 bind M-{ "{}[D" main
-bind M-9 "co" main
-bind M-8 "headerf" main
-bind M-7 "importf" main
-bind M-6 "function() end[D[D[D[D[D" all
-bind M-5 "|lv" main
 bind M-3 linenumbers main
+bind M-5 "|lv" main
+bind M-7 "importf" main
+bind M-8 "headerf" main
+bind M-T "|pee cat 'tmux loadb -'" main
 
 bind ^Q cancel all
-
-
 
 bind ^Q exit main
 bind ^X exit main
@@ -100,15 +97,20 @@ bind M-A anchor main
 bind M-N nextanchor main
 bind M-P prevanchor main
 
-# for older nano versions:
-# bind ^C copytext main
-# bind ^V uncut all
-# for newer nano versions:
+bind M-- prevword all
+bind M-= nextword all
+
+bind M-1 up all
+bind M-2 down all
+
+bind M-' up all
+bind M-/ down all
+
 bind ^C copy main
 bind ^V paste all
 
 # enable advanced syntax highlighting
-m4_esyscmd((ls -1 nano-syntax; echo hexproc.nanorc) | sed -E 's:^(.*)$:include /etc/nanorc.d/\1:')
+m4_esyscmd((ls -1 nano-syntax; echo hexproc.nanorc) | sed -E 's:^(.*)$:include "/etc/nanorc.d/\1":')
 include "/usr/share/nano-syntax-highlighting/python.nanorc"
 include "/usr/share/nano-syntax-highlighting/glsl.nanorc"
 include "/usr/share/nano-syntax-highlighting/yaml.nanorc"

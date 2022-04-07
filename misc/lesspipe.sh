@@ -34,13 +34,14 @@ case "$1" in
 *.tgz|*.tar.gz|*.tar.[zZ]) tar tzvvf "$1"; exit ;;
 *.tar.xz) tar Jtvvf "$1"; exit ;;
 *.xz|*.lzma) xz -dc -- "$1"; exit ;;
+*.tar.zst) zstd -dc -- "$1" | tar tvvf -; exit ;;
+*.zst) zstd -dc -- "$1"; exit ;;
 *.tar.bz2|*.tbz2) bzip2 -dc -- "$1" | tar tvvf -; exit ;;
 *.[zZ]|*.gz) gzip -dc -- "$1"; exit ;;
 *.bz2) bzip2 -dc -- "$1"; exit ;;
 *.zip|*.jar|*.nbm) zipinfo -- "$1"; exit ;;
 *.rpm) rpm -qpivl --changelog -- "$1"; exit ;;
 *.cpi|*.cpio) cpio -itv < "$1"; exit ;;
-*.o) objdump -D | vasm; exit ;;
 *.gif|*.jpeg|*.jpg|*.pcd|*.png|*.tga|*.tiff|*.tif)
 	if command -v identify >/dev/null; then
 		identify "$1"
@@ -56,17 +57,58 @@ case "$1" in
 	fi ;;
 esac
 
+magic="$(file -b -- "$1")"
+if fgrep -q 'gzip compressed' <<< "$magic"; then
+	zcat -- "$1"
+	exit
+fi
+
+if egrep -q 'ELF.*(executable|shared object|core file)' <<< "$magic" && command -v objdump >/dev/null; then
+	objdump -d -Mintel --no-show-raw-insn --visualize-jumps=extended-color "$1"
+	exit
+fi
+
+if fgrep -q 'Java class' <<< "$magic" && command -v javap >/dev/null; then
+	javap "$1"
+	exit
+fi
+
+if command -v sqlite3 >/dev/null; then
+	if grep -i -q 'sqlite.*3.*database' <<< "$magic"; then
+		sqlite3 "$1" .dump
+		for t in $(sqlite3 "$1" .tables); do
+			sqlite3 -box "$1" "select * from $t;"
+		done
+		exit
+	fi
+fi
+
 if command -v source-highlight >/dev/null; then
-	magic="$(file "$1")"
 	language=''
-	if printf %s "$magic" | fgrep -q 'C++ source'; then
+	if fgrep -q 'C++ source' <<< "$magic"; then
 		language='-s cpp'
-	elif printf %s "$magic" | fgrep -q 'C source'; then
+	elif fgrep -q 'C source' <<< "$magic"; then
 		language='-s c'
-	elif printf %s "$magic" | fgrep -q 'Java source'; then
+	elif fgrep -q 'Java source' <<< "$magic"; then
 		language='-s java'
 	fi
-	source-highlight --out-format esc256 --style-file __my__.style $language --input "$1" && exit
+	if [ -n "$language" ]; then
+		source-highlight --out-format esc256 --style-file __my__.style $language --input "$1"
+		exit
+	fi
+fi
+
+if head -c64 "$1" | grep -q '[^[:print:]]' || file -b "$1" | fgrep -q 'PDF document'; then
+	if command -v radare2 >/dev/null; then
+		radare2 -c 'px $s' -qq "$1"
+		exit
+	elif command -v xxd >/dev/null; then
+		xxd -c "$(( ${COLUMNS:-80} / 4 - 2 ))" -- "$1"
+		exit
+	elif command -v od >/dev/null; then
+		od -t x1 -- "$1"
+		exit
+	fi
 fi
 
 exit 1

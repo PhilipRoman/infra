@@ -77,9 +77,6 @@ bind    '"\\": "|"'
 
 # list files upon completing empty line
 complete -Ef
-complete -F _git g
-complete -F _make mk
-complete -F _pacman pm
 
 shopt -s histreedit
 shopt -s histverify
@@ -115,4 +112,11 @@ fi
 
 if [ -f ~/.bashrc_local ]; then
 	. ~/.bashrc_local
+fi
+
+if [ -f /usr/share/bash-complete-alias/complete_alias ]; then
+	source /usr/share/bash-complete-alias/complete_alias
+	for a in $(alias|cut -d= -f1|cut -d' ' -f2); do
+		complete -F _complete_alias "$a"
+	done
 fi

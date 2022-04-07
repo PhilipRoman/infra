@@ -1,2 +1,2 @@
 #!/bin/sh
-exec objdump -d -Mintel --source-comment --no-show-raw-insn --visualize-jumps=extended-color "$@"
+exec objdump -d -Mintel --no-show-raw-insn --visualize-jumps=extended-color "$@"
