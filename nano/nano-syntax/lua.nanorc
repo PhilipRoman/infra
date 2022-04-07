@@ -59,10 +59,10 @@ color STDLIB "bit(32)?\.\<(arshift|band|bnot|bor|btest|bxor|extract|replace|lrot
 color STDLIB "\:\<(close|flush|lines|read|seek|setvbuf|write)\>"
 
 # false, nil, true
-#color brightmagenta "\<(false|nil|true)\>"
+#color lightmagenta "\<(false|nil|true)\>"
 
 # External files
-color brightgreen "(\<(dofile|require|include)|%q|%!|%Q|%r|%x)\>"
+color lightgreen "(\<(dofile|require|include)|%q|%!|%Q|%r|%x)\>"
 
 color ARRAY "[[:alnum:]_.]+\["
 color ARRAY "#[[:alnum:]_.]+"
@@ -76,7 +76,7 @@ color STRING start="\s*\[\[" end="\]\]"
 color ESCAPE "\\[0-7][0-7][0-7]|\\x[0-9a-fA-F][0-9a-fA-F]|\\[abefnrs]|(\\c|\\C-|\\M-|\\M-\\C-)."
 
 # Shebang
-color brightcyan "^#!.*"
+color lightcyan "^#!.*"
 
 # Simple comments
 color COMMENT "\-\-.*$"

@@ -6,7 +6,7 @@ header "^#!.*/(env +)?(ba)?sh( |$)"
 ## keywords:
 color KEYWORD_FLOW "\<(case|do|done|elif|else|esac|fi|for|function|if|in|select|then|until|while)\>"
 color KEYWORD_JUMP "\<(break|continue|case|return)\>"
-color italic,brightgreen "\""
+color italic,lightgreen "\""
 color KEYWORD_FLOW "(\;|!|&|(\|\|))"
 color LOCAL "[^ =]*="
 color KEYWORD_FLOW "(=|[0-9]? *> *(&[0-9])?|[0-9] *?< *(&[0-9])?|\|)"
@@ -22,8 +22,7 @@ color EXPANSION "\$\{[^}]+}"
 color DECLARATION "^[[:space:]]*[a-zA-Z0-9_]+[[:space:]]*\([[:space:]]*\)"
 color COMMENT "(^|[[:space:]])#.*$"
 color STRING "'(\\.|[^'])*'"
-m4_include(common.m4)
-color CONTROL "[^[:print:]	]"
 color blue "[{}()$/]"
 color ESCAPE "[\\%]."
 color STRING start="<<EOM" end="^EOM"
+m4_include(common.m4)

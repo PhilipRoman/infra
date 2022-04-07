@@ -8,8 +8,8 @@ linter csslint-nano
 comment "/*|*/"
 
 color black,yellow  "[#.]?[:a-zA-Z0-9-]*"
-color brightyellow  start="\{" end="\}"
-color brightwhite start=":" end="[{;]"
+color lightyellow  start="\{" end="\}"
+color lightwhite start=":" end="[{;]"
 
 color white "#[0-9a-fA-F]{3}"
 color white "#[0-9a-fA-F]{6}"
@@ -20,17 +20,18 @@ color cyan "%[ ;)]"
 color yellow "\[.*?]"
 color yellow ":active|:focus|:hover|:link|:visited|:link|:after|:before|\$"
 color red ":|\{|\}"
-color brightblack ";"
+color lightblack ";"
 
-color brightblack start="\/\*" end="\*\/"
+color lightblack start="\/\*" end="\*\/"
 
 color white start="\"" end="\""
 
 color white "!important"
 
-color brightwhite,cyan  "@media.+"
+color lightwhite,cyan  "@media.+"
 
 ## Trailing spaces
 color ,green "[[:space:]]+$"
 ## Mixed spaces/tabs
 color ,red " +	"
+m4_include(common.m4)

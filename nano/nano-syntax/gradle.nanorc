@@ -3,8 +3,6 @@ syntax "gradle" "\.gradle$"
 
 comment "//"
 
-m4_include(common.m4)
-
 color ARRAY "[[:alnum:]]+\["
 color OPERATOR "[][+*/^&%!<>=-]"
 
@@ -22,7 +20,7 @@ color DEFAULT "@[A-Za-z_0-9]+"
 # comments
 color COMMENT "//.*"
 color COMMENT start="/\*" end="\*/"
-color brightwhite,red "Copyright\s+\([cC]\).+"
+color lightwhite,red "Copyright\s+\([cC]\).+"
 
 color STRING """"
 color STRING ""([^"]|\\")*""
@@ -30,13 +28,13 @@ color STRING "''"
 color STRING "'([^']|\\')*'"
 
 color DEFAULT "[{}]"
-color brightred "^[[:alnum:]].+$"
-color black,brightred "^[[:alnum:]]+"
+color lightred "^[[:alnum:]].+$"
+color black,lightred "^[[:alnum:]]+"
 color bold,magenta "^(	|    )[[:alnum:]{ ]+"
 color bold,green "^(	|    ){2}[[:alnum:]{ ]+"
 color bold,blue "^(	|    ){3}[[:alnum:]{ ]+"
 
-color brightred "^}"
+color lightred "^}"
 color bold,magenta "^(	|    )}"
 color bold,green "^(	|    ){2}}"
 color bold,blue "^(	|    ){3}}"

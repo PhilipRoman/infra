@@ -7,10 +7,10 @@ comment "#"
 ## Possible errors and parameters
 icolor ERROR "^[[:space:]]*((un)?set|include|syntax|i?color).*$"
 
-color bold,brightwhite "^[[:blank:]]*(i?color)[[:blank:]]+[[:upper:]_]+"
+color bold,lightwhite "^[[:blank:]]*(i?color)[[:blank:]]+[[:upper:]_]+"
 
 # Color names
-color KEYWORD_JUMP "^[[:blank:]]*(i?color|set[[:blank:]]+((error|function|key|number|prompt|scroller|selected|spotlight|status|stripe|title)color))[[:blank:]]+(bold,)?(italic,)?(((bright|light)?(white|black|red|blue|green|yellow|magenta|cyan))|normal|pink|purple|mauve|lagoon|mint|lime|peach|orange|latte|grey|gray)?(,(((light)?(white|black|red|blue|green|yellow|magenta|cyan))|normal|pink|purple|mauve|lagoon|mint|lime|peach|orange|latte|grey|gray))?\>"
+color KEYWORD_JUMP "^[[:blank:]]*(i?color|set[[:blank:]]+((error|function|key|number|prompt|scroller|selected|spotlight|status|stripe|title)color))[[:blank:]]+(bold,)?(italic,)?(((light|light)?(white|black|red|blue|green|yellow|magenta|cyan))|normal|pink|purple|mauve|lagoon|mint|lime|peach|orange|latte|grey|gray)?(,(((light)?(white|black|red|blue|green|yellow|magenta|cyan))|normal|pink|purple|mauve|lagoon|mint|lime|peach|orange|latte|grey|gray))?\>"
 
 # Keywords
 color KEYWORD "^[[:blank:]]*(set|unset)[[:blank:]]+(afterends|allow_insecure_backup|atblanks|autoindent|backup|boldtext|bookstyle|breaklonglines|casesensitive|constantshow|cutfromcursor|emptyline|historylog|indicator|jumpyscrolling|linenumbers|locking|magic|minibar|mouse|multibuffer|noconvert|nohelp|nonewlines|positionlog|preserve|quickblank|rawsequences|rebinddelete|regexp|saveonexit|showcursor|smarthome|softwrap|stateflags|suspendable|tabstospaces|trimblanks|unix|wordbounds|zap)\>"
@@ -27,11 +27,8 @@ icolor white "^[[:space:]]*i?color\>" "\<(start|end)="
 ## Strings
 color STRING "([[:blank:]]|(start|end)=)".+"([[:blank:]]|$)"
 
-# Control codes
-color CONTROL "[[:cntrl:]]"
-
 ## regex
-color brightgreen "[()|]"
+color lightgreen "[()|]"
 color yellow "[*?+]"
 color red "\\."
 color blue "\[?\[:(upper|lower|al(pha|num)|x?digit|punct|blank|space|cntrl|graph|print):]]?"
@@ -40,3 +37,4 @@ color blue "\[?\[:(upper|lower|al(pha|num)|x?digit|punct|blank|space|cntrl|graph
 color COMMENT "^[[:space:]]*##?.*$"
 
 color ,black "[[:space:]]"
+m4_include(common.m4)

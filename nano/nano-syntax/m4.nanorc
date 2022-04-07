@@ -2,7 +2,7 @@ m4_include(colors.m4)
 syntax m4 "\.(m4)$"
 
 # Keywords:
-# color brightcyan "\<(if|test|then|elif|else|fi|for|in|do|done)\>"
+# color lightcyan "\<(if|test|then|elif|else|fi|for|in|do|done)\>"
 # color red "(=|!=|&&|\|\||,)"
 
 color white "[[:alnum:]_]+?\("
@@ -23,8 +23,8 @@ color OPERATOR ","
 color COMMENT "^[[:blank:]]*#.*"  "\<(m4_)?dnl.*"
 
 # Parameters
-color black,brightwhite "\$[[:digit:]]"
-color black,brightcyan "\$1"
-color black,brightyellow "\$2"
+color black,lightwhite "\$[[:digit:]]"
+color black,lightcyan "\$1"
+color black,lightyellow "\$2"
 
 m4_include(common.m4)

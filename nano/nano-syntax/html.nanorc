@@ -8,10 +8,10 @@ comment "<!--|-->"
 
 linter html-validator-nano
 
-color brightyellow start="<script>" end="</script>"
-color brightyellow start="<style>" end="</style>"
+color lightyellow start="<script>" end="</script>"
+color lightyellow start="<style>" end="</style>"
 
-color brightblack "<[^>]*>"
+color lightblack "<[^>]*>"
 
 ## Tags
 color black,yellow "</?[qwertys][^ >]*"
@@ -21,20 +21,19 @@ color ,green         "</?[fgk][^ >]*"
 color ,cyan        "</?[hjzx][^ >]*"
 color ,magenta     "</?[lcvbnm][^ >]*"
 
-color brightblack "[<>]"
+color lightblack "[<>]"
 
-color brightblack "<!DOCTYPE [^>]+>"
+color lightblack "<!DOCTYPE [^>]+>"
 
 ## URLs
-color brightcyan "https?://[^' <>]+"
-color brightcyan "[^"' <>]+\.(js|css)"?"
+color lightcyan "https?://[^' <>]+"
+color lightcyan "[^"' <>]+\.(js|css)"?"
 
 ## Named character references and entities
 color blue "&#?[[:alnum:]]*;"
 
-## Template strings (not in the HTML spec, but very commonly used)
 # color magenta "\{[^\}]*\}"
-# color brightgreen "[[:space:]]((end)?if|(end)?for|in|not|(end)?block)[[:space:]]"
+# color lightgreen "[[:space:]]((end)?if|(end)?for|in|not|(end)?block)[[:space:]]"
 
 ## Comments
 color green start="<!--" end="-->"
@@ -46,3 +45,4 @@ color ,green "[[:space:]]+$"
 color ,red " +	"
 ## only color the spaces (this is a tab)
 color ,black "	"
+m4_include(common.m4)

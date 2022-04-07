@@ -3,16 +3,17 @@ m4_include(colors.m4)
 ##
 syntax "asm" "\.(S|s|asm)$"
 color red "\<[A-Z_]{2,}\>"
-color brightgreen "\.(data|subsection|text)"
+color lightgreen "\.(data|subsection|text)"
 color green "\.(align|file|globl|global|hidden|section|size|type|weak)"
-color brightyellow "\.(ascii|asciz|byte|double|float|hword|int|long|short|single|struct|word)"
-icolor brightred "^[[:space:]]*[.0-9A-Z_]*:"
-color brightcyan "^[[:space:]]*#[[:space:]]*(define|undef|include|ifn?def|endif|elif|else|if|warning|error)"
+color lightyellow "\.(ascii|asciz|byte|double|float|hword|int|long|short|single|struct|word)"
+icolor lightred "^[[:space:]]*[.0-9A-Z_]*:"
+color lightcyan "^[[:space:]]*#[[:space:]]*(define|undef|include|ifn?def|endif|elif|else|if|warning|error)"
 ## Highlight strings (note: VERY resource intensive)
-color brightyellow "<[^= 	]*>" ""(\\.|[^"])*""
-color brightyellow start=""(\\.|[^"])*\\[[:space:]]*$" end="^(\\.|[^"])*""
+color lightyellow "<[^= 	]*>" ""(\\.|[^"])*""
+color lightyellow start=""(\\.|[^"])*\\[[:space:]]*$" end="^(\\.|[^"])*""
 ## Highlight comments
-color brightblue "//.*"
-color brightblue start="/\*" end="\*/"
+color lightblue "//.*"
+color lightblue start="/\*" end="\*/"
 ## Highlight trailing whitespace
 color ,green "[[:space:]]+$"
+m4_include(common.m4)

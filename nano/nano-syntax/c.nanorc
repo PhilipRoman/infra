@@ -12,7 +12,7 @@ color FIELD "(\.|->)[[:alnum:]]+"
 
 ## function invocations
 color CALL "[a-zA-Z_][a-zA-Z0-9_]*\("
-color brightblack "[()]"
+color lightblack "[()]"
 ## make simple function calls more subtle
 
 color KEYWORD_FLOW "[{}]"
@@ -25,7 +25,7 @@ color KEYWORD "\<(\* *)?(struct|enum|union)\>([[:space:]]+[a-zA-Z0-9_]+)?"
 color PRIMARY "\<\(?(\* *)?((s?size)|(char(16|32))|((u_?)?int(_fast|_least)?(8|16|32|64))|u?int(max|ptr))_t\)?\>"
 
 ## modifiers
-color brightblack "\<(static|typedef|extern|inline)\>"
+color lightblack "\<(static|typedef|extern|inline)\>"
 color KEYWORD_STORAGE "\<(volatile|register|const)\>"
 color OPERATOR "\<(alignas|alignof|offsetof|asm|static_assert|thread_local)\>"
 
@@ -52,9 +52,9 @@ color OPERATOR "[+*|!\%~&\^/-]="
 color OPERATOR "[=!><]="
 color ARRAY "[[:alnum:]_]+[[:space:]]*\["
 color FIELD "[][]"
-color brightblack "[,;.]"
-color brightblack "->"
-color brightblack "\<(sizeof)\>"
+color lightblack "[,;.]"
+color lightblack "->"
+color lightblack "\<(sizeof)\>"
 
 m4_define({{ESCAPE_REGEX}},\\(m4_dnl
 [0abfnrtv"'\\?]|m4_dnl
@@ -92,15 +92,15 @@ color COMMENT "^[[:space:]]*#[[:space:]]*(error|warning).*$"
 color ERROR "^[[:space:]]*#\s*[^[:space:]]+"
 color white "^[[:space:]]*#\s*include\s.*"
 ## preprocessor directives
-color bold,brightwhite "^[[:space:]]*#[[:space:]]*(define|include|undef|warning|error|pragma)\>"
+color bold,lightwhite "^[[:space:]]*#[[:space:]]*(define|include|undef|warning|error|pragma)\>"
 ## highlight preprocessor conditionals (ifdef, etc.)
-color brightblack "^[[:space:]]*#[[:space:]]*([0-9]).*$"
+color lightblack "^[[:space:]]*#[[:space:]]*([0-9]).*$"
 color cyan "^[[:space:]]*#[[:space:]]*(if(n?def)?).+$"
-color brightwhite,blue "^[[:space:]]*#[[:space:]]*(if(n?def)?)"
+color lightwhite,blue "^[[:space:]]*#[[:space:]]*(if(n?def)?)"
 ## highlight preprocessor else/elif directives
 color black,white "^[[:space:]]*#[[:space:]]*el(if|se)"
 ## highlight end of preprocessor conditional
-color brightwhite,red "^[[:space:]]*#[[:space:]]*(endif)"
+color lightwhite,red "^[[:space:]]*#[[:space:]]*(endif)"
 
 ## preprocessor token pasting
 color black,yellow "##"
@@ -108,8 +108,8 @@ color black,yellow "##"
 ## This string is VERY resource intensive!
 #color cyan start=""(\\.|[^"])*\\[[:space:]]*$" end="^(\\.|[^"])*""
 
-m4_include(common.m4)
 
 ## space after '\'
 color TRAILING_SPACE "\\ "
 color ,blue "\\$"
+m4_include(common.m4)

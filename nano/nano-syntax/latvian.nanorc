@@ -2,3 +2,4 @@ syntax lv
 
 formatter env lvnano=1 lv
 color green "'[a-zA-Z]"
+m4_include(common.m4)

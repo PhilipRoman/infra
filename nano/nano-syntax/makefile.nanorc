@@ -4,7 +4,7 @@ header "(^#!.*/(env +)?[bg]?make( |$)|^\.[A-Za-z_/0-9-]+:)"
 
 # color conditionals
 color black,blue  "\<(ifeq|ifdef|ifneq|ifndef)\>"
-color brightblack,yellow "\<else\>"
+color lightblack,yellow "\<else\>"
 color black,red "\<endif\>"
 
 # keywords
@@ -16,46 +16,47 @@ color cyan  "^(export|include|override)\>"
 color blue  "^[^:+=	]+(:)"
 
 # assignments
-color brightred  "^[^:+=	]+([?:+]?=)"
+color lightred  "^[^:+=	]+([?:+]?=)"
 # assignment operators
-color brightmagenta "[=,<>]" " *(\+=|\?=|:=|&&|\|\|)"
+color lightmagenta "[=,<>]" " *(\+=|\?=|:=|&&|\|\|)"
 
 # functions, etc.
-color brightblue "\$\((abspath|addprefix|addsuffix|and|basename|call|dir)[[:space:]]"
-color brightblue "\$\((error|eval|filter|filter-out|findstring|firstword)[[:space:]]"
-color brightblue "\$\((flavor|foreach|if|info|join|lastword|notdir|or)[[:space:]]"
-color brightblue "\$\((origin|patsubst|realpath|shell|sort|strip|suffix)[[:space:]]"
-color brightblue "\$\((value|warning|wildcard|word|wordlist|words)[[:space:]]"
+color lightblue "\$\((abspath|addprefix|addsuffix|and|basename|call|dir)[[:space:]]"
+color lightblue "\$\((error|eval|filter|filter-out|findstring|firstword)[[:space:]]"
+color lightblue "\$\((flavor|foreach|if|info|join|lastword|notdir|or)[[:space:]]"
+color lightblue "\$\((origin|patsubst|realpath|shell|sort|strip|suffix)[[:space:]]"
+color lightblue "\$\((value|warning|wildcard|word|wordlist|words)[[:space:]]"
 
 # strings
 color yellow "\"(\\.|[^\"])*\"|'(\\.|[^'])*'"
 
 # variable expansions
-color brightred "\$+(\{[^} ]+\}|\([^) ]+\))"
+color lightred "\$+(\{[^} ]+\}|\([^) ]+\))"
 # automatic variable expansions
-color italic,brightwhite,blue "\$[@^<*?%|+]|\$\([@^<*?%+-][DF]\)"
+color italic,lightwhite,blue "\$[@^<*?%|+]|\$\([@^<*?%+-][DF]\)"
 
 # parameterized targets/dependencies suffix
-color italic,brightwhite,blue "%[^/ :]*"
+color italic,lightwhite,blue "%[^/ :]*"
 # parameterized target/dependencies
-color italic,brightwhite,magenta "%"
+color italic,lightwhite,magenta "%"
 
 # escapes
 color black,yellow   "\$\$|\\.?"
 
 # comments
-color brightblack "(^|[[:space:]])#([^{].*)?$"
+color lightblack "(^|[[:space:]])#([^{].*)?$"
 
 # surrounding part of variables/functions
-color brightmagenta    "\$\(" ")"
+color lightmagenta    "\$\(" ")"
 
 # '@' symbol
 color blue "^[[:space:]]@"
 
 # flags for command
-color brightyellow "[[:space:]](--?[a-zA-Z0-9]*)"
+color lightyellow "[[:space:]](--?[a-zA-Z0-9]*)"
 
 # show trailing whitespace
 color white,red "[[:space:]]+$"
 # warn about spaces
 color white,red "^ *"
+m4_include(common.m4)

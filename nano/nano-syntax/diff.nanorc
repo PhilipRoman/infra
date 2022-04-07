@@ -8,10 +8,11 @@ header "(^[0-9]+(,[0-9]+)?[dac][0-9]+(,[0-9]+)?)|(^diff --git.*)|(^---)"
 color red "^[<\-].*"
 color green "^[>+].*"
 
-color brightblack,red "^---.*"
-color brightblack,green "^\+\+\+.*"
+color lightblack,red "^---.*"
+color lightblack,green "^\+\+\+.*"
 
-color brightblack "^[^<> +@0-9\-].*"
-color brightblack "@@.*@@"
-color brightblack "^---$"
-color brightblack "^[0-9].*"
+color lightblack "^[^<> +@0-9\-].*"
+color lightblack "@@.*@@"
+color lightblack "^---$"
+color lightblack "^[0-9].*"
+m4_include(common.m4)
