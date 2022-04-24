@@ -69,7 +69,7 @@ if egrep -q 'ELF.*(executable|shared object|core file)' <<< "$magic" && command 
 fi
 
 if fgrep -q 'Java class' <<< "$magic" && command -v javap >/dev/null; then
-	javap "$1"
+	javap -c -p -constants -verbose "$1"
 	exit
 fi
 
@@ -98,11 +98,8 @@ if command -v source-highlight >/dev/null; then
 	fi
 fi
 
-if head -c64 "$1" | grep -q '[^[:print:]]' || file -b "$1" | fgrep -q 'PDF document'; then
-	if command -v radare2 >/dev/null; then
-		radare2 -c 'px $s' -qq "$1"
-		exit
-	elif command -v xxd >/dev/null; then
+if head -c64 "$1" | grep -q '[^[:print:]	]' || file -b "$1" | fgrep -q 'PDF document'; then
+	if command -v xxd >/dev/null; then
 		xxd -c "$(( ${COLUMNS:-80} / 4 - 2 ))" -- "$1"
 		exit
 	elif command -v od >/dev/null; then

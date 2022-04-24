@@ -21,6 +21,11 @@ fi
 export GTAGSLABEL=ctags
 export LANG='en_US.utf8'
 export LC_MESSAGES='lv_LV.utf8'
+export LC_TELEPHONE='lv_LV.utf8'
+export LC_MEASUREMENT='lv_LV.utf8'
+export LC_PAPER='lv_LV.utf8'
+export LC_MONETARY='lv_LV.utf8'
+export LC_TIME='lv_LV.utf8'
 export IGNOREEOF='0'
 export FIGNORE='..:.'
 export GRADLE_OPTS=''

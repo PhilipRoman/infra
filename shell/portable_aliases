@@ -1,5 +1,6 @@
 #!/bin/sh
 
+alias +x='chmod +x'
 alias .....='cd ../../../..'
 alias ....='cd ../../..'
 alias ...='cd ../..'
@@ -92,4 +93,9 @@ settitle() {
 
 expid() {
 	(echo "Copied \"$BASHPID\""; printf %d "$BASHPID" | tmux loadb -; exec "$@")
+}
+
+chboth() {
+	chown "$@"
+	chgrp "$@"
 }
