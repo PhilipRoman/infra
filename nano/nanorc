@@ -86,7 +86,9 @@ bind M-3 linenumbers main
 bind M-5 "|lv" main
 bind M-7 "importf" main
 bind M-8 "headerf" main
-bind M-T "|pee cat 'tmux loadb -'" main
+bind M-T "|pee cat 'ifne tmux loadb -'" main
+bind M-G "tmux showb" main
+bind M-; end all
 
 bind ^Q cancel all
 
