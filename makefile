@@ -1,14 +1,15 @@
 .POSIX:
-.PHONY: all install
+.PHONY: all
 
-all: build/bashrc build/inputrc build/tmux.conf build/gitconfig build/nanorc $(addprefix build/,$(notdir $(wildcard nano/nano-syntax/*.nanorc)))
-
-install: all
-	sh install.sh
+all: build/bashrc build/profile build/inputrc build/tmux.conf build/gitconfig build/nanorc $(addprefix build/,$(notdir $(wildcard nano/nano-syntax/*.nanorc)))
 
 build/bashrc: shell/bashrc shell/less_termcap shell/portable_aliases shell/promptfunc
 	mkdir -p build
 	(cd shell; m4 -P bashrc) > $@
+
+build/profile: shell/profile $(wildcard shell/*colors)
+	mkdir -p build
+	(cd shell; m4 -P profile) > $@
 
 build/inputrc: shell/inputrc
 	mkdir -p build

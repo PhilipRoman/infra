@@ -1,0 +1,46 @@
+#!/bin/sh
+
+m4_changequote({{,}})
+m4_changecom({{###}})
+
+m4_syscmd(command -v colorspec >/dev/null)
+m4_ifelse(0,m4_sysval,{{
+export GREP_COLORS="m4_esyscmd(colorspec -Fgrep grepcolors)"
+export LS_COLORS="m4_esyscmd(colorspec -Fls lscolors)"
+export GCC_COLORS="m4_esyscmd(colorspec -Fgcc gcccolors)"
+}})
+if [ -f ~/.path ]; then
+	export PATH="$(cat ~/.path | grep '^/' | tr '\n' ':' | sed -E 's/::+/:/g; s/:$//')"
+else
+	export PATH='/usr/local/bin:/usr/bin:bin'
+fi
+export GTAGSLABEL=ctags
+export LANG='en_US.utf8'
+export LC_MESSAGES='lv_LV.utf8'
+export LC_TELEPHONE='lv_LV.utf8'
+export LC_MEASUREMENT='lv_LV.utf8'
+export LC_PAPER='lv_LV.utf8'
+export LC_MONETARY='lv_LV.utf8'
+export LC_TIME='lv_LV.utf8'
+export IGNOREEOF='0'
+export FIGNORE='..:.'
+export GRADLE_OPTS=''
+less_prompt='file\ %g\ (%i\ of\ %m)\ line\ %lt╱%L\ =\ %Pt\%'
+export LESS='--jump-target=2 --tabs=3 --RAW-CONTROL-CHARS --QUIET --ignore-case --clear-screen -P'"$less_prompt"
+export MANOPT='--nh -r '"${less_prompt/\%g/\$MAN_PN}"
+export GPG_TTY="$(tty)"
+export PAGER="$(command -v less)"
+export DELTA_PAGER="$PAGER --" # seems like adding any option (like --) prevents delta from adding its own options
+export EDITOR="$(command -v nano)"
+export VISUAL="$EDITOR"
+export LESSGLOBALTAGS=global
+command -v lesspipe.sh >/dev/null && export LESSOPEN='||lesspipe.sh %s'
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+# set tab size to 4
+tabs 4
+umask 022
+# allow core dumps
+ulimit -c unlimited
