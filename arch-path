@@ -1,0 +1,8 @@
+/usr/local/sbin
+/usr/local/bin
+/root/.local/bin
+# remember /usr/bin merge
+/usr/bin
+/opt/vbcc/bin
+/usr/lib/jvm/default/bin
+/root/.cpan/build/Graph-Easy-0.76-0/bin/
