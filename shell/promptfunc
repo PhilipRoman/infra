@@ -17,9 +17,9 @@ trap '_on_command_error' ERR
 _promptfunc() {
 	if [ -n "$TMUX" ]; then
 		# dont put directory when in tmux
-		PS1="\[\e[38;5;${promptcolor}m\]${SSH_CLIENT/?*/R}${SHLVL/#1}ᛋ \[\e[97;1m\]"
+		PS1="\[\e[1;38;5;${promptcolor}m\]${SSH_CLIENT/?*/R}${SHLVL/#1}ᛋ \[\e[97;1m\]"
 	else
-		PS1="\[\e[38;5;${promptcolor}m\]\u ${SSH_CLIENT/?*/R}${SHLVL/#1}[\[\e[0m\]\w\[\e[38;5;${promptcolor}m\]]ᛋ \[\e[97;1m\]"
+		PS1="\[\e[1;38;5;${promptcolor}m\]\u ${SSH_CLIENT/?*/R}${SHLVL/#1}[\[\e[0m\]\w\[\e[1;38;5;${promptcolor}m\]]ᛋ \[\e[97;1m\]"
 	fi
 }
 
