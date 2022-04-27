@@ -11,7 +11,7 @@ else
 fi
 
 [ -f "$HOMEDIR"/.bashrc ] && mv "$HOMEDIR"/.bashrc "$HOMEDIR"/.bashrc.old
-ln -s /etc/profile/infra.bash "$HOMEDIR"/.bashrc
+ln -s /etc/profile.d/infra.bash "$HOMEDIR"/.bashrc
 
 cat > "$HOMEDIR"/.bash_profile <<'EndOfMessage'
 # include .bashrc if it exists
