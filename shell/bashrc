@@ -7,8 +7,8 @@ m4_changecom({{###}})
 
 m4_include(promptfunc)
 
-if [ -z "$TMUX" ] && [ -z "$SSH_CLIENT" ] && command -v tmux > /dev/null; then
-	if timeout -s KILL 1s tmux run-shell true; then
+if [ -z "$TMUX" ] && command -v tmux > /dev/null; then
+	if [ -z "$(tmux list-clients)" ]; then
 		SHLVL=0 tmux new -A -c ~
 		return
 	fi

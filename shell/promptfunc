@@ -1,13 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 # A script which contains the function definition for prompt function
 
-if [ -e /etc/profile.d/promptcolor.sh ]; then
-	. /etc/profile.d/promptcolor.sh
-else
-	promptcolor=${promptcolor:15}
-	promptcolor2=${promptcolor2:15}
-fi
-
+promptcolor=${promptcolor:-$((RANDOM % 213 + 17))}
 
 _on_command_start() {
 	printf "\x1b[0m" >/dev/tty
@@ -21,8 +15,12 @@ _on_command_error() {
 trap '_on_command_error' ERR
 
 _promptfunc() {
-	PS1="\[\e[38;5;${promptcolor}m\]${SSH_CLIENT/?*/R}${SHLVL/#1}ᛋ \[\e[97;1m\]"
+	if [ -n "$TMUX" ]; then
+		# dont put directory when in tmux
+		PS1="\[\e[38;5;${promptcolor}m\]${SSH_CLIENT/?*/R}${SHLVL/#1}ᛋ \[\e[97;1m\]"
+	else
+		PS1="\[\e[38;5;${promptcolor}m\]\u ${SSH_CLIENT/?*/R}${SHLVL/#1}[\[\e[0m\]\w\[\e[38;5;${promptcolor}m\]]ᛋ \[\e[97;1m\]"
+	fi
 }
-if echo "$TERM" | grep -q 256; then
-	PROMPT_COMMAND=_promptfunc
-fi
+
+PROMPT_COMMAND=_promptfunc

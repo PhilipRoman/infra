@@ -3,6 +3,12 @@
 
 all: build/bashrc build/profile build/inputrc build/tmux.conf build/gitconfig build/nanorc $(addprefix build/,$(notdir $(wildcard nano/nano-syntax/*.nanorc)))
 
+install:
+	exit 1
+
+install-user:
+	exit 1
+
 build/bashrc: shell/bashrc shell/less_termcap shell/portable_aliases shell/promptfunc
 	mkdir -p build
 	(cd shell; m4 -P bashrc) > $@
