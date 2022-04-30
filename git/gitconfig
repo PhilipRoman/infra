@@ -5,8 +5,8 @@ m4_define(NEWGIT,
 # This is Git's per-user configuration file.
 [user]
 	name = PhilipRoman
-	email = dev.philipjohn@gmail.com
-	signingkey = 3C678982A21FDE84
+	email = frfilips@gmail.com
+	signingkey = 086D4086FB9A3AA6EF325782EC23F3796F88A723
 [pager]
 	diff = less
 [core]
@@ -44,12 +44,14 @@ m4_define({{RED_BG}},{{52}})m4_dnl
 m4_define({{DELTA_OPTIONS}},{{-w $((COLUMNS - 4)) }})m4_dnl
 	delta = -c 'pager.diff=delta DELTA_OPTIONS' diff
 	deltas = -c 'pager.diff=delta DELTA_OPTIONS -s' diff
+	vimdiff = difftool --tool=vimdiff
 	s = status
 	ch = checkout
 	a = add
 	d = diff
 	de = delta
 	des = deltas
+	vd = vimdiff
 	b = branch
 	g = log --color=always --all --decorate --oneline --graph --date-order
 	ls = !cd -- "${GIT_PREFIX:-.}" && git ls-files | cut -d/ -f1 | uniq | xargs ls -d --group-directories-first --color
