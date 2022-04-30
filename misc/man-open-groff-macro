@@ -1,0 +1,44 @@
+#!/bin/sh
+
+input=''
+for arg; do
+	input="$input $arg"
+done
+if [ -z "$input" ]; then
+	read -r input || exit
+fi
+
+macro="$(printf %s "$input"|grep -Eo '\.[[:alnum:]]+')"
+
+if [ -z "$macro" ]; then
+	exit 1
+fi
+
+indexfile='/usr/local/etc/groff-macro-index'
+if [ -f "$indexfile" ]; then
+	pagestocheck="$(awk -vM="$macro" '$1 == M {print $2}' "$indexfile")"
+fi
+
+if [ -z "$pagestocheck" ]; then
+	pagestocheck='groff_man groff_mdoc
+		groff_me groff_mm groff_mom
+		groff_ms groff_www'
+fi
+
+for page in $pagestocheck; do
+	printf 'Checking %s...\n' "$page" >&2
+
+	line="$(man -Pcat "$page" | grep -Eon "Usage:[[:space:]]+\\${macro}[[:space:]]" |
+		head -n1 | cut -d: -f1)"
+	if [ -n "$line" ]; then
+		if [ "$line" -gt 5 ]; then
+			line=$((line - 5))
+		fi
+	else
+		line="$(man -Pcat "$page" | grep -Eon "^[[:space:]]{,12}\\${macro}[[:space:]]" |
+			awk -F: '!m||(length($2)<=length(m)){m=$2;L=$1}END{print L}')"
+	fi
+	if [ -n "$line" ]; then
+		MANPAGER="${MANPAGER:-"${PAGER:-less}"} +$line +/\\${macro}" man "$page"
+	fi
+done
