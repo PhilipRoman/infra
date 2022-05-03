@@ -9,7 +9,6 @@ if [ -z "$TMUX$SSH_CLIENT" ] && command -v tmux > /dev/null &&
 			groups "$USER" | tr ' ' '\n' | grep -q '^tmuxers$' &&
 			[ -z "$(tmux list-clients)" ]; then
 	SHLVL=0 tmux new -A -c ~
-	return
 fi
 
 m4_include(promptfunc)
