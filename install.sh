@@ -33,6 +33,7 @@ fi
 install -vm 755 misc/* $BINPREFIX/bin/
 install -vm 755 nano/syntaxlist $BINPREFIX/bin/
 install -vm 644 htoprc $PREFIX/etc/htoprc
+install -vm 644 vimrc /usr/local/etc/vimrc
 
 if [ -w /usr/share/source-highlight ]; then
 	install -vm 644 source-highlight/* /usr/share/source-highlight
