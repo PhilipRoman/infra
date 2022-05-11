@@ -66,10 +66,19 @@ set virtualedit+=onemore
 set runtimepath^=~/.vim/bundle/errormarker.vim
 let &errorformat="%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," . &errorformat
 
-imap <F12> <C-O>:silent make<cr>
-nmap <F12> :silent make<cr>
-imap <C-S> <C-O>:w<cr>
-imap <C-Q> <C-O>:q<cr>
-nmap <C-S> :w<cr>
-nmap <C-Q> :q<cr>
-nmap ; :
+function! SaveAndMake()
+	:w
+	:silent make
+endfunction
+
+inoremap <F12> <C-O>:call SaveAndMake()<cr>
+nnoremap <F12> :call SaveAndMake()<cr>
+inoremap <C-S> <C-O>:w<cr>
+inoremap <C-Q> <C-O>:q<cr>
+nnoremap <C-S> :w<cr>
+nnoremap <C-Q> :q<cr>
+nnoremap ; :
+
+vnoremap <C-E> :!
+nnoremap <C-E> :%!
+inoremap <C-E> <C-O>:%!

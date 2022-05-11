@@ -81,7 +81,7 @@ bind M-X runmacro all
 bind M-3 linenumbers all
 bind M-? help all
 bind M-( "()[D" main
-bind M-{ "{}[D" main
+bind M-{ "{}[D.[A[3~	" main
 bind M-3 linenumbers main
 bind M-5 "|lv" main
 bind M-7 "importf" main
@@ -89,6 +89,7 @@ bind M-8 "headerf" main
 bind M-T "|pee cat 'ifne tmux loadb -'" main
 bind M-G "tmux showb" main
 bind M-; end all
+bind M-: "();[D[D[D" main
 
 bind ^Q cancel all
 
