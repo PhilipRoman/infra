@@ -7,3 +7,5 @@ end
 document xdisassemble
 	Disassembles the instructions at current PC and presents them
 end
+
+set debuginfod enabled on
