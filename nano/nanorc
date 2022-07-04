@@ -18,7 +18,6 @@ unset constantshow
 set wordchars "_"
 # set regexp
 set smarthome
-set suspendable
 set matchbrackets "({[<")}]>""
 set historylog
 set positionlog
