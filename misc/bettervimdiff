@@ -9,11 +9,11 @@ tmpfile="$(mktemp)"
 git --no-pager diff --name-only | awk -vA="$dirA" -vB="$dirB" '
 	BEGIN {
 		first=1
-		gsub(/([^[:alnum:]/])/, "\\\\&", A)
-		gsub(/([^[:alnum:]/])/, "\\\\&", B)
+		gsub(/([^[:alnum:]\/])/, "\\\\&", A)
+		gsub(/([^[:alnum:]\/])/, "\\\\&", B)
 	}
 	{
-		gsub(/([^[:alnum:]/])/, "\\\\&")
+		gsub(/([^[:alnum:]\/])/, "\\\\&")
 	}
 	!first {
 		print ":tabnew"
