@@ -6,22 +6,41 @@ if ! [ -d "$dirA" -a -d "$dirB" ]; then
 	exit 1
 fi
 tmpfile="$(mktemp)"
-git --no-pager diff --name-only | awk -vA="$dirA" -vB="$dirB" '
+find "$dirA" "$dirB" -type f -printf '%P\n' |
+	awk '!a[$0] {print $0; a[$0]=1}' |
+#	while read -r name; do
+#		if ! cmp "$dirA/$name" "$dirB/$name" >/dev/null 2>&1; then
+#			printf '%s\n' "$name"
+#		fi
+#	done |
+#	tee /dev/tty|
+	awk -vA="$dirA" -vB="$dirB" '
 	BEGIN {
 		first=1
-		gsub(/([^[:alnum:]\/])/, "\\\\&", A)
-		gsub(/([^[:alnum:]\/])/, "\\\\&", B)
+		escapeA=A
+		escapeB=B
+		gsub(/([^[:alnum:]\/])/, "\\\\&", escapeA)
+		gsub(/([^[:alnum:]\/])/, "\\\\&", escapeB)
 	}
 	{
-		gsub(/([^[:alnum:]\/])/, "\\\\&")
+		escapeFile=$0
+		gsub(/([^[:alnum:]\/])/, "\\\\&", escapeFile)
 	}
 	!first {
 		print ":tabnew"
 	}
 	{
-		print ":view "B"/"$0
+		fileA=A"/"$0
+		fileB=B"/"$0
+		if((getline _ < fileB) != -1)
+			print ":view "escapeB"/"escapeFile
+		else
+			print ":view /dev/null"
 		print ":vsplit"
-		print ":view "A"/"$0
+		if((getline _ < fileA) != -1)
+			print ":view "escapeA"/"escapeFile
+		else
+			print ":view /dev/null"
 		print ":windo diffthis"
 	}
 	first {
@@ -30,4 +49,5 @@ git --no-pager diff --name-only | awk -vA="$dirA" -vB="$dirB" '
 
 ' >"$tmpfile"
 vim -s "$tmpfile"
+#cat "$tmpfile"
 rm "$tmpfile"
