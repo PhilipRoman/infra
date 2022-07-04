@@ -45,13 +45,18 @@ m4_define({{DELTA_OPTIONS}},{{-w $((COLUMNS - 4)) }})m4_dnl
 	delta = -c 'pager.diff=delta DELTA_OPTIONS' diff
 	deltas = -c 'pager.diff=delta DELTA_OPTIONS -s' diff
 	vimdiff = difftool --tool=vimdiff
+	bettervimdiff = difftool -d -x bettervimdiff
 	s = status
 	ch = checkout
+	cm = commit
 	a = add
 	d = diff
 	de = delta
 	des = deltas
 	vd = vimdiff
+	bd = bettervimdiff
+	bv = bettervimdiff
+	bvd = bettervimdiff
 	b = branch
 	g = log --color=always --all --decorate --oneline --graph --date-order
 	ls = !cd -- "${GIT_PREFIX:-.}" && git ls-files | cut -d/ -f1 | uniq | xargs ls -d --group-directories-first --color

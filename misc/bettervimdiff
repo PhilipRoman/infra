@@ -1,0 +1,36 @@
+#!/bin/sh
+dirA="$1"
+dirB="$2"
+if ! [ -d "$dirA" -a -d "$dirB" ]; then
+	echo 'Usage: bettervimdiff DIR1 DIR2' >&2
+	exit 1
+fi
+tmpfile="$(mktemp)"
+git --no-pager diff --name-only | awk -vA="$dirA" -vB="$dirB" '
+	BEGIN {
+		first=1
+		gsub(/([^[:alnum:]/])/, "\\\\&", A)
+		gsub(/([^[:alnum:]/])/, "\\\\&", B)
+	}
+	{
+		gsub(/([^[:alnum:]/])/, "\\\\&")
+	}
+	!first {
+		print ":tabnew"
+	}
+	{
+		print ":edit "B"/"$0
+		print ":file "$0
+		print ":file N@"$0
+		print ":vsplit"
+		print ":view "A"/"$0
+		print ":file O@"$0
+		print ":windo diffthis"
+	}
+	first {
+		first=0
+	}
+
+' >"$tmpfile"
+vim -s "$tmpfile"
+rm "$tmpfile"
