@@ -19,12 +19,9 @@ git --no-pager diff --name-only | awk -vA="$dirA" -vB="$dirB" '
 		print ":tabnew"
 	}
 	{
-		print ":edit "B"/"$0
-		print ":file "$0
-		print ":file N@"$0
+		print ":view "B"/"$0
 		print ":vsplit"
 		print ":view "A"/"$0
-		print ":file O@"$0
 		print ":windo diffthis"
 	}
 	first {
