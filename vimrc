@@ -1,3 +1,4 @@
+set nocompatible
 syntax on
 
 colorscheme desert
@@ -40,6 +41,8 @@ function! FixColorscheme() "{{{
 	hi! ExtraWhitespace ctermbg=17
 	hi! MatchParen ctermbg=magenta ctermfg=yellow
 	hi! Visual ctermbg=none ctermfg=none cterm=reverse,italic
+	hi! luaFunc ctermbg=none ctermfg=white cterm=bold
+	hi! luaFunction ctermbg=none ctermfg=24
 endfunction
 "}}}
 
@@ -122,14 +125,14 @@ endfunction
 
 let mapleader = "\<C-k>"
 
-map <ESC>[1;5D <C-Left>
-map <ESC>[1;5C <C-Right>
-map <ESC>[1;5A <C-Up>
-map <ESC>[1;5B <C-Down>
-map! <ESC>[1;5D <C-Left>
-map! <ESC>[1;5C <C-Right>
-map! <ESC>[1;5A <C-Up>
-map! <ESC>[1;5B <C-Down>
+noremap! <ESC>[1;5D <C-Left>
+noremap! <ESC>[1;5C <C-Right>
+noremap! <ESC>[1;5A <C-Up>
+noremap! <ESC>[1;5B <C-Down>
+nnoremap <ESC>[1;5D <C-Left>
+nnoremap <ESC>[1;5C <C-Right>
+nnoremap <ESC>[1;5A <C-Up>
+nnoremap <ESC>[1;5B <C-Down>
 
 nnoremap <C-Up> {
 nnoremap <C-Down> }
@@ -143,19 +146,25 @@ nnoremap <ESC>[1;3C <c-w>l
 nnoremap <ESC>[1;3A <c-w>k
 nnoremap <ESC>[1;3B <c-w>j
 
-inoremap <ESC>[1;3D <c-o><c-w>h
-inoremap <ESC>[1;3C <c-o><c-w>l
-inoremap <ESC>[1;3A <c-o><c-w>k
-inoremap <ESC>[1;3B <c-o><c-w>j
+noremap! <ESC>[1;3D <c-o><c-w>h
+noremap! <ESC>[1;3C <c-o><c-w>l
+noremap! <ESC>[1;3A <c-o><c-w>k
+noremap! <ESC>[1;3B <c-o><c-w>j
 
-inoremap <leader><leader> <ESC>
+noremap <leader><leader> :
+inoremap <leader><leader> <C-O>:
+noremap <leader>1 :!
+inoremap <leader>1 <C-O>:!
+
 inoremap <leader>m <C-O>:call SaveAndMake()<cr>
 nnoremap <leader>m :call SaveAndMake()<cr>
-inoremap <C-S> <ESC>:w<cr>
-inoremap <C-Q> <ESC>
+noremap! <C-S> <ESC>:w<cr>
+noremap! <C-Q> <ESC>
 nnoremap <C-S> :w<cr>
 nnoremap <C-Q> :q<cr>
+
 nnoremap ; :
+nnoremap , ;
 
 vnoremap <C-E> :!
 nnoremap <C-E> :%!
@@ -163,21 +172,20 @@ inoremap <C-E> <C-O>:%!
 
 nnoremap <leader>d daW
 
-inoremap <C-J> <C-O>:Buffers<CR>
-nnoremap <C-J> :Buffers<CR>
-vnoremap <C-J> :Buffers<CR>
-
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>w :Windows<CR>
 nnoremap <leader>f :Files<CR>
+nnoremap <leader>c :Commands<CR>
 
-inoremap <leader>b <C-O>:Buffers<CR>
-inoremap <leader>w <C-O>:Windows<CR>
-inoremap <leader>f <C-O>:Files<CR>
+noremap! <leader>b <C-O>:Buffers<CR>
+noremap! <leader>w <C-O>:Windows<CR>
+noremap! <leader>f <C-O>:Files<CR>
+noremap! <leader>c <C-O>:Commands<CR>
 
 vnoremap <leader>b <C-O>:Buffers<CR>
-noremap <leader>w <C-O>:Windows<CR>
+vnoremap <leader>w <C-O>:Windows<CR>
 vnoremap <leader>f <C-O>:Files<CR>
+vnoremap <leader>c <C-O>:Commands<CR>
 
 nnoremap <leader>s :SlimeSend<CR>
 inoremap <leader>s <C-O>:SlimeSend<CR>

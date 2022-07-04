@@ -5,3 +5,5 @@ HTML/
 codeviz.png
 codeviz.svg
 *.swp
+vgcore*
+core
