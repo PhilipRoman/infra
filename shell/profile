@@ -11,8 +11,6 @@ export GCC_COLORS="m4_esyscmd(colorspec -Fgcc gcccolors)"
 }})
 if [ -f ~/.path ]; then
 	export PATH="$(cat ~/.path | grep '^/' | tr '\n' ':' | sed -E 's/::+/:/g; s/:$//')"
-else
-	export PATH='/usr/local/bin:/usr/bin:bin'
 fi
 export GTAGSLABEL=ctags
 export LANG='en_US.utf8'
