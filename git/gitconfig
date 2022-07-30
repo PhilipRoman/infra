@@ -27,6 +27,9 @@ m4_define(NEWGIT,
 [difftool]
 	prompt = false
 
+[difftool.latex]
+	cmd = git-latexdiff \"$LOCAL\" \"$REMOTE\"
+
 m4_define({{RED_FG}},{{210}})m4_dnl
 m4_define({{RED_BG}},{{52}})m4_dnl
 [delta]
@@ -57,6 +60,8 @@ m4_define({{DELTA_OPTIONS}},{{-w $((COLUMNS - 4)) }})m4_dnl
 	bd = bettervimdiff
 	bv = bettervimdiff
 	bvd = bettervimdiff
+	latexdiff = difftool -t latex
+	ldiff = latexdiff
 	b = branch
 	g = log --color=always --all --decorate --oneline --graph --date-order
 	ls = !cd -- "${GIT_PREFIX:-.}" && git ls-files | cut -d/ -f1 | uniq | xargs ls -d --group-directories-first --color
