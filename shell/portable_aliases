@@ -92,7 +92,7 @@ settitle() {
 }
 
 expid() {
-	(echo "Copied \"$BASHPID\""; printf %d "$BASHPID" | tmux loadb -; exec "$@")
+	(pid="$BASHPID"; echo "Copied \"$pid\""; printf %d "$pid" | tmux loadb -; exec "$@")
 }
 
 chboth() {
