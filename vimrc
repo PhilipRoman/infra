@@ -76,6 +76,7 @@ set shiftwidth=3
 set foldmethod=marker
 set mouse=a
 set belloff=all
+set switchbuf=newtab
 
 set background=dark
 " set hlsearch
