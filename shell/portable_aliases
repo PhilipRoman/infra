@@ -45,7 +45,6 @@ alias relf='readelf'
 alias sane='stty sane'
 alias str='strings'
 alias rm='rm -iv'
-alias serve='php -S localhost:80'
 alias ta='tmux attach'
 alias tl='tmux list-sessions'
 alias tree='tree -v'
@@ -75,7 +74,7 @@ bak() {
 }
 # code-grep
 cgrep() {
-	grep --color=always -rIn "$1" "${2:-.}" | less
+	grep --color=always -rIn "$1" "${2:-.}" | ifne less
 }
 sig() {
 	([ -z "$1" ] || [ -z "$2" ]) && return 1;
@@ -89,6 +88,10 @@ xxd() {
 }
 settitle() {
 	echo -ne "\033]0;$1\007";
+}
+
+serve() {
+	darkhttpd . || php -S localhost:80
 }
 
 expid() {
