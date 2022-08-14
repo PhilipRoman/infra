@@ -34,11 +34,6 @@ export VISUAL="$EDITOR"
 export LESSGLOBALTAGS=global
 command -v lesspipe.sh >/dev/null && export LESSOPEN='||lesspipe.sh %s'
 
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-# set tab size to 4
-tabs 4
 umask 022
 # allow core dumps
 ulimit -c unlimited

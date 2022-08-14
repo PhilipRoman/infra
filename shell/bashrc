@@ -38,6 +38,12 @@ shopt -s globstar
 # lesson learnt - nullglob is a bad idea because it breaks variable expansion
 shopt -u extdebug
 
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+# set tab size to 4
+tabs 4
+
 #trap 'kill $(jobs -p) 2>/dev/null' EXIT
 
 HISTSIZE=2000
