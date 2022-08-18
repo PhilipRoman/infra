@@ -11,13 +11,14 @@ TAB: menu-complete
 "\C-e": ""
 "\C-y": ""
 
+"\C-^": "\C-a#"
 "\C-x\C-e": edit-and-execute-command
-"\C-u": undo
 
 "\el": kill-whole-line
-"\eb": backward-kill-word
-"\ef": kill-word
 "\eu": universal-argument
+"\C-t": set-mark
+"\C-k": kill-region
+"\C-p": yank
 
 m4_define({{forloop}}, {{m4_pushdef({{$1}}, {{$2}})_forloop($@)m4_popdef({{$1}})}})
 m4_define({{_forloop}}, {{$4{{}}m4_ifelse($1, {{$3}}, {{}}, {{m4_define({{$1}}, m4_incr($1))$0($@)}})}})
@@ -25,18 +26,16 @@ m4_define({{_forloop}}, {{$4{{}}m4_ifelse($1, {{$3}}, {{}}, {{m4_define({{$1}}, 
 m4_define({{REPEAT}},{{forloop(__ignorethis__,1,$1,$2)}})
 
 # Alt + number moves cursor to n-th word
-"\e0": "REPEAT(20,{{\e[1;5D}})"
-"\e1": "REPEAT(20,{{\e[1;5D}})REPEAT(1,{{\e[1;5C}})"
-"\e2": "REPEAT(20,{{\e[1;5D}})REPEAT(2,{{\e[1;5C}})"
-"\e3": "REPEAT(20,{{\e[1;5D}})REPEAT(3,{{\e[1;5C}})"
-"\e4": "REPEAT(20,{{\e[1;5D}})REPEAT(4,{{\e[1;5C}})"
-"\e5": "REPEAT(20,{{\e[1;5D}})REPEAT(5,{{\e[1;5C}})"
-"\e6": "REPEAT(20,{{\e[1;5D}})REPEAT(6,{{\e[1;5C}})"
+"\e0": "REPEAT(20,{{\C-a}})"
+"\e1": "REPEAT(20,{{\C-a}})REPEAT(1,{{\ef}})"
+"\e2": "REPEAT(20,{{\C-a}})REPEAT(2,{{\ef}})"
+"\e3": "REPEAT(20,{{\C-a}})REPEAT(3,{{\ef}})"
+"\e4": "REPEAT(20,{{\C-a}})REPEAT(4,{{\ef}})"
+"\e5": "REPEAT(20,{{\C-a}})REPEAT(5,{{\ef}})"
+"\e6": "REPEAT(20,{{\C-a}})REPEAT(6,{{\ef}})"
 
 "\e[1;5D": backward-word
 "\e[1;5C": forward-word
-
-"\C-d": kill-region
 
 set blink-matching-paren off
 set colored-completion-prefix on
