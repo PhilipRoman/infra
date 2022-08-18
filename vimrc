@@ -114,6 +114,8 @@ let g:slime_bracketed_paste = 1
 
 let g:TerminusCursorShape = 0
 
+let g:netrw_altv=1
+
 set virtualedit+=onemore
 set tabpagemax=50
 
@@ -128,19 +130,12 @@ let mapleader = "\<C-k>"
 
 noremap! <ESC>[1;5D <C-Left>
 noremap! <ESC>[1;5C <C-Right>
-noremap! <ESC>[1;5A <C-Up>
-noremap! <ESC>[1;5B <C-Down>
-nnoremap <ESC>[1;5D <C-Left>
-nnoremap <ESC>[1;5C <C-Right>
-nnoremap <ESC>[1;5A <C-Up>
-nnoremap <ESC>[1;5B <C-Down>
-
-nnoremap <C-Up> {
-nnoremap <C-Down> }
-vnoremap <C-Up> {
-vnoremap <C-Down> }
-inoremap <C-Up> <C-O>{
-inoremap <C-Down> <C-O>}
+inoremap <ESC>[1;5A <C-O>{
+inoremap <ESC>[1;5B <C-O>}
+noremap <ESC>[1;5D b
+noremap <ESC>[1;5C w
+noremap <ESC>[1;5A {
+noremap <ESC>[1;5B }
 
 nnoremap <ESC>[1;3D <c-w>h
 nnoremap <ESC>[1;3C <c-w>l
@@ -162,7 +157,7 @@ nnoremap <leader>m :call SaveAndMake()<cr>
 noremap! <C-S> <ESC>:w<cr>
 noremap! <C-Q> <ESC>
 nnoremap <C-S> :w<cr>
-nnoremap <C-Q> :q<cr>
+nnoremap <C-Q> :bdelete<cr>
 
 nnoremap ; :
 nnoremap , ;
@@ -173,20 +168,23 @@ inoremap <C-E> <C-O>:%!
 
 nnoremap <leader>d daW
 
-nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>l :Buffers<CR>
 nnoremap <leader>w :Windows<CR>
 nnoremap <leader>f :Files<CR>
 nnoremap <leader>c :Commands<CR>
+nnoremap <leader>q :q<CR>
 
-noremap! <leader>b <C-O>:Buffers<CR>
+noremap! <leader>l <C-O>:Buffers<CR>
 noremap! <leader>w <C-O>:Windows<CR>
 noremap! <leader>f <C-O>:Files<CR>
 noremap! <leader>c <C-O>:Commands<CR>
+noremap! <leader>q <C-O>:q<CR>
 
-vnoremap <leader>b <C-O>:Buffers<CR>
+vnoremap <leader>l <C-O>:Buffers<CR>
 vnoremap <leader>w <C-O>:Windows<CR>
 vnoremap <leader>f <C-O>:Files<CR>
 vnoremap <leader>c <C-O>:Commands<CR>
+vnoremap <leader>q <C-O>:q<CR>
 
 nnoremap <leader>s :SlimeSend<CR>
 inoremap <leader>s <C-O>:SlimeSend<CR>
