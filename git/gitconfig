@@ -42,6 +42,7 @@ m4_define({{RED_BG}},{{52}})m4_dnl
 #	max-line-distance = 0.2
 	line-numbers = true
 	navigate = true
+	hunk-header-style = omit
 
 [alias]
 m4_define({{DELTA_OPTIONS}},{{-w $((COLUMNS - 4)) }})m4_dnl
