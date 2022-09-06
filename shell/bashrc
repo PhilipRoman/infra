@@ -13,10 +13,7 @@ fi
 
 m4_include(promptfunc)
 
-stty ixon
-stty ixoff
-stty ek # fix ctrl+backspace
-stty ixany
+stty ixon ixoff ek ixany # 'ek' fixes ctrl+backspace
 
 # Ctrl-Down
 bind -x '"\e[1;5B": "cd ..; $PROMPT_COMMAND"'

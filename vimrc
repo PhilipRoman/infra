@@ -137,15 +137,15 @@ noremap <ESC>[1;5C w
 noremap <ESC>[1;5A {
 noremap <ESC>[1;5B }
 
-nnoremap <ESC>[1;3D <c-w>h
-nnoremap <ESC>[1;3C <c-w>l
-nnoremap <ESC>[1;3A <c-w>k
-nnoremap <ESC>[1;3B <c-w>j
+nnoremap <ESC>[1;3D :bprev<cr>
+nnoremap <ESC>[1;3C :bnext<cr>
+nnoremap <ESC>[1;3A <c-w>W
+nnoremap <ESC>[1;3B <c-w>w
 
-noremap! <ESC>[1;3D <c-o><c-w>h
-noremap! <ESC>[1;3C <c-o><c-w>l
-noremap! <ESC>[1;3A <c-o><c-w>k
-noremap! <ESC>[1;3B <c-o><c-w>j
+noremap! <ESC>[1;3D <c-o>:bprev<cr>
+noremap! <ESC>[1;3C <c-o>:bnext<cr>
+noremap! <ESC>[1;3A <c-o><c-w>W
+noremap! <ESC>[1;3B <c-o><c-w>w
 
 noremap <leader><leader> :
 inoremap <leader><leader> <C-O>:
