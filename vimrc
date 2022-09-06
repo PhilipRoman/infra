@@ -64,6 +64,24 @@ match ExtraWhitespace /[^\t]\zs\t\+/
 
 match
 
+iabbrev heigth height
+
+function! LuaAbbreviations()
+	iabbrev <buffer> fun function()end<Left><Left><Left><Left>
+	iabbrev <buffer> iew io.stderr:write('\n')<Left><Left><Left><Left><Left>
+	iabbrev <buffer> pri print()<Left>
+endfunction
+
+autocmd FileType lua call LuaAbbreviations()
+
+function! CAbbreviations()
+	iabbrev <buffer> #i #include
+	iabbrev <buffer> #I #include
+	iabbrev <buffer> fori for(int i = 0; i < z; i++)<ESC>?z<CR>cl
+endfunction
+
+autocmd FileType c call CAbbreviations()
+
 set laststatus=2
 set fillchars+=vert:\ 
 set list
