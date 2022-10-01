@@ -10,7 +10,7 @@ function! FixColorscheme() "{{{
 	hi! DiffAdd cterm=bold ctermfg=114 ctermbg=29
 	hi! DiffChange ctermfg=none ctermbg=234
 	hi! DiffText ctermfg=219 ctermbg=56
-	hi! CursorLine cterm=none ctermbg=235
+	hi! CursorLine cterm=none ctermbg=none
 	hi! LineNr cterm=bold ctermbg=235 ctermfg=167
 	hi! CursorLineNr cterm=none ctermbg=13 ctermfg=White
 	hi! Comment cterm=italic ctermfg=8
@@ -145,6 +145,8 @@ function! SaveAndMake()
 endfunction
 
 let mapleader = "\<C-k>"
+
+inoremap <C-A> <ESC>l
 
 noremap! <ESC>[1;5D <C-Left>
 noremap! <ESC>[1;5C <C-Right>

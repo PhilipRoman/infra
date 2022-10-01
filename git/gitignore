@@ -7,3 +7,4 @@ codeviz.svg
 *.swp
 vgcore*
 core
+*.o

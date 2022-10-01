@@ -1,4 +1,5 @@
 m4_changequote({{,}})
+m4_changecom({{###}})
 
 m4_define({{DEFAULT}},white)
 m4_define({{PRIMARY}},blue)

@@ -9,8 +9,9 @@ icolor ERROR "^[[:space:]]*((un)?set|include|syntax|i?color).*$"
 
 color bold,lightwhite "^[[:blank:]]*(i?color)[[:blank:]]+[[:upper:]_]+"
 
+m4_define({{COLOR_REGEX}},{{(((light)?(white|black|red|blue|green|yellow|magenta|cyan))|normal|pink|purple|mauve|lagoon|mint|lime|peach|orange|latte|grey|gray|rosy|beet|plum|sea|sky|slate|teal|sage|brown|ocher|sand|tawny|brick|crimson|#[a-fA-F0-9]{3})}})
 # Color names
-color KEYWORD_JUMP "^[[:blank:]]*(i?color|set[[:blank:]]+((error|function|key|number|prompt|scroller|selected|spotlight|status|stripe|title)color))[[:blank:]]+(bold,)?(italic,)?(((light|light)?(white|black|red|blue|green|yellow|magenta|cyan))|normal|pink|purple|mauve|lagoon|mint|lime|peach|orange|latte|grey|gray)?(,(((light)?(white|black|red|blue|green|yellow|magenta|cyan))|normal|pink|purple|mauve|lagoon|mint|lime|peach|orange|latte|grey|gray))?\>"
+color KEYWORD_JUMP "^[[:blank:]]*(i?color|set[[:blank:]]+((error|function|key|number|prompt|scroller|selected|spotlight|status|stripe|title)color))[[:blank:]]+(([[:upper:]_]+)|((bold,)?(italic,)?COLOR_REGEX?(,(COLOR_REGEX))?))\>"
 
 # Keywords
 color KEYWORD "^[[:blank:]]*(set|unset)[[:blank:]]+(afterends|allow_insecure_backup|atblanks|autoindent|backup|boldtext|bookstyle|breaklonglines|casesensitive|constantshow|cutfromcursor|emptyline|historylog|indicator|jumpyscrolling|linenumbers|locking|magic|minibar|mouse|multibuffer|noconvert|nohelp|nonewlines|positionlog|preserve|quickblank|rawsequences|rebinddelete|regexp|saveonexit|showcursor|smarthome|softwrap|stateflags|suspendable|tabstospaces|trimblanks|unix|wordbounds|zap)\>"

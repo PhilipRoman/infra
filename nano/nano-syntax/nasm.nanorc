@@ -1,0 +1,40 @@
+m4_include(colors.m4)
+## Here is an example for assembler.
+##
+syntax "nasm" "\.nasm$"
+
+color red "[][]"
+
+
+color lightgreen "\.(data|subsection|text)"
+color KEYWORD_STORAGE "\.(align|file|globl|global|hidden|section|size|type|weak)"
+icolor DECLARATION "^[[:space:]]*[.0-9A-Z_]*:"
+icolor bold,lightwhite "^[[:space:]]*\.[.0-9A-Z_]*:"
+## Highlight strings (note: VERY resource intensive)
+color STRING "<[^= 	]*>" ""(\\.|[^"])*""
+color STRING start=""(\\.|[^"])*\\[[:space:]]*$" end="^(\\.|[^"])*""
+
+color bold,lightwhite "^%.*"
+
+color bold,lightcyan,#00a "\<([re]?di|dil)\>"
+color bold,mint,#066 "\<([re]?si|sil)\>"
+color bold,lime,#060 "\<([re]?dx|d[hl])\>"
+color bold,lightyellow,#660 "\<([re]?cx|c[hl])\>"
+color bold,lightyellow,#b40 "\<r([89]|1[01])\>"
+color bold,italic,yellow "\<r1[2345]\>"
+color bold,black,#060 "\<([re]?ax|a[hl])\>"
+color bold,italic,cyan "\<([re]?bx|b[hl])\>"
+color bold,italic,cyan "\<([re]?sp|spl)\>"
+color bold,italic,cyan "\<([re]?bp|bpl)\>"
+
+color bold,pink "\<xmm([048]|12)\>"
+color bold,rosy "\<xmm([159]|13)\>"
+color bold,mauve "\<xmm([26]|1[04])\>"
+color bold,plum "\<xmm([37]|1[15])\>"
+
+color bold,red "\<(sys)?call\>"
+color bold,red "\<j(mp|[ab]e?|c(xz)?|rcxz|[eopszab]|[gl]e?|n[abgl]e?|n[ceglopsz]|p[eo])\>"
+
+color COMMENT ";.*"
+
+m4_include(common.m4)

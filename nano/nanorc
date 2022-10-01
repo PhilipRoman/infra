@@ -33,7 +33,8 @@ set keycolor cyan
 set functioncolor lightblack
 set numbercolor bold,lightblack
 set selectedcolor bold,black,lightwhite
-set scrollercolor lightblack
+set scrollercolor magenta
+set stripecolor green,green
 
 bind ^/ comment main
 # ^H = ctrl-backspace
