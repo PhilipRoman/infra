@@ -40,5 +40,9 @@ color bold,red "\<(sys)?call\>"
 color bold,red "\<j(mp|[ab]e?|c(xz)?|rcxz|[eopszab]|[gl]e?|n[abgl]e?|n[ceglopsz]|p[eo])\>"
 
 color COMMENT ";.*"
+color COMMENT "^[[:space:]]*#.*$"
 
 m4_include(common.m4)
+
+## objdump output contains comments with tab characters, don't highlight those as errors
+color bold,gray "^\t+*#.*$"

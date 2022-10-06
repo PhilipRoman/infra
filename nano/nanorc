@@ -1,6 +1,6 @@
 set nohelp
 set backup
-set backupdir "/var/backup"
+set backupdir "~/.nanobackup"
 
 #set multibuffer
 set locking
