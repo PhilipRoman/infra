@@ -7,6 +7,8 @@ comment "/*|*/"
 
 linter gcc -fsyntax-only
 
+formatter astyle --mode=c
+
 ## members
 color FIELD "(\.|->)[[:alnum:]]+"
 

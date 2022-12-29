@@ -16,3 +16,4 @@ color lightblack "@@.*@@"
 color lightblack "^---$"
 color lightblack "^[0-9].*"
 m4_include(common.m4)
+color black "[[:space:]]"

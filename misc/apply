@@ -1,16 +1,23 @@
 #!/bin/sh
 diff=no
 pager=cat
+backup=no
 if command -v less >/dev/null; then
 	pager=less
 fi
 if command -v bat >/dev/null; then
 	pager='bat -ldiff'
 fi
-while getopts 'd' opt; do
+if command -v delta >/dev/null; then
+	pager='delta -'
+fi
+while getopts 'db' opt; do
 	case "$opt" in
 		d)
 			diff=yes
+			;;
+		b)
+			backup=yes
 			;;
 	esac
 done
@@ -22,7 +29,8 @@ if [ $diff == yes ]; then
 		eval "$@ '$filename' | diff -u $filename -"
 	done | $pager
 else
+	date="$(date -I)"
 	while read filename; do
-		< "$filename" $@ | sponge "$filename"
+		cp -v -- "$filename" "$filename.backup-$date" && < "$filename" $@ | sponge "$filename"
 	done
 fi

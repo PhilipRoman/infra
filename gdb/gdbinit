@@ -9,3 +9,4 @@ document xdisassemble
 end
 
 set debuginfod enabled on
+#source /opt/lua-gdb/lua-gdb.py

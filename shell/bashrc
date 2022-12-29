@@ -25,29 +25,11 @@ bind    '"\\": "|"'
 # list files upon completing empty line
 complete -Ef
 
-shopt -s histreedit
-shopt -s histverify
-shopt -s histappend
-shopt -s autocd
-shopt -s dirspell
-shopt -s cdspell
-shopt -s globstar
-# lesson learnt - nullglob is a bad idea because it breaks variable expansion
-shopt -u extdebug
-
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-# set tab size to 4
-tabs 4
-
-#trap 'kill $(jobs -p) 2>/dev/null' EXIT
+shopt -s histreedit histverify histappend autocd dirspell cdspell globstar checkwinsize
+printf 'm4_esyscmd(tabs 4)'
 
 HISTSIZE=2000
 HISTCONTROL=ignoredups:ignorespace:erasedups
-#unset HISTFILE
-# append to the history file, don't overwrite it
-# shopt -s histappend
 
 m4_include(less_termcap)
 
@@ -62,11 +44,4 @@ fi
 
 if [ -f ~/.bashrc_local ]; then
 	. ~/.bashrc_local
-fi
-
-if [ -f /usr/share/bash-complete-alias/complete_alias ]; then
-	source /usr/share/bash-complete-alias/complete_alias
-	for a in $(alias|cut -d= -f1|cut -d' ' -f2); do
-		complete -F _complete_alias "$a"
-	done
 fi

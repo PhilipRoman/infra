@@ -11,17 +11,11 @@ alias bell='tput bel'
 alias cm='chmod'
 alias cp='cp -iv'
 alias dir='dir --color=auto'
-alias egrep='egrep --color=auto'
+alias egrep='grep -E --color=auto'
 alias feedgnuplot='feedgnuplot --terminal "dumb $COLUMNS $LINES"'
-alias fgrep='fgrep --color=auto'
+alias fgrep='grep -F --color=auto'
 alias f='file -L'
-if du -bh /dev/null >/dev/null 2>/dev/null; then
-	alias fs='du -sbhL'
-elif du -h /dev/null >/dev/null 2>/dev/null; then
-	alias fs='du -shL'
-else
-	alias fs='du -sL'
-fi
+alias fs='du -sbhL'
 alias g='git'
 alias gd='git diff --color=auto'
 alias gg='git log --color=always --all --decorate --oneline --graph'

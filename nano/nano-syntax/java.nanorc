@@ -9,6 +9,8 @@ linter javac -Xlint -d /tmp
 
 comment "//"
 
+formatter astyle --mode=java
+
 color CALL "[[:alpha:]]*\("
 
 color LOCAL "\<(int|short|byte|long|float|double|char|boolean)\> *[[:alnum:]_]+"

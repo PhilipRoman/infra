@@ -5,7 +5,7 @@ colorscheme desert
 
 function! FixColorscheme() "{{{
 	hi! Normal ctermbg=none
-	hi! Folded cterm=bold ctermbg=228 ctermfg=167
+	hi! Folded cterm=bold ctermbg=235 ctermfg=167
 	hi! DiffDelete ctermfg=203 ctermbg=13
 	hi! DiffAdd cterm=bold ctermfg=114 ctermbg=29
 	hi! DiffChange ctermfg=none ctermbg=234
@@ -67,20 +67,44 @@ match
 iabbrev heigth height
 
 function! LuaAbbreviations()
-	iabbrev <buffer> fun function()end<Left><Left><Left><Left>
-	iabbrev <buffer> iew io.stderr:write('\n')<Left><Left><Left><Left><Left>
-	iabbrev <buffer> pri print()<Left>
+	iabbrev <buffer> fn] function()end<Left><Left><Left><Left>
+	iabbrev <buffer> ew] io.stderr:write("\n")<Left><Left><Left><Left><Left>
+	iabbrev <buffer> pr] print()<Left>
+	set foldmarker=--[[,]]
 endfunction
 
 autocmd FileType lua call LuaAbbreviations()
 
 function! CAbbreviations()
-	iabbrev <buffer> #i #include
-	iabbrev <buffer> #I #include
-	iabbrev <buffer> fori for(int i = 0; i < z; i++)<ESC>?z<CR>cl
+	iabbrev <buffer> i] #include
+	iabbrev <buffer> I] #include
+	iabbrev <buffer> fi] for(int i = 0; i < z; i++)<ESC>?z<CR>cl
+	iabbrev <buffer> fj] for(int j = 0; j < z; j++)<ESC>?z<CR>cl
+	set foldmarker=/*,*/
 endfunction
 
 autocmd FileType c call CAbbreviations()
+
+function! JavaAbbreviations()
+	iabbrev <buffer> psvm] public static void main(String[] args)
+	iabbrev <buffer> im] import java.
+	iabbrev <buffer> iu] import java.util.*;
+	iabbrev <buffer> ii] import java.io.*;
+	iabbrev <buffer> fi] for(int i = 0; i < z; i++)<ESC>?z<CR>cl
+	iabbrev <buffer> fj] for(int j = 0; j < z; j++)<ESC>?z<CR>cl
+	iabbrev <buffer> pc] public class 
+	iabbrev <buffer> pfc] public final class 
+	iabbrev <buffer> prf] private final 
+	iabbrev <buffer> psfi] public static final int
+	iabbrev <buffer> psfs] public static final String 
+	iabbrev <buffer> psf] public static final 
+	iabbrev <buffer> ov] @Override
+	iabbrev <buffer> eq] @Override<CR>public boolean equals(Object o) {<CR>return (o instanceof
+	iabbrev <buffer> ha] @Override<CR>public int hashCode() {<CR>
+	set foldmarker=/**,*/
+endfunction
+
+autocmd FileType java call JavaAbbreviations()
 
 set laststatus=2
 set fillchars+=vert:\ 
@@ -90,6 +114,7 @@ set tabstop=3
 set noexpandtab
 set autoindent
 set shiftwidth=3
+set scrolloff=15
 
 set foldmethod=marker
 set mouse=a
@@ -118,6 +143,8 @@ command Showcomments hi Comment ctermfg=8
 set whichwrap+=<,>,[,]
 set timeout timeoutlen=1000 ttimeoutlen=100
 
+let g:termdebug_wide=1
+
 let g:undotree_WindowLayout = 3
 let g:undotree_DiffCommand = "diff -u"
 let g:undotree_HighlightSyntaxAdd = "DiffAdd"
@@ -134,6 +161,8 @@ let g:TerminusCursorShape = 0
 
 let g:netrw_altv=1
 
+let g:NERDTreeShowLineNumbers=1
+
 set virtualedit+=onemore
 set tabpagemax=50
 
@@ -146,7 +175,7 @@ endfunction
 
 let mapleader = "\<C-k>"
 
-inoremap <C-A> <ESC>l
+inoremap <C-A> <ESC>o<TAB>
 
 noremap! <ESC>[1;5D <C-Left>
 noremap! <ESC>[1;5C <C-Right>
@@ -175,7 +204,7 @@ inoremap <leader>1 <C-O>:!
 inoremap <leader>m <C-O>:call SaveAndMake()<cr>
 nnoremap <leader>m :call SaveAndMake()<cr>
 noremap! <C-S> <ESC>:w<cr>
-noremap! <C-Q> <ESC>
+noremap! <C-Q> <ESC>l
 nnoremap <C-S> :w<cr>
 nnoremap <C-Q> :bdelete<cr>
 
@@ -224,3 +253,5 @@ if &t_BE == ''
 	let &t_PS = "\e[200~"
 	let &t_PE = "\e[201~"
 endif
+
+packadd termdebug
