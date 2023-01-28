@@ -1,12 +1,10 @@
 #!/bin/bash
-# A script which contains the function definition for prompt function
+# A script which contains the definition for the prompt
 
 promptcolor=${promptcolor:-$((RANDOM % 213 + 17))}
 
-_on_command_start() {
-	printf "\x1b[0m" >/dev/tty
-}
-trap '_on_command_start' DEBUG
+PS0='\[\e[0m\]'
+
 _on_command_error() {
 	exitcode="$?"
 	printf "\x1b[97;41m[= %d]\x1b[0m\n" "$exitcode"
@@ -14,13 +12,9 @@ _on_command_error() {
 }
 trap '_on_command_error' ERR
 
-_promptfunc() {
-	if [ -n "$TMUX" ]; then
-		# dont put directory when in tmux
-		PS1="\[\e[1;38;5;${promptcolor}m\]${SSH_CLIENT/?*/R}${SHLVL/#1}ᛋ \[\e[97;1m\]"
-	else
-		PS1="\[\e[1;38;5;${promptcolor}m\]\u ${SSH_CLIENT/?*/R}${SHLVL/#1}[\[\e[0m\]\w\[\e[1;38;5;${promptcolor}m\]]ᛋ \[\e[97;1m\]"
-	fi
-}
-
-PROMPT_COMMAND=_promptfunc
+if [ -n "$TMUX" ]; then
+	# dont put directory when in tmux
+	PS1='\[\e[1;38;5;${promptcolor}m\]${SSH_CLIENT/?*/R}${SHLVL/#1}ᛋ \[\e[97;1m\]'
+else
+	PS1='\[\e[1;38;5;${promptcolor}m\]\u ${SSH_CLIENT/?*/R}${SHLVL/#1}[\[\e[0m\]\w\[\e[1;38;5;${promptcolor}m\]]ᛋ \[\e[97;1m\]'
+fi

@@ -108,6 +108,7 @@ autocmd FileType java call JavaAbbreviations()
 
 set laststatus=2
 set fillchars+=vert:\ 
+set suffixesadd=.rst,.java
 set list
 set listchars=tab:▸\ 
 set tabstop=3
@@ -139,6 +140,7 @@ autocmd InsertLeave * hi LineNr ctermfg=167 cterm=bold | hi CursorLineNr ctermbg
 
 command Hidecomments hi Comment ctermfg=236
 command Showcomments hi Comment ctermfg=8
+command Mydiff execute 'w !diff -u % - | (command -v delta && delta --paging never || cat)'
 
 set whichwrap+=<,>,[,]
 set timeout timeoutlen=1000 ttimeoutlen=100
@@ -162,6 +164,7 @@ let g:TerminusCursorShape = 0
 let g:netrw_altv=1
 
 let g:NERDTreeShowLineNumbers=1
+let g:NERDTreeWinPos="right"
 
 set virtualedit+=onemore
 set tabpagemax=50
@@ -175,7 +178,13 @@ endfunction
 
 let mapleader = "\<C-k>"
 
+nnoremap <C-@> <Esc>
+inoremap <C-@> <Esc>
+nnoremap <Space> i
+
 inoremap <C-A> <ESC>o<TAB>
+noremap <C-F> <ESC>
+noremap! <C-F> <ESC>
 
 noremap! <ESC>[1;5D <C-Left>
 noremap! <ESC>[1;5C <C-Right>
@@ -200,6 +209,10 @@ noremap <leader><leader> :
 inoremap <leader><leader> <C-O>:
 noremap <leader>1 :!
 inoremap <leader>1 <C-O>:!
+noremap <leader>N :NERDTreeToggle<cr>
+inoremap <leader>N <C-O>:NERDTreeToggle<cr>
+noremap <leader>S :mksession!<cr>
+inoremap <leader>S <C-O>:mksession!<cr>
 
 inoremap <leader>m <C-O>:call SaveAndMake()<cr>
 nnoremap <leader>m :call SaveAndMake()<cr>

@@ -8,7 +8,7 @@ m4_changecom({{###}})
 if [ -z "$TMUX$SSH_CLIENT" ] && command -v tmux > /dev/null &&
 			groups "$USER" | tr ' ' '\n' | grep -q '^tmuxers$' &&
 			[ -z "$(tmux list-clients)" ]; then
-	SHLVL=0 tmux new -A -c ~
+	SHLVL=0 nice -n -20 tmux new -A -c ~
 fi
 
 m4_include(promptfunc)
