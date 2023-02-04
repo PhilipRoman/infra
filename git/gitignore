@@ -8,3 +8,4 @@ codeviz.svg
 vgcore*
 core
 *.o
+Session.vim
