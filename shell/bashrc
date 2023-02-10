@@ -5,10 +5,14 @@ m4_changecom({{###}})
 
 [ -z "$PS1" ] && return
 
-if [ -z "$TMUX$SSH_CLIENT" ] && command -v tmux > /dev/null &&
+if [ -z "$TMUX" ] && command -v tmux > /dev/null &&
 			groups "$USER" | tr ' ' '\n' | grep -q '^tmuxers$' &&
 			[ -z "$(tmux list-clients)" ]; then
-	SHLVL=0 nice -n -20 tmux new -A -c ~
+	if [ "$USER" = root ]; then
+		SHLVL=0 nice -n -40 tmux new -A -c ~
+	else
+		SHLVL=0 tmux new -A -c ~
+	fi
 fi
 
 m4_include(promptfunc)
@@ -18,7 +22,7 @@ stty ixon ixoff ek ixany # 'ek' fixes ctrl+backspace
 # Ctrl-Down
 bind -x '"\e[1;5B": "cd ..; $PROMPT_COMMAND"'
 bind    '"\C-g\C-k": "git commit -m \"\"\e[D"'
-bind    '"\C-f": "!! | grep '\'\''\e[D"'
+bind    '"\C-f": " | grep '\'\''\e[D"'
 bind -x '"\ec": "history -s $READLINE_LINE"'
 bind    '"\\": "|"'
 

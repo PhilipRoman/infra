@@ -96,3 +96,7 @@ chboth() {
 	chown "$@"
 	chgrp "$@"
 }
+
+cont () {
+	kill -s CONT ${1:-%1}
+}
