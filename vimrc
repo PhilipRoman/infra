@@ -185,6 +185,7 @@ nnoremap <Space> i
 inoremap <C-A> <ESC>o<TAB>
 noremap <C-F> <ESC>
 noremap! <C-F> <ESC>
+inoremap <C-F> <ESC>l
 
 noremap! <ESC>[1;5D <C-Left>
 noremap! <ESC>[1;5C <C-Right>

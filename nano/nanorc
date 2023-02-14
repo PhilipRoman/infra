@@ -113,7 +113,10 @@ bind ^C copy main
 bind ^V paste all
 
 # enable advanced syntax highlighting
-m4_esyscmd((ls -1 nano-syntax; echo hexproc.nanorc) | sed -E 's:^(.*)$:include "/etc/nanorc.d/\1":')
-include "/usr/share/nano-syntax-highlighting/python.nanorc"
-include "/usr/share/nano-syntax-highlighting/glsl.nanorc"
-include "/usr/share/nano-syntax-highlighting/yaml.nanorc"
+m4_esyscmd((find nano-syntax -type f -name '*.nanorc'; [ -f /etc/nanord.d/hexproc.nanorc ] && echo hexproc.nanorc) | sed -E 's:^(.*)$:include "/etc/nanorc.d/\1":')
+m4_syscmd([ -f /usr/share/nano-syntax-highlighting/python.nanorc ])
+m4_ifelse(m4_sysval,0,include "/usr/share/nano-syntax-highlighting/python.nanorc")
+m4_syscmd([ -f /usr/share/nano-syntax-highlighting/glsl.nanorc ])
+m4_ifelse(m4_sysval,0,include "/usr/share/nano-syntax-highlighting/glsl.nanorc")
+m4_syscmd([ -f /usr/share/nano-syntax-highlighting/yaml.nanorc ])
+m4_ifelse(m4_sysval,0,include "/usr/share/nano-syntax-highlighting/yaml.nanorc")
