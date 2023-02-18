@@ -1,3 +1,14 @@
+#!/bin/sh
+while read url; do
+	name="$(echo "$url" | sed -E 's/\.git$//; s:/+$::' | grep -Eo '[^/]+$')"
+	printf '%s\n' "$name" >&2
+	mkdir -p ~/.vim/pack/"$name"/start
+	if [ -d ~/.vim/pack/"$name"/start/"$name" ]; then
+		printf 'Already exists: %s\n' "$name" >&2
+	else
+		(cd ~/.vim/pack/"$name"/start && git clone --depth 1 "$url")
+	fi
+done <<EOM
 https://github.com/jlanzarotta/bufexplorer
 https://github.com/vim-scripts/c.vim
 https://github.com/mh21/errormarker.vim
@@ -12,3 +23,5 @@ https://github.com/powerman/vim-plugin-viewdoc.git
 https://github.com/mhinz/vim-signify
 https://github.com/jpalardy/vim-slime
 https://github.com/tpope/vim-surround
+https://github.com/frazrepo/vim-rainbow
+EOM
