@@ -244,6 +244,10 @@ nnoremap <C-E> :%!
 inoremap <C-E> <C-O>:%!
 
 nnoremap <leader>d daW
+nnoremap <leader><C-]> <C-w><C-]><C-w>T
+inoremap <leader><C-]> <C-O><C-w><C-]><C-O><C-w>T
+nnoremap <leader>T :tnext<CR>
+inoremap <leader>T <C-O>:tnext<CR>
 
 nnoremap <leader>l :Buffers<CR>
 nnoremap <leader>w :Windows<CR>
@@ -251,11 +255,11 @@ nnoremap <leader>f :Files<CR>
 nnoremap <leader>c :Commands<CR>
 nnoremap <leader>q :q<CR>
 
-noremap! <leader>l <C-O>:Buffers<CR>
-noremap! <leader>w <C-O>:Windows<CR>
-noremap! <leader>f <C-O>:Files<CR>
-noremap! <leader>c <C-O>:Commands<CR>
-noremap! <leader>q <C-O>:q<CR>
+inoremap <leader>l <C-O>:Buffers<CR>
+inoremap <leader>w <C-O>:Windows<CR>
+inoremap <leader>f <C-O>:Files<CR>
+inoremap <leader>c <C-O>:Commands<CR>
+inoremap <leader>q <C-O>:q<CR>
 
 vnoremap <leader>l <C-O>:Buffers<CR>
 vnoremap <leader>w <C-O>:Windows<CR>

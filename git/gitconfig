@@ -17,7 +17,8 @@ m4_define(NEWGIT,
 [push]
 	m4_ifelse(yes,NEWGIT,default = simple)
 [commit]
-	gpgsign = true
+	m4_syscmd({{gpg --list-public-leys|grep -Fq 'Philip Roman'}})
+	gpgsign = m4_ifelse(m4_sysval,0,true,false)
 
 [stash]
 	showPatch = true

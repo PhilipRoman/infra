@@ -1,6 +1,7 @@
 GTAGS
 GPATH
 GRTAGS
+tags
 HTML/
 codeviz.png
 codeviz.svg
@@ -8,4 +9,9 @@ codeviz.svg
 vgcore*
 core
 *.o
+*.ko
+*.order
+*.symvers
 Session.vim
+.*~
+.viminfo
