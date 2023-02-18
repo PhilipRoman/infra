@@ -3,20 +3,34 @@ syntax on
 
 colorscheme desert
 
+function! ColorsInsertMode()
+	hi! LineNr cterm=bold ctermbg=235 ctermfg=10
+	hi! LineNrAbove cterm=bold ctermbg=235 ctermfg=10
+	hi! LineNrBelow cterm=bold ctermbg=233 ctermfg=10
+	hi! CursorLineNr ctermbg=22 ctermfg=white cterm=none
+endfunction
+function! ColorsOtherModes()
+	hi! LineNr cterm=bold ctermbg=235 ctermfg=167
+	hi! LineNrAbove cterm=bold ctermbg=235 ctermfg=167
+	hi! LineNrBelow cterm=bold ctermbg=233 ctermfg=167
+	hi! CursorLineNr ctermbg=13 ctermfg=white cterm=none
+endfunction
+autocmd InsertEnter * call ColorsInsertMode()
+autocmd InsertLeave * call ColorsOtherModes()
+
 function! FixColorscheme() "{{{
 	hi! Normal ctermbg=none
 	hi! Folded cterm=bold ctermbg=235 ctermfg=167
-	hi! DiffDelete ctermfg=203 ctermbg=13
-	hi! DiffAdd cterm=bold ctermfg=114 ctermbg=29
+	hi! DiffDelete ctermfg=1 ctermbg=1
+	hi! DiffAdd cterm=bold ctermfg=193 ctermbg=23
 	hi! DiffChange ctermfg=none ctermbg=234
-	hi! DiffText ctermfg=219 ctermbg=56
+	hi! DiffText cterm=bold ctermfg=225 ctermbg=236
 	hi! CursorLine cterm=none ctermbg=none
-	hi! LineNr cterm=bold ctermbg=235 ctermfg=167
-	hi! CursorLineNr cterm=none ctermbg=13 ctermfg=White
+	hi! CursorLineNr cterm=none ctermbg=13 ctermfg=white
+	call ColorsOtherModes()
 	hi! Comment cterm=italic ctermfg=8
 	hi! ModeMsg ctermfg=Black ctermbg=Green
 	hi! VertSplit ctermfg=179
-	hi! StatusLineNC ctermfg=179
 	hi! EndOfBuffer ctermbg=235
 	hi! TabLine ctermbg=5 ctermfg=3 cterm=bold
 	hi! TabLineSel ctermbg=3 ctermfg=5 cterm=bold
@@ -25,11 +39,12 @@ function! FixColorscheme() "{{{
 	hi! cFormat ctermfg=36 ctermbg=237
 	hi! SpecialChar ctermfg=142 ctermbg=236
 	hi! PreProc ctermfg=15 cterm=bold
+	hi! cDefine ctermfg=15 cterm=none
 	hi! Type ctermfg=24
 	hi! StorageClass ctermfg=63
 	hi! Operator ctermfg=6
-	hi! Number ctermfg=121
-	hi! Boolean ctermfg=121
+	hi! Number ctermfg=gray
+	hi! Boolean ctermfg=gray
 	hi! Repeat ctermfg=202 cterm=bold
 	hi! Statement ctermfg=202 cterm=bold
 	hi! Conditional ctermfg=202 cterm=bold
@@ -135,11 +150,8 @@ set updatetime=60000
 
 set cul
 
-autocmd InsertEnter * hi LineNr ctermfg=green cterm=bold | hi CursorLineNr ctermbg=22 ctermfg=white cterm=none
-autocmd InsertLeave * hi LineNr ctermfg=167 cterm=bold | hi CursorLineNr ctermbg=magenta ctermfg=white cterm=none
-
-command Hidecomments hi Comment ctermfg=236
-command Showcomments hi Comment ctermfg=8
+command Hidecomments hi! Comment ctermfg=236
+command Showcomments hi! Comment ctermfg=8
 command Mydiff execute 'w !diff -u % - | (command -v delta && delta --paging never || cat)'
 
 set whichwrap+=<,>,[,]

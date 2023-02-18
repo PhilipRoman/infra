@@ -1,7 +1,7 @@
 .POSIX:
 .PHONY: all
 
-all: build/bashrc build/profile build/inputrc build/tmux.conf build/gitconfig build/nanorc $(addprefix build/,$(notdir $(wildcard nano/nano-syntax/*.nanorc)))
+all: build/bashrc build/profile build/inputrc build/tmux.conf build/gitconfig build/nanorc build/vimrc $(addprefix build/,$(notdir $(wildcard nano/nano-syntax/*.nanorc)))
 
 install:
 	exit 1
@@ -32,6 +32,10 @@ build/gitconfig: git/gitconfig
 build/nanorc: nano/nanorc
 	mkdir -p build
 	(cd nano; m4 -P nanorc) > $@
+
+build/vimrc: vim/vimrc vim/cterm2gui.lua
+	mkdir -p build
+	lua vim/cterm2gui.lua <$< >$@
 
 build/%.nanorc: nano/nano-syntax/%.nanorc $(wildcard nano/nano-syntax/*.m4)
 	mkdir -p build
