@@ -1,0 +1,6 @@
+#!/bin/sh
+if [ "$PWD" = "$HOME" ]; then
+	echo 'Refusing to mount home directory as writable, run from a different directory instead. ' >&2
+	exit 1
+fi
+exec bwrap --unshare-all --ro-bind / / --dev-bind /dev/null /dev/null --dev-bind /dev/zero /dev/zero --tmpfs /tmp --tmpfs ~/.cache --bind "$PWD" "$PWD" -- "$@"
