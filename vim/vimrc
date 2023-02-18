@@ -166,6 +166,8 @@ let g:netrw_altv=1
 let g:NERDTreeShowLineNumbers=1
 let g:NERDTreeWinPos="right"
 
+let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'lightred', 'lightmagenta']
+
 set virtualedit+=onemore
 set tabpagemax=50
 
