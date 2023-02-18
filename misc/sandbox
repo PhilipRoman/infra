@@ -1,8 +1,8 @@
 #!/bin/sh
 if [ "$PWD" = "$HOME" ]; then
-	echo 'Refusing to mount home directory as writable, run from a different directory instead. ' >&2
+	echo 'Refusing to mount home directory as writable, run from a different directory instead.' >&2
 	exit 1
 fi
 untrusted_cache="/tmp/UNTRUSTED_CACHE_$(id -u)"
 mkdir -p -m 700 -- "$untrusted_cache"
-exec bwrap --new-session --die-with-parent --unsetenv TMUX --unsetenv TMUX_PANE --ro-bind / / --dev /dev --tmpfs /tmp --bind "$untrusted_cache"  ~/.cache --bind "$PWD" "$PWD" --unshare-all --proc /proc -- "$@"
+exec bwrap --new-session --die-with-parent --unsetenv TMUX --unsetenv TMUX_PANE --ro-bind / / --dev /dev --tmpfs /tmp --bind "$untrusted_cache"  ~/.cache --bind "$PWD" "$PWD" --perms 700 --tmpfs ~/.ssh --perms 700 --tmpfs ~/.gnupg --unshare-all --proc /proc --cap-drop ALL -- "$@"
