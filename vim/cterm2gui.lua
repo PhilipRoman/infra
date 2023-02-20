@@ -319,6 +319,10 @@ for line in io.lines() do
 		if not line:find 'guibg=' and guibg then
 			append = append..' guibg='..guibg
 		end
+		line = line..append
+--		if line:find 'gui=bold' then
+--			line = line..' gui=none'
+--		end
 	end
-	io.write(line,append,'\n')
+	print(line)
 end

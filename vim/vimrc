@@ -1,7 +1,6 @@
 set nocompatible
 set incsearch
 syntax on
-
 colorscheme desert
 
 function! ColorsInsertMode()
@@ -20,7 +19,8 @@ autocmd InsertEnter * call ColorsInsertMode()
 autocmd InsertLeave * call ColorsOtherModes()
 
 function! FixColorscheme() "{{{
-	hi! Normal ctermbg=none
+	hi! Normal ctermbg=none guibg=black
+	hi! Search ctermfg=22 ctermbg=157 gui=reverse
 	hi! Folded cterm=bold ctermbg=235 ctermfg=167
 	hi! DiffDelete ctermfg=1 ctermbg=1
 	hi! DiffAdd cterm=bold ctermfg=193 ctermbg=23
@@ -41,14 +41,14 @@ function! FixColorscheme() "{{{
 	hi! SpecialChar ctermfg=142 ctermbg=236
 	hi! PreProc ctermfg=15 cterm=bold
 	hi! cDefine ctermfg=15 cterm=none
-	hi! Type ctermfg=24
+	hi! Type ctermfg=24 gui=none
 	hi! StorageClass ctermfg=63
 	hi! Operator ctermfg=6
 	hi! Number ctermfg=gray
 	hi! Boolean ctermfg=gray
-	hi! Repeat ctermfg=202 cterm=bold
-	hi! Statement ctermfg=202 cterm=bold
-	hi! Conditional ctermfg=202 cterm=bold
+	hi! Repeat ctermfg=202 cterm=bold gui=none
+	hi! Statement ctermfg=202 cterm=bold gui=none
+	hi! Conditional ctermfg=202 cterm=bold gui=none
 	hi! Constant ctermfg=121
 	hi! javaScopeDecl ctermfg=135
 	hi! StatusLine ctermbg=235 ctermfg=3 cterm=bold
@@ -57,7 +57,7 @@ function! FixColorscheme() "{{{
 	hi! ExtraWhitespace ctermbg=17
 	hi! MatchParen ctermbg=magenta ctermfg=yellow
 	hi! Visual ctermbg=none ctermfg=none cterm=reverse,italic
-	hi! luaFunc ctermbg=none ctermfg=white cterm=bold
+	hi! luaFunc ctermbg=none ctermfg=white cterm=bold gui=none
 	hi! luaFunction ctermbg=none ctermfg=24
 endfunction
 "}}}
@@ -78,7 +78,7 @@ match ExtraWhitespace /\s\+$\| \+\ze\t/
 " Show tabs that are not at the start of a line:
 match ExtraWhitespace /[^\t]\zs\t\+/
 
-match
+au BufRead * call matchadd("EndOfBuffer", "^[[:space:]]*$")
 
 iabbrev heigth height
 
@@ -131,7 +131,13 @@ set tabstop=3
 set noexpandtab
 set autoindent
 set shiftwidth=3
-set scrolloff=15
+set scrolloff=3
+
+set guioptions-=m
+set guioptions-=T
+set guifont=Droid\ Sans\ Mono:h11,Cascadia\ Code:h11,Consolas:h13,Droid\ Sans\ Mono
+set renderoptions=type:directx,level:0.75,gamma:1.25,contrast:0.25,geom:1,renmode:5,taamode:1
+set linespace=-1
 
 set foldmethod=marker
 set mouse=a
@@ -139,8 +145,7 @@ set belloff=all
 set switchbuf=newtab
 
 set background=dark
-" set hlsearch
-set nohlsearch
+set hlsearch
 set ttyfast
 
 set number
