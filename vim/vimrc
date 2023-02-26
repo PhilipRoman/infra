@@ -240,7 +240,7 @@ nnoremap <leader>m :call SaveAndMake()<cr>
 noremap! <C-S> <ESC>:w<cr>
 noremap! <C-Q> <ESC>l
 nnoremap <C-S> :w<cr>
-nnoremap <C-Q> :bdelete<cr>
+nnoremap <C-Q> :q<cr>
 
 nnoremap ; :
 nnoremap , ;
@@ -248,6 +248,10 @@ nnoremap , ;
 vnoremap <C-E> :!
 nnoremap <C-E> :%!
 inoremap <C-E> <C-O>:%!
+
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+nmap s <Plug>(easymotion-overwin-f)
 
 nnoremap <leader>d daW
 nnoremap <leader><C-]> <C-w><C-]><C-w>T
