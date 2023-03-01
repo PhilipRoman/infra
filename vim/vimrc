@@ -202,7 +202,6 @@ nnoremap <C-@> <Esc>
 inoremap <C-@> <Esc>
 nnoremap <Space> i
 
-inoremap <C-A> <ESC>o<TAB>
 noremap <C-F> <ESC>
 noremap! <C-F> <ESC>
 inoremap <C-F> <ESC>l
@@ -226,8 +225,7 @@ noremap! <ESC>[1;3C <c-o>:bnext<cr>
 noremap! <ESC>[1;3A <c-o><c-w>W
 noremap! <ESC>[1;3B <c-o><c-w>w
 
-noremap <leader><leader> :
-inoremap <leader><leader> <C-O>:
+inoremap <leader>; <C-O>:
 noremap <leader>1 :!
 inoremap <leader>1 <C-O>:!
 noremap <leader>N :NERDTreeToggle<cr>
@@ -248,6 +246,8 @@ nnoremap , ;
 vnoremap <C-E> :!
 nnoremap <C-E> :%!
 inoremap <C-E> <C-O>:%!
+
+inoremap <C-A> <C-O>S
 
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)

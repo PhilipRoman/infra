@@ -41,7 +41,7 @@ bind    '"\\": "|"'
 complete -Ef
 
 shopt -s histreedit histverify histappend autocd dirspell cdspell globstar checkwinsize
-printf 'm4_esyscmd(tabs 4)'
+printf 'm4_esyscmd(tabs 4 </dev/ptmx >&0 2>&0)'
 
 HISTSIZE=2000
 HISTCONTROL=ignoredups:ignorespace:erasedups
