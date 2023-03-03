@@ -54,11 +54,15 @@ m4_define({{DELTA_OPTIONS}},{{-w $((COLUMNS - 4)) }})m4_dnl
 	s = status
 	ch = checkout
 	cm = commit
+	rei = rebase -i
 	a = add
 	d = diff
+	d1 = diff @~1
+	d2 = diff @~2
+	d3 = diff @~3
+	dst = diff --staged
 	de = delta
 	des = deltas
-	vd = vimdiff
 	bd = bettervimdiff
 	bv = bettervimdiff
 	bvd = bettervimdiff
@@ -67,7 +71,7 @@ m4_define({{DELTA_OPTIONS}},{{-w $((COLUMNS - 4)) }})m4_dnl
 	b = branch
 	g = log --color=always --all --decorate --oneline --graph --date-order
 	ls = !cd -- "${GIT_PREFIX:-.}" && git ls-files | cut -d/ -f1 | uniq | xargs ls -d --group-directories-first --color
-	nls = !cd -- "${GIT_PREFIX:-.}" && find -mindepth 1 -maxdepth 1 | cut -c3- | sort | comm -23 - <(git ls-files | cut -d/ -f1 | sort | uniq ) | xargs ls -d --group-directories-first --color
+	nls = !cd -- "${GIT_PREFIX:-.}" && find -mindepth 1 -maxdepth 1 | cut -c3- | sort | comm -23 - "$(bash -c 'echo <(git ls-files | cut -d/ -f1 | sort | uniq )')" | xargs ls -d --group-directories-first --color
 # log --date-order --date=iso --graph --full-history --all --pretty=format:'%x08%x09%C(red)%h %C(cyan)%ad%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08 %C(bold blue)%aN%C(reset)%C(bold yellow)%d %C(reset)%s'
 	hist = log --date-order --date=iso --graph --full-history --all --pretty=format:'%x08%x09%C(red)%h %C(cyan)%ad%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08 %C(bold blue)%aN%C(reset)%C(bold yellow)%d %C(reset)%s'
 

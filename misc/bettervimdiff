@@ -8,12 +8,6 @@ fi
 tmpfile="$(mktemp)"
 find "$dirA" "$dirB" -type f -printf '%P\n' |
 	awk '!a[$0] {print $0; a[$0]=1}' |
-#	while read -r name; do
-#		if ! cmp "$dirA/$name" "$dirB/$name" >/dev/null 2>&1; then
-#			printf '%s\n' "$name"
-#		fi
-#	done |
-#	tee /dev/tty|
 	awk -vA="$dirA" -vB="$dirB" '
 	BEGIN {
 		first=1
@@ -48,6 +42,7 @@ find "$dirA" "$dirB" -type f -printf '%P\n' |
 	}
 
 ' >"$tmpfile"
-vim -s "$tmpfile"
+exec 3<"$tmpfile"
+/usr/bin/vim -s '/dev/fd/3'
 #cat "$tmpfile"
 rm "$tmpfile"

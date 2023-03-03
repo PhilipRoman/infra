@@ -31,7 +31,7 @@ if command -v fzf >/dev/null; then
 fi
 
 # Ctrl-Down
-bind -x '"\e[1;5B": "cd ..; $PROMPT_COMMAND"'
+bind -x '"\e[1;5B": "cd .."'
 bind    '"\C-g\C-k": "git commit -m \"\"\e[D"'
 bind    '"\C-f": " | grep '\'\''\e[D"'
 bind -x '"\ec": "history -s $READLINE_LINE"'
