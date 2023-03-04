@@ -1,2 +1,14 @@
 #!/bin/sh
-exec objdump -d -Mintel --no-show-raw-insn --visualize-jumps=extended-color "$@"
+opts=''
+if [ -t 1 ]; then
+	opts="${opts} --visualize-jumps=extended-color --disassembler-color=on"
+else
+	opts="${opts} --visualize-jumps"
+fi
+objdump -d -Mintel --no-show-raw-insn $opts "$@" | (
+	if [ -t 1 ]; then
+		exec ${PAGER:-less}
+	else
+		exec cat
+	fi;
+)

@@ -19,46 +19,54 @@ autocmd InsertEnter * call ColorsInsertMode()
 autocmd InsertLeave * call ColorsOtherModes()
 
 function! FixColorscheme() "{{{
-	hi! Normal ctermbg=none guibg=black
-	hi! Search ctermfg=22 ctermbg=157 gui=reverse
-	hi! Folded cterm=bold ctermbg=235 ctermfg=167
-	hi! DiffDelete ctermfg=1 ctermbg=1
-	hi! DiffAdd cterm=bold ctermfg=193 ctermbg=23
-	hi! DiffChange ctermfg=none ctermbg=234
-	hi! DiffText cterm=bold ctermfg=225 ctermbg=236
-	hi! CursorLine cterm=none ctermbg=none
-	hi! CursorLineNr cterm=none ctermbg=13 ctermfg=white
+	hi Normal ctermbg=none guibg=black
+	hi Search ctermfg=22 ctermbg=157 gui=reverse
+	hi Folded cterm=bold ctermbg=235 ctermfg=167
+	hi DiffDelete ctermfg=52 ctermbg=52
+	hi DiffAdd cterm=bold ctermfg=193 ctermbg=23
+	hi DiffChange ctermfg=none ctermbg=234
+	hi DiffText cterm=bold ctermfg=144 ctermbg=59
+	hi CursorLine cterm=none ctermbg=none
+	hi CursorLineNr cterm=none ctermbg=13 ctermfg=white
 	call ColorsOtherModes()
-	hi! Comment cterm=italic ctermfg=8
-	hi! ModeMsg ctermfg=Black ctermbg=Green
-	hi! VertSplit ctermfg=179
-	hi! EndOfBuffer ctermbg=235
-	hi! TabLine ctermbg=5 ctermfg=3 cterm=bold
-	hi! TabLineSel ctermbg=3 ctermfg=5 cterm=bold
-	hi! TabLineFill ctermbg=none
-	hi! String ctermfg=2 ctermbg=235
-	hi! cFormat ctermfg=36 ctermbg=237
-	hi! SpecialChar ctermfg=142 ctermbg=236
-	hi! PreProc ctermfg=15 cterm=bold
-	hi! cDefine ctermfg=15 cterm=none
-	hi! Type ctermfg=24 gui=none
-	hi! StorageClass ctermfg=63
-	hi! Operator ctermfg=6
-	hi! Number ctermfg=gray
-	hi! Boolean ctermfg=gray
-	hi! Repeat ctermfg=202 cterm=bold gui=none
-	hi! Statement ctermfg=202 cterm=bold gui=none
-	hi! Conditional ctermfg=202 cterm=bold gui=none
-	hi! Constant ctermfg=121
-	hi! javaScopeDecl ctermfg=135
-	hi! StatusLine ctermbg=235 ctermfg=3 cterm=bold
-	hi! StatusLineNC ctermbg=235 ctermfg=166
-	hi! SpecialKey ctermfg=235 cterm=italic
-	hi! ExtraWhitespace ctermbg=17
-	hi! MatchParen ctermbg=magenta ctermfg=yellow
-	hi! Visual ctermbg=none ctermfg=none cterm=reverse,italic
-	hi! luaFunc ctermbg=none ctermfg=white cterm=bold gui=none
-	hi! luaFunction ctermbg=none ctermfg=24
+	hi Comment cterm=italic ctermfg=8
+	hi ModeMsg ctermfg=Black ctermbg=Green
+	hi VertSplit ctermfg=179
+	hi EndOfBuffer ctermbg=235
+	hi TabLine ctermbg=5 ctermfg=3 cterm=bold
+	hi TabLineSel ctermbg=3 ctermfg=5 cterm=bold
+	hi TabLineFill ctermbg=none
+	hi String ctermfg=2 ctermbg=235
+	hi cFormat ctermfg=36 ctermbg=237
+	hi SpecialChar ctermfg=142 ctermbg=236
+	hi PreProc ctermfg=15 cterm=bold
+	hi cDefine ctermfg=15 cterm=none
+	hi Type ctermfg=24 gui=none
+	hi StorageClass ctermfg=63
+	hi Operator ctermfg=6
+	hi Number ctermfg=gray
+	hi Boolean ctermfg=gray
+	hi Repeat ctermfg=202 cterm=bold gui=none
+	" hi Statement ctermfg=202 cterm=bold gui=none
+	hi Conditional ctermfg=202 cterm=bold gui=none
+	hi Constant ctermfg=121
+	hi javaScopeDecl ctermfg=135
+	hi StatusLine ctermbg=235 ctermfg=3 cterm=bold
+	hi StatusLineNC ctermbg=235 ctermfg=166
+	hi SpecialKey ctermfg=235 cterm=italic
+	hi ExtraWhitespace ctermbg=17
+	hi MatchParen ctermbg=magenta ctermfg=yellow
+	hi Visual ctermbg=none ctermfg=none cterm=reverse,italic
+	hi luaFunc ctermbg=none ctermfg=white cterm=bold gui=none
+	hi luaFunction ctermbg=none ctermfg=24
+	hi Identifier ctermfg=white
+	hi Statement ctermfg=white cterm=none
+	syntax match ifdef_begin "\v#(if(n?def)?|macro)>"
+	syntax match ifdef_end "\v#end(if|macro)>"
+	syntax match ifdef_else "\v#el(se|if(def)?)>"
+	hi ifdef_begin ctermfg=white ctermbg=17
+	hi ifdef_end ctermfg=white ctermbg=52
+	hi ifdef_else ctermfg=black ctermbg=darkyellow
 endfunction
 "}}}
 
@@ -82,6 +90,7 @@ au BufRead * call matchadd("EndOfBuffer", "^[[:space:]]*$")
 
 iabbrev heigth height
 
+" {{{
 function! LuaAbbreviations()
 	iabbrev <buffer> fn] function()end<Left><Left><Left><Left>
 	iabbrev <buffer> ew] io.stderr:write("\n")<Left><Left><Left><Left><Left>
@@ -122,6 +131,66 @@ endfunction
 
 autocmd FileType java call JavaAbbreviations()
 
+function NasmAbbreviations()
+	syntax match nasmRegisterDi "\v<([re]?di|dil)>"
+	syntax match nasmRegisterSi "\v<([re]?si|sil)>"
+	syntax match nasmRegisterDx "\v<([re]?dx|d[hl])>"
+	syntax match nasmRegisterCx "\v<([re]?cx|c[hl])>"
+	syntax match nasmRegisterR_8_10 "\v<r(8|10)>"
+	syntax match nasmRegisterR_9_11 "\v<r(9|11)>"
+	syntax match nasmRegisterR_12_14 "\v<r1[24]>"
+	syntax match nasmRegisterR_13_15 "\v<r1[35]>"
+	syntax match nasmRegisterA  "\v<([re]?ax|a[hl])>"
+	syntax match nasmRegisterB  "\v<([re]?bx|b[hl])>"
+	syntax match nasmRegisterSp "\v<([re]?sp|spl)>"
+	syntax match nasmRegisterBp "\v<([re]?bp|bpl)>"
+	syntax match nasmRegisterXmm_0_4_8_12  "\v<[xyz]mm([048]|12)>"
+	syntax match nasmRegisterXmm_1_5_9_13  "\v<[xyz]mm([159]|12)>"
+	syntax match nasmRegisterXmm_2_6_10_14 "\v<[xyz]mm([26]|1[04])>"
+	syntax match nasmRegisterXmm_3_7_11_15 "\v<[xyz]mm([37]|1[15])>"
+	syntax match nasmNonLocalInst "\v(<(sys)?call|j(mp|[ab]e?|c(xz)?|[re]cxz|[eopszab]|[gl]e?|n[abgl]e?|n[neglopsz]|p[eo])>)"
+	" TODO find out why this is necessary
+	call matchadd('nasmNonLocalInst', '\v\C(<(sys)?call|j(mp|[ab]e?|c(xz)?|[re]cxz|[eopszab]|[gl]e?|n[abgl]e?|n[neglopsz]|p[eo])>)')
+	syntax match nasmBinNumber "\v<0b[01_]+>"
+	syntax match nasmBinZero "\v(<0b[01_]*)@<=0" containedin=nasmBinNumber
+	syntax match nasmBinOne "\v(<0b[01_]*)@<=1" containedin=nasmBinNumber
+	syntax match nasmBinUnderscore "\v(<0b[01_]*)@<=_" containedin=nasmBinNumber
+	syntax match nasmMyLabel "\v^[[:space:]]*[[:alnum:]_]+:"
+	syntax match nasmMyLocalLabel "\v^[[:space:]]*\.[[:alnum:]_]+:"
+	syntax match nasmBracket "[][]"
+	syntax match nasmRel "\v(\[)@<=rel>"
+	hi nasmRegisterDi cterm=bold ctermfg=lightcyan ctermbg=17
+	hi nasmRegisterSi cterm=bold ctermfg=121 ctermbg=23
+	hi nasmRegisterDx cterm=bold ctermfg=156 ctermbg=22
+	hi nasmRegisterCx cterm=bold ctermfg=229 ctermbg=100
+	hi nasmRegisterR_8_10  cterm=bold ctermfg=186 ctermbg=166
+	hi nasmRegisterR_9_11  cterm=bold ctermfg=229 ctermbg=172
+	hi nasmRegisterR_12_14 cterm=bold ctermfg=186 ctermbg=236
+	hi nasmRegisterR_13_15 cterm=bold ctermfg=100 ctermbg=235
+	hi nasmRegisterA  cterm=bold ctermfg=black ctermbg=22
+	hi nasmRegisterB  cterm=bold,italic ctermfg=darkcyan ctermbg=233
+	hi nasmRegisterSp cterm=bold,italic ctermfg=darkcyan ctermbg=233
+	hi nasmRegisterBp cterm=bold,italic ctermfg=darkcyan ctermbg=233
+	hi nasmRegisterXmm_0_4_8_12  cterm=bold ctermfg=203
+	hi nasmRegisterXmm_1_5_9_13  cterm=bold ctermfg=211
+	hi nasmRegisterXmm_2_6_10_14 cterm=bold ctermfg=134
+	hi nasmRegisterXmm_3_7_11_15 cterm=bold ctermfg=97
+	hi nasmNonLocalInst cterm=bold ctermfg=darkred
+	hi nasmBinZero cterm=bold ctermbg=234 ctermfg=gray
+	hi nasmBinOne cterm=bold ctermbg=236 ctermfg=72
+	hi nasmBinUnderscore ctermfg=236
+	hi nasmBinNumber cterm=italic ctermfg=8
+	hi nasmMyLabel ctermbg=white ctermfg=black cterm=bold
+	hi nasmMyLocalLabel ctermbg=white ctermfg=black
+	hi nasmBracket ctermfg=darkred 
+	hi nasmRel ctermfg=gray 
+endfunction
+
+autocmd FileType nasm call NasmAbbreviations()
+autocmd BufRead,BufNewFile *.nasm set ft=nasm | call NasmAbbreviations()
+
+" }}}
+
 set laststatus=2
 set fillchars+=vert:\ 
 set suffixesadd=.rst,.java
@@ -161,7 +230,9 @@ command Showcomments hi! Comment ctermfg=8
 command Mydiff execute 'w !diff -u % - | (command -v delta && delta --paging never || cat)'
 
 set whichwrap+=<,>,[,]
-set timeout timeoutlen=1000 ttimeoutlen=100
+set timeout timeoutlen=10000 ttimeoutlen=20
+
+" {{{ plugin options
 
 let g:termdebug_wide=1
 
@@ -186,6 +257,8 @@ let g:NERDTreeWinPos="right"
 
 let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'lightred', 'lightmagenta']
 
+" }}}
+
 set virtualedit+=onemore
 set tabpagemax=50
 
@@ -205,26 +278,22 @@ nnoremap <Space> i
 noremap <C-F> <ESC>
 noremap! <C-F> <ESC>
 inoremap <C-F> <ESC>l
+inoremap <C-L> <ESC>l
 
-noremap! <ESC>[1;5D <C-Left>
-noremap! <ESC>[1;5C <C-Right>
-inoremap <ESC>[1;5A <C-O>{
-inoremap <ESC>[1;5B <C-O>}
-noremap <ESC>[1;5D b
-noremap <ESC>[1;5C w
-noremap <ESC>[1;5A {
-noremap <ESC>[1;5B }
+noremap <S-F1> :1wincmd w<CR>
+noremap <S-F2> :2wincmd w<CR>
+noremap <S-F3> :3wincmd w<CR>
+noremap <S-F4> :4wincmd w<CR>
+noremap <S-F5> :5wincmd w<CR>
+noremap <S-F6> :6wincmd w<CR>
 
-nnoremap <ESC>[1;3D :bprev<cr>
-nnoremap <ESC>[1;3C :bnext<cr>
-nnoremap <ESC>[1;3A <c-w>W
-nnoremap <ESC>[1;3B <c-w>w
-
-noremap! <ESC>[1;3D <c-o>:bprev<cr>
-noremap! <ESC>[1;3C <c-o>:bnext<cr>
-noremap! <ESC>[1;3A <c-o><c-w>W
-noremap! <ESC>[1;3B <c-o><c-w>w
-
+inoremap <S-F1> <C-o>:1wincmd w<CR>
+inoremap <S-F2> <C-o>:2wincmd w<CR>
+inoremap <S-F3> <C-o>:3wincmd w<CR>
+inoremap <S-F4> <C-o>:4wincmd w<CR>
+inoremap <S-F5> <C-o>:5wincmd w<CR>
+inoremap <S-F6> <C-o>:6wincmd w<CR>
+ 
 inoremap <leader>; <C-O>:
 noremap <leader>1 :!
 inoremap <leader>1 <C-O>:!
@@ -264,6 +333,7 @@ nnoremap <leader>w :Windows<CR>
 nnoremap <leader>f :Files<CR>
 nnoremap <leader>c :Commands<CR>
 nnoremap <leader>q :q<CR>
+nnoremap <leader>y "+yaw<CR>
 
 inoremap <leader>l <C-O>:Buffers<CR>
 inoremap <leader>w <C-O>:Windows<CR>
@@ -276,6 +346,7 @@ vnoremap <leader>w <C-O>:Windows<CR>
 vnoremap <leader>f <C-O>:Files<CR>
 vnoremap <leader>c <C-O>:Commands<CR>
 vnoremap <leader>q <C-O>:q<CR>
+vnoremap <leader>y "+y<CR>
 
 nnoremap <leader>s :SlimeSend<CR>
 inoremap <leader>s <C-O>:SlimeSend<CR>
@@ -298,7 +369,7 @@ endif
 
 packadd termdebug
 
-" copied from Arch Linux vim config
+" {{{ copied from Arch Linux vim config
 if exists('$XDG_CACHE_HOME')
   let &g:directory=$XDG_CACHE_HOME
 else
@@ -318,3 +389,4 @@ endif
 if ! isdirectory(expand(&g:undodir))
   silent! call mkdir(expand(&g:undodir), 'p', 0700)
 endif
+" }}}

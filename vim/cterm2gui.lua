@@ -288,6 +288,14 @@ local namesToNumbers = {
 	magenta = '5',
 	cyan = '6',
 	white = '7',
+	darkblack = '0',
+	darkred = '1',
+	darkgreen = '2',
+	darkyellow = '3',
+	darkblue = '4',
+	darkmagenta = '5',
+	darkcyan = '6',
+	darkwhite = '7',
 	lightblack = '8',
 	lightred = '9',
 	lightgreen = '10',
@@ -304,8 +312,8 @@ for line in io.lines() do
 		local cterm = line:match 'cterm=([%w,]+)'
 		local ctermfg = line:match 'ctermfg=(%w+)'
 		local ctermbg = line:match 'ctermbg=(%w+)'
-		ctermfg = namesToNumbers[ctermfg] or ctermfg
-		ctermbg = namesToNumbers[ctermbg] or ctermbg
+		ctermfg = namesToNumbers[string.lower(ctermfg or '')] or ctermfg
+		ctermbg = namesToNumbers[string.lower(ctermfg or '')] or ctermbg
 		local gui = cterm
 		local guifg= colormap[ctermfg]
 		local guibg= colormap[ctermbg]

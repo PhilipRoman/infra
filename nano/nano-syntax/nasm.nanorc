@@ -37,7 +37,7 @@ color bold,mauve "\<xmm([26]|1[04])\>"
 color bold,plum "\<xmm([37]|1[15])\>"
 
 color bold,red "\<(sys)?call\>"
-color bold,red "\<j(mp|[ab]e?|c(xz)?|rcxz|[eopszab]|[gl]e?|n[abgl]e?|n[ceglopsz]|p[eo])\>"
+color bold,red "\<j(mp|[ab]e?|c(xz)?|[re]cxz|[eopszab]|[gl]e?|n[abgl]e?|n[ceglopsz]|p[eo])\>"
 
 color COMMENT ";.*"
 color COMMENT "^[[:space:]]*#.*$"
