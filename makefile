@@ -29,14 +29,10 @@ build/gitconfig: git/gitconfig
 	mkdir -p build
 	m4 -I git -P $< > $@
 
-build/nanorc: nano/nanorc
-	mkdir -p build
-	(cd nano; m4 -P nanorc) > $@
-
 build/vimrc: vim/vimrc vim/cterm2gui.lua
 	mkdir -p build
 	lua vim/cterm2gui.lua <$< >$@
 
-build/%.nanorc: nano/nano-syntax/%.nanorc $(wildcard nano/nano-syntax/*.m4)
+build/nanorc: nano/nanorc $(wildcard nano/nano-syntax/*.nanorc)
 	mkdir -p build
-	m4 -I nano/nano-syntax -P $< > $@
+	(echo $^ | xargs -n1 m4 -P -I nano/nano-syntax ) > $@

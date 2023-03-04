@@ -19,8 +19,8 @@ install -vm 644 build/inputrc $PREFIX/etc/inputrc
 install -vm 644 build/nanorc  $PREFIX/etc/nanorc
 install -vm 644 build/tmux.conf $PREFIX/etc/tmux.conf
 
-mkdir  -pvm 755 $PREFIX/etc/nanorc.d/
-install -vm 644 build/*.nanorc $PREFIX/etc/nanorc.d/
+#mkdir  -pvm 755 $PREFIX/etc/nanorc.d/
+#install -vm 644 build/*.nanorc $PREFIX/etc/nanorc.d/
 install -vm 644 build/gitconfig $PREFIX/etc/gitconfig
 install -vm 644 git/gitignore $PREFIX/etc/gitignore
 
