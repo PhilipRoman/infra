@@ -43,6 +43,6 @@ find "$dirA" "$dirB" -type f -printf '%P\n' |
 
 ' >"$tmpfile"
 exec 3<"$tmpfile"
-/usr/bin/vim -s '/dev/fd/3'
+/usr/bin/vim --noplugins -s '/dev/fd/3'
 #cat "$tmpfile"
 rm "$tmpfile"

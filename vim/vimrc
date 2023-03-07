@@ -20,12 +20,13 @@ autocmd InsertLeave * call ColorsOtherModes()
 
 function! FixColorscheme() "{{{
 	hi Normal ctermbg=none guibg=black
-	hi Search ctermfg=22 ctermbg=157 gui=reverse
+	hi Search ctermfg=229 ctermbg=166
+	hi IncSearch ctermfg=158 ctermbg=22
 	hi Folded cterm=bold ctermbg=235 ctermfg=167
 	hi DiffDelete ctermfg=52 ctermbg=52
 	hi DiffAdd cterm=bold ctermfg=193 ctermbg=23
 	hi DiffChange ctermfg=none ctermbg=234
-	hi DiffText cterm=bold ctermfg=144 ctermbg=59
+	hi DiffText cterm=bold ctermfg=229 ctermbg=101
 	hi CursorLine cterm=none ctermbg=none
 	hi CursorLineNr cterm=none ctermbg=13 ctermfg=white
 	call ColorsOtherModes()

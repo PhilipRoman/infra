@@ -25,4 +25,6 @@ https://github.com/jpalardy/vim-slime
 https://github.com/tpope/vim-surround
 https://github.com/frazrepo/vim-rainbow
 https://github.com/easymotion/vim-easymotion
+https://github.com/tpope/vim-commentary
+https://github.com/azabiong/vim-highlighter
 EOM

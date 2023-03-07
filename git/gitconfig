@@ -45,6 +45,9 @@ m4_define({{RED_BG}},{{52}})m4_dnl
 	navigate = true
 	hunk-header-style = omit
 
+[init]
+	defaultBranch = master
+
 [alias]
 m4_define({{DELTA_OPTIONS}},{{-w $((COLUMNS - 4)) }})m4_dnl
 	delta = -c 'pager.diff=delta DELTA_OPTIONS' diff
@@ -56,10 +59,17 @@ m4_define({{DELTA_OPTIONS}},{{-w $((COLUMNS - 4)) }})m4_dnl
 	cm = commit
 	rei = rebase -i
 	a = add
+	au = add -u
+	ri = rebase -i
+	ri2 = rebase -i @~2
+	rhard = reset --hard
 	d = diff
 	d1 = diff @~1
 	d2 = diff @~2
 	d3 = diff @~3
+	df = diff --name-only
+	df1 = diff --name-only @~1
+	dfs = diff --name-only --staged
 	dst = diff --staged
 	de = delta
 	des = deltas
