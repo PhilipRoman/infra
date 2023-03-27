@@ -96,7 +96,7 @@ m4_ifelse(no,NEWGIT,{{m4_define(italic,)}})
 [color "diff"]
 	old          = red
 	new          = brightgreen
-	context      = brightyellow
+	context      = white
 	whitespace   = green reverse
 	meta         = blue italic
 	frag         = white 18 bold

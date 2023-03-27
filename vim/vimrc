@@ -7,67 +7,70 @@ function! ColorsInsertMode()
 	hi! LineNr cterm=bold ctermbg=235 ctermfg=10
 	hi! LineNrAbove cterm=bold ctermbg=235 ctermfg=10
 	hi! LineNrBelow cterm=bold ctermbg=233 ctermfg=10
-	hi! CursorLineNr ctermbg=22 ctermfg=white cterm=none
+	hi! CursorLineNr ctermbg=green ctermfg=white cterm=none
+	hi! StatusLine ctermbg=darkgreen ctermfg=229 cterm=bold
 endfunction
 function! ColorsOtherModes()
 	hi! LineNr cterm=bold ctermbg=235 ctermfg=167
 	hi! LineNrAbove cterm=bold ctermbg=235 ctermfg=167
 	hi! LineNrBelow cterm=bold ctermbg=233 ctermfg=167
 	hi! CursorLineNr ctermbg=13 ctermfg=white cterm=none
+	hi! StatusLine ctermbg=darkmagenta ctermfg=229 cterm=bold
 endfunction
 autocmd InsertEnter * call ColorsInsertMode()
 autocmd InsertLeave * call ColorsOtherModes()
 
 function! FixColorscheme() "{{{
-	hi Normal ctermbg=none guibg=black
-	hi Search ctermfg=229 ctermbg=166
-	hi IncSearch ctermfg=158 ctermbg=22
-	hi Folded cterm=bold ctermbg=235 ctermfg=167
-	hi DiffDelete ctermfg=52 ctermbg=52
-	hi DiffAdd cterm=bold ctermfg=193 ctermbg=23
-	hi DiffChange ctermfg=none ctermbg=234
-	hi DiffText cterm=bold ctermfg=229 ctermbg=101
-	hi CursorLine cterm=none ctermbg=none
-	hi CursorLineNr cterm=none ctermbg=13 ctermfg=white
-	call ColorsOtherModes()
-	hi Comment cterm=italic ctermfg=8
-	hi ModeMsg ctermfg=Black ctermbg=Green
-	hi VertSplit ctermfg=179
-	hi EndOfBuffer ctermbg=235
-	hi TabLine ctermbg=5 ctermfg=3 cterm=bold
-	hi TabLineSel ctermbg=3 ctermfg=5 cterm=bold
-	hi TabLineFill ctermbg=none
-	hi String ctermfg=2 ctermbg=235
-	hi cFormat ctermfg=36 ctermbg=237
-	hi SpecialChar ctermfg=142 ctermbg=236
-	hi PreProc ctermfg=15 cterm=bold
-	hi cDefine ctermfg=15 cterm=none
-	hi Type ctermfg=24 gui=none
-	hi StorageClass ctermfg=63
-	hi Operator ctermfg=6
-	hi Number ctermfg=gray
-	hi Boolean ctermfg=gray
-	hi Repeat ctermfg=202 cterm=bold gui=none
-	" hi Statement ctermfg=202 cterm=bold gui=none
-	hi Conditional ctermfg=202 cterm=bold gui=none
-	hi Constant ctermfg=121
-	hi javaScopeDecl ctermfg=135
-	hi StatusLine ctermbg=235 ctermfg=3 cterm=bold
-	hi StatusLineNC ctermbg=235 ctermfg=166
-	hi SpecialKey ctermfg=235 cterm=italic
-	hi ExtraWhitespace ctermbg=17
-	hi MatchParen ctermbg=magenta ctermfg=yellow
-	hi Visual ctermbg=none ctermfg=none cterm=reverse,italic
-	hi luaFunc ctermbg=none ctermfg=white cterm=bold gui=none
-	hi luaFunction ctermbg=none ctermfg=24
-	hi Identifier ctermfg=white
-	hi Statement ctermfg=white cterm=none
+	hi! Normal ctermbg=none guibg=black
+	hi! Search ctermfg=229 ctermbg=166
+	hi! IncSearch ctermfg=158 ctermbg=22
+	hi! Folded cterm=bold ctermbg=235 ctermfg=167
+	hi! DiffDelete ctermfg=52 ctermbg=52
+	hi! DiffAdd cterm=bold ctermfg=193 ctermbg=23
+	hi! DiffChange ctermfg=none ctermbg=234
+	hi! DiffText cterm=bold ctermfg=229 ctermbg=101
+	hi! CursorLine cterm=none ctermbg=none
+	hi! CursorLineNr cterm=none ctermbg=13 ctermfg=white
+	hi! Comment cterm=italic ctermfg=8
+	hi! ModeMsg ctermfg=Black ctermbg=Green
+	hi! VertSplit ctermfg=179
+	hi! EndOfBuffer ctermbg=235
+	hi! TabLine ctermbg=235 ctermfg=229 cterm=bold
+	hi! TabLineSel ctermbg=darkmagenta ctermfg=229 cterm=bold
+	hi! TabLineFill ctermbg=none
+	hi! String ctermfg=2 ctermbg=235
+	hi! cFormat ctermfg=36 ctermbg=237
+	hi! SpecialChar ctermfg=142 ctermbg=236
+	hi! PreProc ctermfg=15 cterm=bold
+	hi! cDefine ctermfg=15 cterm=none
+	hi! Type ctermfg=95 cterm=none gui=none
+	hi! StorageClass ctermfg=101
+	hi! Operator ctermfg=yellow
+	hi! Number ctermfg=gray
+	hi! Constant ctermfg=gray
+	hi! Boolean ctermfg=gray
+	hi! Repeat ctermfg=202 cterm=bold gui=none
+	" hi! Statement ctermfg=202 cterm=bold gui=none
+	hi! Conditional ctermfg=202 cterm=bold gui=none
+	hi! javaScopeDecl ctermfg=135
+	hi! StatusLineNC ctermbg=235 ctermfg=229 cterm=bold
+	hi! StatusLineTerm ctermbg=darkmagenta ctermfg=225 cterm=bold
+	hi! StatusLineTermNC ctermbg=235 ctermfg=225 cterm=bold
+	hi! SpecialKey ctermfg=236 cterm=bold,italic
+	hi! ExtraWhitespace ctermbg=17
+	hi! MatchParen ctermbg=magenta ctermfg=yellow
+	hi! Visual ctermbg=none ctermfg=none cterm=reverse,italic
+	hi! luaFunc ctermbg=none ctermfg=white cterm=bold gui=none
+	hi! luaFunction ctermbg=none ctermfg=24
+	hi! Identifier ctermfg=white
+	hi! Statement ctermfg=white cterm=none
 	syntax match ifdef_begin "\v#(if(n?def)?|macro)>"
 	syntax match ifdef_end "\v#end(if|macro)>"
 	syntax match ifdef_else "\v#el(se|if(def)?)>"
-	hi ifdef_begin ctermfg=white ctermbg=17
-	hi ifdef_end ctermfg=white ctermbg=52
-	hi ifdef_else ctermfg=black ctermbg=darkyellow
+	hi! ifdef_begin ctermfg=white ctermbg=17
+	hi! ifdef_end ctermfg=white ctermbg=52
+	hi! ifdef_else ctermfg=black ctermbg=darkyellow
+	call ColorsOtherModes()
 endfunction
 "}}}
 
@@ -196,12 +199,14 @@ set laststatus=2
 set fillchars+=vert:\ 
 set suffixesadd=.rst,.java
 set list
-set listchars=tab:▸\ 
+set listchars=tab:▸\ ,trail:⌀
 set tabstop=3
 set noexpandtab
 set autoindent
 set shiftwidth=3
 set scrolloff=3
+set splitbelow
+set splitright
 
 set guioptions-=m
 set guioptions-=T
@@ -209,7 +214,7 @@ set guifont=Droid\ Sans\ Mono:h11,Cascadia\ Code:h11,Consolas:h13,Droid\ Sans\ M
 set renderoptions=type:directx,level:0.75,gamma:1.25,contrast:0.25,geom:1,renmode:5,taamode:1
 set linespace=-1
 
-set foldmethod=marker
+set foldmethod=manual
 set mouse=a
 set belloff=all
 set switchbuf=newtab
@@ -271,6 +276,15 @@ function! SaveAndMake()
 endfunction
 
 let mapleader = "\<C-k>"
+nnoremap \ <leader>
+vnoremap \ <leader>
+
+vnoremap <leader>I "py:LogiPat !"<C-R>p"<cr>:noh<cr>
+nnoremap <leader>I :LogiPat !"<C-R>p"<cr>:noh<cr>
+vnoremap <leader>Z "pyzf:LogiPat !"<C-R>p"<cr>:noh<cr>
+nnoremap <leader>Z zf:LogiPat !"<C-R>p"<cr>:noh<cr>
+
+nnoremap <leader>F :set fdm=syntax<cr>:set fdm=manual<cr>
 
 nnoremap <C-@> <Esc>
 inoremap <C-@> <Esc>
@@ -312,6 +326,7 @@ nnoremap <C-Q> :q<cr>
 
 nnoremap ; :
 nnoremap , ;
+nnoremap gw <C-W>w
 
 vnoremap <C-E> :!
 nnoremap <C-E> :%!
