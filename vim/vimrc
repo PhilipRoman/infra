@@ -22,11 +22,13 @@ autocmd InsertLeave * call ColorsOtherModes()
 
 function! FixColorscheme() "{{{
 	hi! Normal ctermbg=none guibg=black
-	hi! Search ctermfg=229 ctermbg=166
-	hi! IncSearch ctermfg=158 ctermbg=22
+	hi! Search ctermfg=white ctermbg=24
+	hi! IncSearch ctermfg=white ctermbg=36
 	hi! Folded cterm=bold ctermbg=235 ctermfg=167
 	hi! DiffDelete ctermfg=52 ctermbg=52
+	hi! diffRemoved ctermfg=52 ctermbg=52
 	hi! DiffAdd cterm=bold ctermfg=193 ctermbg=23
+	hi! diffAdded cterm=bold ctermfg=193 ctermbg=23
 	hi! DiffChange ctermfg=none ctermbg=234
 	hi! DiffText cterm=bold ctermfg=229 ctermbg=101
 	hi! CursorLine cterm=none ctermbg=none
@@ -135,7 +137,7 @@ endfunction
 
 autocmd FileType java call JavaAbbreviations()
 
-function NasmAbbreviations()
+function! NasmAbbreviations()
 	syntax match nasmRegisterDi "\v<([re]?di|dil)>"
 	syntax match nasmRegisterSi "\v<([re]?si|sil)>"
 	syntax match nasmRegisterDx "\v<([re]?dx|d[hl])>"
@@ -231,9 +233,10 @@ set updatetime=60000
 
 set cul
 
-command Hidecomments hi! Comment ctermfg=236
-command Showcomments hi! Comment ctermfg=8
-command Mydiff execute 'w !diff -u % - | (command -v delta && delta --paging never || cat)'
+command! Hidecomments hi! Comment ctermfg=236
+command! Showcomments hi! Comment ctermfg=8
+command! Mydiff execute 'w !diff -u % - | (command -v delta && delta --paging never || cat)'
+command! Nw set nowrap
 
 set whichwrap+=<,>,[,]
 set timeout timeoutlen=10000 ttimeoutlen=20
@@ -276,15 +279,18 @@ function! SaveAndMake()
 endfunction
 
 let mapleader = "\<C-k>"
-nnoremap \ <leader>
-vnoremap \ <leader>
+nmap \ <leader>
+vmap \ <leader>
 
-vnoremap <leader>I "py:LogiPat !"<C-R>p"<cr>:noh<cr>
-nnoremap <leader>I :LogiPat !"<C-R>p"<cr>:noh<cr>
-vnoremap <leader>Z "pyzf:LogiPat !"<C-R>p"<cr>:noh<cr>
-nnoremap <leader>Z zf:LogiPat !"<C-R>p"<cr>:noh<cr>
+vnoremap <leader>fn "py:LogiPat !"<C-R>p"<cr>:noh<cr>
+nnoremap <leader>fn :LogiPat !"<C-R>p"<cr>:noh<cr>
+vnoremap <leader>zn "pyzf:LogiPat !"<C-R>p"<cr>:noh<cr>
+nnoremap <leader>zn zf:LogiPat !"<C-R>p"<cr>:noh<cr>
 
-nnoremap <leader>F :set fdm=syntax<cr>:set fdm=manual<cr>
+nnoremap <leader>zs :set fdm=syntax<cr>:set fdm=manual<cr>
+nnoremap <leader>ty "tyiw:call system('tmux loadb -', getreg('@t'))<cr>
+vnoremap <leader>ty y:call system('tmux loadb -', getreg('@t'))<cr>
+nnoremap <leader>tp :call setreg('@t', 'tmux showb')<cr>"tP
 
 nnoremap <C-@> <Esc>
 inoremap <C-@> <Esc>
@@ -308,17 +314,17 @@ inoremap <S-F3> <C-o>:3wincmd w<CR>
 inoremap <S-F4> <C-o>:4wincmd w<CR>
 inoremap <S-F5> <C-o>:5wincmd w<CR>
 inoremap <S-F6> <C-o>:6wincmd w<CR>
- 
+
 inoremap <leader>; <C-O>:
 noremap <leader>1 :!
 inoremap <leader>1 <C-O>:!
-noremap <leader>N :NERDTreeToggle<cr>
-inoremap <leader>N <C-O>:NERDTreeToggle<cr>
-noremap <leader>S :mksession!<cr>
-inoremap <leader>S <C-O>:mksession!<cr>
+noremap <leader>nt :NERDTreeToggle<cr>
+inoremap <leader>nt <C-O>:NERDTreeToggle<cr>
+noremap <leader>se :mksession!<cr>
+inoremap <leader>se <C-O>:mksession!<cr>
 
-inoremap <leader>m <C-O>:call SaveAndMake()<cr>
-nnoremap <leader>m :call SaveAndMake()<cr>
+inoremap <leader>mk <C-O>:call SaveAndMake()<cr>
+nnoremap <leader>mk :call SaveAndMake()<cr>
 noremap! <C-S> <ESC>:w<cr>
 noremap! <C-Q> <ESC>l
 nnoremap <C-S> :w<cr>
@@ -338,29 +344,28 @@ map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 nmap s <Plug>(easymotion-overwin-f)
 
-nnoremap <leader>d daW
-nnoremap <leader><C-]> <C-w><C-]><C-w>T
-inoremap <leader><C-]> <C-O><C-w><C-]><C-O><C-w>T
-nnoremap <leader>T :tnext<CR>
-inoremap <leader>T <C-O>:tnext<CR>
+nnoremap <leader>w viw
+nnoremap <leader>] <C-w><C-]><C-w>T
+inoremap <leader>] <C-O><C-w><C-]><C-O><C-w>T
+nnoremap <leader>tn :tnext<CR>
+inoremap <leader>tn <C-O>:tnext<CR>
 
-nnoremap <leader>l :Buffers<CR>
-nnoremap <leader>w :Windows<CR>
-nnoremap <leader>f :Files<CR>
-nnoremap <leader>c :Commands<CR>
+nnoremap <leader>lb :Buffers<CR>
+nnoremap <leader>lw :Windows<CR>
+nnoremap <leader>lf :Files<CR>
+nnoremap <leader>lc :Commands<CR>
 nnoremap <leader>q :q<CR>
-nnoremap <leader>y "+yaw<CR>
 
-inoremap <leader>l <C-O>:Buffers<CR>
-inoremap <leader>w <C-O>:Windows<CR>
-inoremap <leader>f <C-O>:Files<CR>
-inoremap <leader>c <C-O>:Commands<CR>
+inoremap <leader>lb <C-O>:Buffers<CR>
+inoremap <leader>lw <C-O>:Windows<CR>
+inoremap <leader>lf <C-O>:Files<CR>
+inoremap <leader>lc <C-O>:Commands<CR>
 inoremap <leader>q <C-O>:q<CR>
 
-vnoremap <leader>l <C-O>:Buffers<CR>
-vnoremap <leader>w <C-O>:Windows<CR>
-vnoremap <leader>f <C-O>:Files<CR>
-vnoremap <leader>c <C-O>:Commands<CR>
+vnoremap <leader>lb <C-O>:Buffers<CR>
+vnoremap <leader>lw <C-O>:Windows<CR>
+vnoremap <leader>lf <C-O>:Files<CR>
+vnoremap <leader>lc <C-O>:Commands<CR>
 vnoremap <leader>q <C-O>:q<CR>
 vnoremap <leader>y "+y<CR>
 
