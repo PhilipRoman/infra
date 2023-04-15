@@ -1,5 +1,6 @@
 set nocompatible
 set incsearch
+set nomodeline
 syntax on
 colorscheme desert
 
@@ -25,6 +26,7 @@ function! FixColorscheme() "{{{
 	hi! Search ctermfg=white ctermbg=24
 	hi! IncSearch ctermfg=white ctermbg=36
 	hi! Folded cterm=bold ctermbg=235 ctermfg=167
+	hi! FoldColumn ctermbg=232 ctermfg=240 cterm=bold
 	hi! DiffDelete ctermfg=52 ctermbg=52
 	hi! diffRemoved ctermfg=52 ctermbg=52
 	hi! DiffAdd cterm=bold ctermfg=193 ctermbg=23
@@ -282,10 +284,16 @@ let mapleader = "\<C-k>"
 nmap \ <leader>
 vmap \ <leader>
 
-vnoremap <leader>fn "py:LogiPat !"<C-R>p"<cr>:noh<cr>
-nnoremap <leader>fn :LogiPat !"<C-R>p"<cr>:noh<cr>
-vnoremap <leader>zn "pyzf:LogiPat !"<C-R>p"<cr>:noh<cr>
-nnoremap <leader>zn zf:LogiPat !"<C-R>p"<cr>:noh<cr>
+vnoremap <leader>gn "py:LogiPat !"<C-R>p"<cr>:noh<cr>
+nnoremap <leader>gn :LogiPat !"<C-R>p"<cr>:noh<cr>
+vnoremap <leader>z1n "pyzf:LogiPat !"<C-R>p"<cr>:noh<cr>
+nnoremap <leader>z1n zf:LogiPat !"<C-R>p"<cr>:noh<cr>
+nnoremap <leader>zN :set fdm=expr<cr>:set foldexpr=getline(v:lnum)!~@z<cr>:set fdm=manual<cr>
+nnoremap <leader>zM :set fdm=expr<cr>:set foldexpr=getline(v:lnum)=~@z<cr>:set fdm=manual<cr>
+vmap <leader>zn "zy<C-k>zN
+vmap <leader>zm "zy<C-k>zM
+nmap <leader>zn "zyiw<C-k>zN
+nmap <leader>zm "zyiw<C-k>zM
 
 nnoremap <leader>zs :set fdm=syntax<cr>:set fdm=manual<cr>
 nnoremap <leader>ty "tyiw:call system('tmux loadb -', getreg('@t'))<cr>

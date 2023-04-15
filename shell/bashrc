@@ -5,7 +5,7 @@ m4_changecom({{###}})
 
 [ -z "$PS1" ] && return
 
-if [ -z "$TMUX" ] && command -v tmux > /dev/null &&
+if [ -z "$TMUX$VIM_TERMINAL" ] && command -v tmux > /dev/null &&
 			groups "$USER" | tr ' ' '\n' | grep -q '^tmuxers$' &&
 			[ -z "$(tmux list-clients)" ]; then
 	SHLVL=0 tmux new -A -c ~
@@ -36,7 +36,7 @@ bind    '"\\": "|"'
 # list files upon completing empty line
 complete -Ef
 
-shopt -s histreedit histverify histappend autocd dirspell cdspell globstar checkwinsize
+shopt -s histreedit histverify histappend autocd dirspell cdspell globstar checkwinsize huponexit
 printf 'm4_esyscmd(tabs 4 </dev/ptmx >&0 2>&0)'
 
 HISTSIZE=2000
