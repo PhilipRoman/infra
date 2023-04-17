@@ -134,6 +134,10 @@ function! JavaAbbreviations()
 	iabbrev <buffer> ov] @Override
 	iabbrev <buffer> eq] @Override<CR>public boolean equals(Object o) {<CR>return (o instanceof
 	iabbrev <buffer> ha] @Override<CR>public int hashCode() {<CR>
+	iabbrev <buffer> sout] System.out.println();<ESC>hi
+	iabbrev <buffer> serr] System.err.println();<ESC>hi
+	iabbrev <buffer> ssout] System.out.println("");<ESC>hhi
+	iabbrev <buffer> sserr] System.err.println("");<ESC>hhi
 	set foldmarker=/**,*/
 endfunction
 
@@ -302,7 +306,6 @@ nnoremap <leader>tp :call setreg('@t', 'tmux showb')<cr>"tP
 
 nnoremap <C-@> <Esc>
 inoremap <C-@> <Esc>
-nnoremap <Space> i
 
 noremap <C-F> <ESC>
 noremap! <C-F> <ESC>
@@ -348,13 +351,16 @@ inoremap <C-E> <C-O>:%!
 
 inoremap <C-A> <C-O>S
 
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
+map <Leader><C-k> <Plug>(easymotion-bd-jk)
+map <Leader><C-w> <Plug>(easymotion-overwin-w)
 nmap s <Plug>(easymotion-overwin-f)
+nmap <Space> <Plug>(easymotion-bd-w)
 
 nnoremap <leader>w viw
 nnoremap <leader>] <C-w><C-]><C-w>T
 inoremap <leader>] <C-O><C-w><C-]><C-O><C-w>T
+nnoremap <leader>] <C-w><C-v><C-w><C-]>
+inoremap <leader>] <C-O><C-w><C-v><C-O><C-w><C-]>
 nnoremap <leader>tn :tnext<CR>
 inoremap <leader>tn <C-O>:tnext<CR>
 
@@ -377,9 +383,9 @@ vnoremap <leader>lc <C-O>:Commands<CR>
 vnoremap <leader>q <C-O>:q<CR>
 vnoremap <leader>y "+y<CR>
 
-nnoremap <leader>s :SlimeSend<CR>
-inoremap <leader>s <C-O>:SlimeSend<CR>
-vnoremap <leader>s :SlimeSend<CR>
+nnoremap <leader><Space> :SlimeSend<CR>
+inoremap <leader><Space> <C-O>:SlimeSend<CR>
+vnoremap <leader><Space> :SlimeSend<CR>
 
 au FocusLost * silent! wa
 

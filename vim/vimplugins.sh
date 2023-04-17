@@ -27,4 +27,5 @@ https://github.com/frazrepo/vim-rainbow
 https://github.com/easymotion/vim-easymotion
 https://github.com/tpope/vim-commentary
 https://github.com/azabiong/vim-highlighter
+https://github.com/michaeljsmith/vim-indent-object
 EOM
