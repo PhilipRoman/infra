@@ -298,6 +298,8 @@ vmap <leader>zn "zy<C-k>zN
 vmap <leader>zm "zy<C-k>zM
 nmap <leader>zn "zyiw<C-k>zN
 nmap <leader>zm "zyiw<C-k>zM
+vnoremap az <Esc>:silent! normal! [z<cr>V]z
+omap az Vaz
 
 nnoremap <leader>zs :set fdm=syntax<cr>:set fdm=manual<cr>
 nnoremap <leader>ty "tyiw:call system('tmux loadb -', getreg('@t'))<cr>
