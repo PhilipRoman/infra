@@ -11,7 +11,23 @@ if [ -z "$TMUX$VIM_TERMINAL" ] && command -v tmux > /dev/null &&
 	SHLVL=0 tmux new -A -c ~
 fi
 
-m4_include(promptfunc)
+# prompt
+promptcolor=${promptcolor:-$((RANDOM % 213 + 17))}
+PS0='\[\e[0m\]'
+
+_on_command_error() {
+	exitcode="$?"
+	printf "\x1b[97;41m[= %d]\x1b[0m\n" "$exitcode"
+	stty sane
+}
+trap '_on_command_error' ERR
+
+if [ -n "$TMUX" ]; then
+	# dont put directory when in tmux
+	PS1='\[\e[1;38;5;${promptcolor}m\]${SSH_CLIENT/?*/R}${SHLVL/#1}ᛋ \[\e[97;1m\]'
+else
+	PS1='\[\e[1;38;5;${promptcolor}m\]\u ${SSH_CLIENT/?*/R}${SHLVL/#1}[\[\e[0m\]\w\[\e[1;38;5;${promptcolor}m\]]ᛋ \[\e[97;1m\]'
+fi
 
 stty ixon ixoff ek ixany # 'ek' fixes ctrl+backspace
 

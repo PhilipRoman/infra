@@ -9,7 +9,7 @@ install:
 install-user:
 	exit 1
 
-build/bashrc: shell/bashrc shell/less_termcap shell/portable_aliases shell/promptfunc
+build/bashrc: shell/bashrc shell/less_termcap shell/portable_aliases
 	mkdir -p build
 	(cd shell; m4 -P bashrc) > $@
 
