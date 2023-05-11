@@ -27,8 +27,8 @@ function! FixColorscheme() "{{{
 	hi! IncSearch ctermfg=white ctermbg=36
 	hi! Folded cterm=bold ctermbg=235 ctermfg=167
 	hi! FoldColumn ctermbg=232 ctermfg=240 cterm=bold
-	hi! DiffDelete ctermfg=52 ctermbg=52
-	hi! diffRemoved ctermfg=52 ctermbg=52
+	hi! DiffDelete ctermfg=239 ctermbg=234
+	hi! diffRemoved ctermfg=239 ctermbg=234
 	hi! DiffAdd cterm=bold ctermfg=193 ctermbg=23
 	hi! diffAdded cterm=bold ctermfg=193 ctermbg=23
 	hi! DiffChange ctermfg=none ctermbg=234
@@ -61,7 +61,7 @@ function! FixColorscheme() "{{{
 	hi! StatusLineTerm ctermbg=darkmagenta ctermfg=225 cterm=bold
 	hi! StatusLineTermNC ctermbg=235 ctermfg=225 cterm=bold
 	hi! SpecialKey ctermfg=236 cterm=bold,italic
-	hi! ExtraWhitespace ctermbg=17
+	hi! ExtraWhitespace ctermfg=blue
 	hi! MatchParen ctermbg=magenta ctermfg=yellow
 	hi! Visual ctermbg=none ctermfg=none cterm=reverse,italic
 	hi! luaFunc ctermbg=none ctermfg=white cterm=bold gui=none
