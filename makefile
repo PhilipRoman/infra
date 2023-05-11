@@ -1,7 +1,7 @@
 .POSIX:
 .PHONY: all
 
-all: build/bashrc build/profile build/inputrc build/tmux.conf build/gitconfig build/nanorc build/vimrc $(addprefix build/,$(notdir $(wildcard nano/nano-syntax/*.nanorc)))
+all: build/bashrc build/profile build/inputrc build/tmux.conf build/gitconfig build/nanorc build/vimrc
 
 install:
 	exit 1
