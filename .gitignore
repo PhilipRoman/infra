@@ -1,1 +1,4 @@
 build/
+*.sif
+*.tar
+*.tar.gz

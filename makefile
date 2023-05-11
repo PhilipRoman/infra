@@ -19,19 +19,19 @@ build/profile: shell/profile $(wildcard shell/*colors)
 
 build/inputrc: shell/inputrc
 	mkdir -p build
-	m4 -I shell -P $< > $@
+	m4 -I shell -P shell/inputrc > $@
 
 build/tmux.conf: tmux/tmux.conf
 	mkdir -p build
-	m4 -I tmux -P $< > $@
+	m4 -I tmux -P tmux/tmux.conf > $@
 
 build/gitconfig: git/gitconfig
 	mkdir -p build
-	m4 -I git -P $< > $@
+	m4 -I git -P git/gitconfig > $@
 
 build/vimrc: vim/vimrc vim/cterm2gui.lua
 	mkdir -p build
-	lua vim/cterm2gui.lua <$< >$@
+	"$$( { command -v lua; command -v lua5.4; command -v lua5.3; command -v lua5.2; command -v lua5.1; command -v luajit; } | sed 1q)" vim/cterm2gui.lua <vim/vimrc >$@
 
 build/nanorc: nano/nanorc $(wildcard nano/nano-syntax/*.nanorc)
 	mkdir -p build
