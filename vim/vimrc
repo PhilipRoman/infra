@@ -1,9 +1,115 @@
-set nocompatible
-set incsearch
-set nomodeline
+" Minimal base {{{
+set nocompatible nomodeline
+set incsearch hlsearch
+set number relativenumber
 syntax on
 colorscheme desert
 
+set laststatus=2 cursorline
+set suffixesadd=.rst,.java
+set list listchars=tab:▸\ ,trail:⌀
+set fillchars+=vert:\ 
+set tabstop=3 noexpandtab shiftwidth=3 autoindent
+set splitbelow splitright
+set virtualedit+=onemore,block
+set tabpagemax=50 switchbuf=newtab
+set cursorline
+
+set guioptions-=m
+set guioptions-=T
+set guifont=Droid\ Sans\ Mono:h11,Cascadia\ Code:h11,Consolas:h13,Droid\ Sans\ Mono
+set renderoptions=type:directx,level:0.75,gamma:1.25,contrast:0.25,geom:1,renmode:5,taamode:1
+set linespace=-1
+
+set foldmethod=manual
+
+set belloff=all ttyfast mouse=a background=dark timeout timeoutlen=10000 ttimeoutlen=20
+set whichwrap+=<,>,[,]
+
+set hidden undofile updatetime=60000
+let &errorformat="%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," . &errorformat
+" }}}
+
+" Key mappings {{{
+vnoremap az <Esc>:silent! normal! [z<cr>V]z
+omap az Vaz
+
+nnoremap <C-@> <Esc>
+inoremap <C-@> <Esc>
+
+noremap <C-F> <ESC>
+noremap! <C-F> <ESC>
+inoremap <C-F> <ESC>l
+inoremap <C-L> <ESC>l
+
+noremap <S-F1> :1wincmd w<CR>
+noremap <S-F2> :2wincmd w<CR>
+noremap <S-F3> :3wincmd w<CR>
+noremap <S-F4> :4wincmd w<CR>
+noremap <S-F5> :5wincmd w<CR>
+noremap <S-F6> :6wincmd w<CR>
+
+inoremap <S-F1> <C-o>:1wincmd w<CR>
+inoremap <S-F2> <C-o>:2wincmd w<CR>
+inoremap <S-F3> <C-o>:3wincmd w<CR>
+inoremap <S-F4> <C-o>:4wincmd w<CR>
+inoremap <S-F5> <C-o>:5wincmd w<CR>
+inoremap <S-F6> <C-o>:6wincmd w<CR>
+
+noremap! <C-S> <ESC>:w<cr>
+noremap! <C-Q> <ESC>l
+nnoremap <C-S> :w<cr>
+nnoremap <C-Q> :q<cr>
+
+nnoremap ; :
+nnoremap , ;
+nnoremap gw <C-W>w
+
+vnoremap <C-E> :!
+nnoremap <C-E> :%!
+inoremap <C-E> <C-O>:%!
+
+inoremap <C-A> <C-O>S
+" }}}
+
+" Leader mappings (Vanilla) {{{
+let mapleader = "\<C-k>"
+nmap \ <leader>
+vmap \ <leader>
+
+vnoremap <leader>gn "py:LogiPat !"<C-R>p"<cr>:noh<cr>
+nnoremap <leader>gn :LogiPat !"<C-R>p"<cr>:noh<cr>
+vnoremap <leader>z1n "pyzf:LogiPat !"<C-R>p"<cr>:noh<cr>
+nnoremap <leader>z1n zf:LogiPat !"<C-R>p"<cr>:noh<cr>
+nnoremap <leader>zN :set fdm=expr<cr>:set foldexpr=getline(v:lnum)!~@z<cr>:set fdm=manual<cr>
+nnoremap <leader>zM :set fdm=expr<cr>:set foldexpr=getline(v:lnum)=~@z<cr>:set fdm=manual<cr>
+vmap <leader>zn "zy<C-k>zN
+vmap <leader>zm "zy<C-k>zM
+nmap <leader>zn "zyiw<C-k>zN
+nmap <leader>zm "zyiw<C-k>zM
+
+nnoremap <leader>zs :set fdm=syntax<cr>:set fdm=manual<cr>
+nnoremap <leader>ty "tyiw:call system('tmux loadb -', getreg('@t'))<cr>
+vnoremap <leader>ty y:call system('tmux loadb -', getreg('@t'))<cr>
+nnoremap <leader>tp :call setreg('@t', 'tmux showb')<cr>"tP
+
+
+inoremap <leader>; <C-O>:
+noremap <leader>1 :!
+inoremap <leader>1 <C-O>:!
+
+nnoremap <leader>w viw
+nnoremap <leader>] <C-w><C-]><C-w>T
+inoremap <leader>] <C-O><C-w><C-]><C-O><C-w>T
+nnoremap <leader>] <C-w><C-v><C-w><C-]>
+inoremap <leader>] <C-O><C-w><C-v><C-O><C-w><C-]>
+nnoremap <leader>tn :tnext<CR>
+inoremap <leader>tn <C-O>:tnext<CR>
+" }}}
+
+" Extended base {{{
+
+" Colors {{{
 function! ColorsInsertMode()
 	hi! LineNr cterm=bold ctermbg=235 ctermfg=10
 	hi! LineNrAbove cterm=bold ctermbg=235 ctermfg=10
@@ -21,7 +127,7 @@ endfunction
 autocmd InsertEnter * call ColorsInsertMode()
 autocmd InsertLeave * call ColorsOtherModes()
 
-function! FixColorscheme() "{{{
+function! FixColorscheme()
 	hi! Normal ctermbg=none guibg=black
 	hi! Search ctermfg=white ctermbg=24
 	hi! IncSearch ctermfg=white ctermbg=36
@@ -33,7 +139,7 @@ function! FixColorscheme() "{{{
 	hi! diffAdded cterm=bold ctermfg=193 ctermbg=23
 	hi! DiffChange ctermfg=none ctermbg=234
 	hi! DiffText cterm=bold ctermfg=229 ctermbg=101
-	hi! CursorLine cterm=none ctermbg=none
+	hi! CursorLine cterm=none ctermbg=233
 	hi! CursorLineNr cterm=none ctermbg=13 ctermfg=white
 	hi! Comment cterm=italic ctermfg=8
 	hi! ModeMsg ctermfg=Black ctermbg=Green
@@ -76,7 +182,6 @@ function! FixColorscheme() "{{{
 	hi! ifdef_else ctermfg=black ctermbg=darkyellow
 	call ColorsOtherModes()
 endfunction
-"}}}
 
 augroup MyColors
 	au!
@@ -96,19 +201,21 @@ match ExtraWhitespace /[^\t]\zs\t\+/
 
 au BufRead * call matchadd("EndOfBuffer", "^[[:space:]]*$")
 
+"}}}
+
 iabbrev heigth height
 
-" {{{
-function! LuaAbbreviations()
+" Language-specific abbreviations and other settings {{{
+function! LuaSpecificConfig()
 	iabbrev <buffer> fn] function()end<Left><Left><Left><Left>
 	iabbrev <buffer> ew] io.stderr:write("\n")<Left><Left><Left><Left><Left>
 	iabbrev <buffer> pr] print()<Left>
 	set foldmarker=--[[,]]
 endfunction
 
-autocmd FileType lua call LuaAbbreviations()
+autocmd FileType lua call LuaSpecificConfig()
 
-function! CAbbreviations()
+function! CSpecificConfig()
 	iabbrev <buffer> i] #include
 	iabbrev <buffer> I] #include
 	iabbrev <buffer> fi] for(int i = 0; i < z; i++)<ESC>?z<CR>cl
@@ -116,9 +223,9 @@ function! CAbbreviations()
 	set foldmarker=/*,*/
 endfunction
 
-autocmd FileType c call CAbbreviations()
+autocmd FileType c call CSpecificConfig()
 
-function! JavaAbbreviations()
+function! JavaSpecificConfig()
 	iabbrev <buffer> psvm] public static void main(String[] args)
 	iabbrev <buffer> im] import java.
 	iabbrev <buffer> iu] import java.util.*;
@@ -141,9 +248,9 @@ function! JavaAbbreviations()
 	set foldmarker=/**,*/
 endfunction
 
-autocmd FileType java call JavaAbbreviations()
+autocmd FileType java call JavaSpecificConfig()
 
-function! NasmAbbreviations()
+function! NasmSpecificConfig()
 	syntax match nasmRegisterDi "\v<([re]?di|dil)>"
 	syntax match nasmRegisterSi "\v<([re]?si|sil)>"
 	syntax match nasmRegisterDx "\v<([re]?dx|d[hl])>"
@@ -198,56 +305,62 @@ function! NasmAbbreviations()
 	hi nasmRel ctermfg=gray 
 endfunction
 
-autocmd FileType nasm call NasmAbbreviations()
-autocmd BufRead,BufNewFile *.nasm set ft=nasm | call NasmAbbreviations()
+autocmd FileType nasm call NasmSpecificConfig()
+autocmd BufRead,BufNewFile *.nasm set ft=nasm | call NasmSpecificConfig()
 
 " }}}
-
-set laststatus=2
-set fillchars+=vert:\ 
-set suffixesadd=.rst,.java
-set list
-set listchars=tab:▸\ ,trail:⌀
-set tabstop=3
-set noexpandtab
-set autoindent
-set shiftwidth=3
-set scrolloff=3
-set splitbelow
-set splitright
-
-set guioptions-=m
-set guioptions-=T
-set guifont=Droid\ Sans\ Mono:h11,Cascadia\ Code:h11,Consolas:h13,Droid\ Sans\ Mono
-set renderoptions=type:directx,level:0.75,gamma:1.25,contrast:0.25,geom:1,renmode:5,taamode:1
-set linespace=-1
-
-set foldmethod=manual
-set mouse=a
-set belloff=all
-set switchbuf=newtab
-
-set background=dark
-set hlsearch
-set ttyfast
-
-set number
-set relativenumber
-
-set undofile
-set updatetime=60000
-
-set cul
 
 command! Hidecomments hi! Comment ctermfg=236
 command! Showcomments hi! Comment ctermfg=8
 command! Mydiff execute 'w !diff -u % - | (command -v delta && delta --paging never || cat)'
 command! Nw set nowrap
 
-set whichwrap+=<,>,[,]
-set timeout timeoutlen=10000 ttimeoutlen=20
+function! SaveAndMake()
+	:w
+	:silent make
+endfunction
+" }}}
 
-" {{{ plugin options
+" Plugins {{{
+noremap <leader>nt :NERDTreeToggle<cr>
+inoremap <leader>nt <C-O>:NERDTreeToggle<cr>
+noremap <leader>se :mksession!<cr>
+inoremap <leader>se <C-O>:mksession!<cr>
+
+inoremap <leader>mk <C-O>:call SaveAndMake()<cr>
+nnoremap <leader>mk :call SaveAndMake()<cr>
+
+map <Leader><C-k> <Plug>(easymotion-bd-jk)
+map <Leader><C-w> <Plug>(easymotion-overwin-w)
+nmap s <Plug>(easymotion-overwin-f)
+nmap <Space> <Plug>(easymotion-bd-w)
+
+nnoremap <leader>lb :Buffers<CR>
+nnoremap <leader>lw :Windows<CR>
+nnoremap <leader>lf :Files<CR>
+nnoremap <leader>lc :Commands<CR>
+nnoremap <leader>q :q<CR>
+
+inoremap <leader>lb <C-O>:Buffers<CR>
+inoremap <leader>lw <C-O>:Windows<CR>
+inoremap <leader>lf <C-O>:Files<CR>
+inoremap <leader>lc <C-O>:Commands<CR>
+inoremap <leader>q <C-O>:q<CR>
+
+vnoremap <leader>lb <C-O>:Buffers<CR>
+vnoremap <leader>lw <C-O>:Windows<CR>
+vnoremap <leader>lf <C-O>:Files<CR>
+vnoremap <leader>lc <C-O>:Commands<CR>
+vnoremap <leader>q <C-O>:q<CR>
+vnoremap <leader>y "+y<CR>
+
+nnoremap <leader><Space> :SlimeSend<CR>
+inoremap <leader><Space> <C-O>:SlimeSend<CR>
+vnoremap <leader><Space> :SlimeSend<CR>
+
+packadd termdebug
+
+" {{{ Plugin options
 
 let g:termdebug_wide=1
 
@@ -273,129 +386,9 @@ let g:NERDTreeWinPos="right"
 let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'lightred', 'lightmagenta']
 
 " }}}
+" }}}
 
-set virtualedit+=onemore
-set tabpagemax=50
-
-let &errorformat="%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," . &errorformat
-
-function! SaveAndMake()
-	:w
-	:silent make
-endfunction
-
-let mapleader = "\<C-k>"
-nmap \ <leader>
-vmap \ <leader>
-
-vnoremap <leader>gn "py:LogiPat !"<C-R>p"<cr>:noh<cr>
-nnoremap <leader>gn :LogiPat !"<C-R>p"<cr>:noh<cr>
-vnoremap <leader>z1n "pyzf:LogiPat !"<C-R>p"<cr>:noh<cr>
-nnoremap <leader>z1n zf:LogiPat !"<C-R>p"<cr>:noh<cr>
-nnoremap <leader>zN :set fdm=expr<cr>:set foldexpr=getline(v:lnum)!~@z<cr>:set fdm=manual<cr>
-nnoremap <leader>zM :set fdm=expr<cr>:set foldexpr=getline(v:lnum)=~@z<cr>:set fdm=manual<cr>
-vmap <leader>zn "zy<C-k>zN
-vmap <leader>zm "zy<C-k>zM
-nmap <leader>zn "zyiw<C-k>zN
-nmap <leader>zm "zyiw<C-k>zM
-vnoremap az <Esc>:silent! normal! [z<cr>V]z
-omap az Vaz
-
-nnoremap <leader>zs :set fdm=syntax<cr>:set fdm=manual<cr>
-nnoremap <leader>ty "tyiw:call system('tmux loadb -', getreg('@t'))<cr>
-vnoremap <leader>ty y:call system('tmux loadb -', getreg('@t'))<cr>
-nnoremap <leader>tp :call setreg('@t', 'tmux showb')<cr>"tP
-
-nnoremap <C-@> <Esc>
-inoremap <C-@> <Esc>
-
-noremap <C-F> <ESC>
-noremap! <C-F> <ESC>
-inoremap <C-F> <ESC>l
-inoremap <C-L> <ESC>l
-
-noremap <S-F1> :1wincmd w<CR>
-noremap <S-F2> :2wincmd w<CR>
-noremap <S-F3> :3wincmd w<CR>
-noremap <S-F4> :4wincmd w<CR>
-noremap <S-F5> :5wincmd w<CR>
-noremap <S-F6> :6wincmd w<CR>
-
-inoremap <S-F1> <C-o>:1wincmd w<CR>
-inoremap <S-F2> <C-o>:2wincmd w<CR>
-inoremap <S-F3> <C-o>:3wincmd w<CR>
-inoremap <S-F4> <C-o>:4wincmd w<CR>
-inoremap <S-F5> <C-o>:5wincmd w<CR>
-inoremap <S-F6> <C-o>:6wincmd w<CR>
-
-inoremap <leader>; <C-O>:
-noremap <leader>1 :!
-inoremap <leader>1 <C-O>:!
-noremap <leader>nt :NERDTreeToggle<cr>
-inoremap <leader>nt <C-O>:NERDTreeToggle<cr>
-noremap <leader>se :mksession!<cr>
-inoremap <leader>se <C-O>:mksession!<cr>
-
-inoremap <leader>mk <C-O>:call SaveAndMake()<cr>
-nnoremap <leader>mk :call SaveAndMake()<cr>
-noremap! <C-S> <ESC>:w<cr>
-noremap! <C-Q> <ESC>l
-nnoremap <C-S> :w<cr>
-nnoremap <C-Q> :q<cr>
-
-nnoremap ; :
-nnoremap , ;
-nnoremap gw <C-W>w
-
-vnoremap <C-E> :!
-nnoremap <C-E> :%!
-inoremap <C-E> <C-O>:%!
-
-inoremap <C-A> <C-O>S
-
-map <Leader><C-k> <Plug>(easymotion-bd-jk)
-map <Leader><C-w> <Plug>(easymotion-overwin-w)
-nmap s <Plug>(easymotion-overwin-f)
-nmap <Space> <Plug>(easymotion-bd-w)
-
-nnoremap <leader>w viw
-nnoremap <leader>] <C-w><C-]><C-w>T
-inoremap <leader>] <C-O><C-w><C-]><C-O><C-w>T
-nnoremap <leader>] <C-w><C-v><C-w><C-]>
-inoremap <leader>] <C-O><C-w><C-v><C-O><C-w><C-]>
-nnoremap <leader>tn :tnext<CR>
-inoremap <leader>tn <C-O>:tnext<CR>
-
-nnoremap <leader>lb :Buffers<CR>
-nnoremap <leader>lw :Windows<CR>
-nnoremap <leader>lf :Files<CR>
-nnoremap <leader>lc :Commands<CR>
-nnoremap <leader>q :q<CR>
-
-inoremap <leader>lb <C-O>:Buffers<CR>
-inoremap <leader>lw <C-O>:Windows<CR>
-inoremap <leader>lf <C-O>:Files<CR>
-inoremap <leader>lc <C-O>:Commands<CR>
-inoremap <leader>q <C-O>:q<CR>
-
-vnoremap <leader>lb <C-O>:Buffers<CR>
-vnoremap <leader>lw <C-O>:Windows<CR>
-vnoremap <leader>lf <C-O>:Files<CR>
-vnoremap <leader>lc <C-O>:Commands<CR>
-vnoremap <leader>q <C-O>:q<CR>
-vnoremap <leader>y "+y<CR>
-
-nnoremap <leader><Space> :SlimeSend<CR>
-inoremap <leader><Space> <C-O>:SlimeSend<CR>
-vnoremap <leader><Space> :SlimeSend<CR>
-
-au FocusLost * silent! wa
-
-au FocusLost   * set norelativenumber
-au FocusGained * set relativenumber
-
-set hidden
-
+" System-specific {{{
 " see :help xterm-bracketed-paste
 if &t_BE == ''
 	let &t_BE = "\e[?2004h"
@@ -404,9 +397,6 @@ if &t_BE == ''
 	let &t_PE = "\e[201~"
 endif
 
-packadd termdebug
-
-" {{{ copied from Arch Linux vim config
 if exists('$XDG_CACHE_HOME')
   let &g:directory=$XDG_CACHE_HOME
 else
