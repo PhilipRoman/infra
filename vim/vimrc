@@ -1,7 +1,9 @@
 " Minimal base {{{
 set nocompatible nomodeline
-set incsearch hlsearch
+set incsearch hlsearch nowrapscan
 set number relativenumber
+set showcmd
+
 syntax on
 colorscheme desert
 
@@ -21,13 +23,20 @@ set guifont=Droid\ Sans\ Mono:h11,Cascadia\ Code:h11,Consolas:h13,Droid\ Sans\ M
 set renderoptions=type:directx,level:0.75,gamma:1.25,contrast:0.25,geom:1,renmode:5,taamode:1
 set linespace=-1
 
-set foldmethod=manual
+set foldmethod=manual foldminlines=1
+set foldopen=insert,mark,quickfix,tag,undo
 
-set belloff=all ttyfast mouse=a background=dark timeout timeoutlen=10000 ttimeoutlen=20
+set belloff=all ttyfast mouse=a background=dark timeout timeoutlen=10000 ttimeoutlen=20 ttymouse=sgr
+" ttymouse=sgr fixes issue where mouse position overflows past x=220, alternatively xterm2 can be used
 set whichwrap+=<,>,[,]
 
 set hidden undofile updatetime=60000
 let &errorformat="%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," . &errorformat
+
+set grepprg=ag\ --vimgrep\ $*
+set grepformat=%f:%l:%c:%m
+set tags=tags;\
+
 " }}}
 
 " Key mappings {{{
@@ -70,6 +79,22 @@ nnoremap <C-E> :%!
 inoremap <C-E> <C-O>:%!
 
 inoremap <C-A> <C-O>S
+function! MyCtrlL()
+	let l:topline=winsaveview().topline
+	normal zz
+	redraw!
+	if l:topline == winsaveview().topline
+		call feedkeys(":noh\<cr>")
+	endif
+endfunction
+nnoremap <C-@> <Esc>
+inoremap <C-@> <Esc>
+inoremap <C-l> <Esc>l
+vnoremap <C-l> <Esc>l
+nnoremap <C-l> :call MyCtrlL()<cr>
+
+map <Insert> <C-w>w
+tmap <Insert> <C-w>w
 " }}}
 
 " Leader mappings (Vanilla) {{{
@@ -77,10 +102,10 @@ let mapleader = "\<C-k>"
 nmap \ <leader>
 vmap \ <leader>
 
-vnoremap <leader>gn "py:LogiPat !"<C-R>p"<cr>:noh<cr>
-nnoremap <leader>gn :LogiPat !"<C-R>p"<cr>:noh<cr>
-vnoremap <leader>z1n "pyzf:LogiPat !"<C-R>p"<cr>:noh<cr>
-nnoremap <leader>z1n zf:LogiPat !"<C-R>p"<cr>:noh<cr>
+vnoremap <leader>g! "py:LogiPat !"<C-R>p"<cr>:noh<cr>
+nnoremap <leader>g! :LogiPat !"<C-R>p"<cr>:noh<cr>
+vnoremap <leader>z! "pyzf:LogiPat !"<C-R>p"<cr>:noh<cr>
+nnoremap <leader>z! zf:LogiPat !"<C-R>p"<cr>:noh<cr>
 nnoremap <leader>zN :set fdm=expr<cr>:set foldexpr=getline(v:lnum)!~@z<cr>:set fdm=manual<cr>
 nnoremap <leader>zM :set fdm=expr<cr>:set foldexpr=getline(v:lnum)=~@z<cr>:set fdm=manual<cr>
 vmap <leader>zn "zy<C-k>zN
@@ -89,10 +114,15 @@ nmap <leader>zn "zyiw<C-k>zN
 nmap <leader>zm "zyiw<C-k>zM
 
 nnoremap <leader>zs :set fdm=syntax<cr>:set fdm=manual<cr>
-nnoremap <leader>ty "tyiw:call system('tmux loadb -', getreg('@t'))<cr>
-vnoremap <leader>ty y:call system('tmux loadb -', getreg('@t'))<cr>
-nnoremap <leader>tp :call setreg('@t', 'tmux showb')<cr>"tP
+nnoremap <leader>zm :set foldmethod=manual<cr>
 
+noremap <leader>; :<Up><cr>
+noremap <leader>. :lnext<cr>
+noremap <leader>, :lprev<cr>
+noremap <leader>> :cnext<cr>
+noremap <leader>< :cprev<cr>
+nnoremap <leader>[ <C-W>v<C-]>
+inoremap <leader>[ <C-O><C-W>v<C-O><C-]>
 
 inoremap <leader>; <C-O>:
 noremap <leader>1 :!
@@ -105,6 +135,135 @@ nnoremap <leader>] <C-w><C-v><C-w><C-]>
 inoremap <leader>] <C-O><C-w><C-v><C-O><C-w><C-]>
 nnoremap <leader>tn :tnext<CR>
 inoremap <leader>tn <C-O>:tnext<CR>
+
+noremap <leader>se :mksession!<cr>
+inoremap <leader>se <C-O>:mksession!<cr>
+noremap <leader>Y _"+yt#
+nnoremap <leader>zs :set foldmethod=syntax<cr>:set foldmethod=manual<cr>
+nmap <leader>gr viw<C-k>gr
+vnoremap <leader>gr "gy:let @/=@g<cr>:silent grep -F '<C-R>g'<cr>:redraw!<cr>:botright cw<cr>
+nmap <leader>gl viw<C-k>gl
+vnoremap <leader>gl "gy:let @/=@g<cr>:silent lgrep -F '<C-R>g'<cr>:redraw!<cr>:botright lw<cr>
+noremap <leader>t% :call system('tmux loadb -', @%)<cr>
+noremap <leader>t. :call system('tmux loadb -', line('.'))<cr>
+noremap <leader>t: :call system('tmux loadb -', @%.':'.line('.'))<cr>
+vnoremap <leader>ty "ty:call system('tmux loadb -', getreg("@t"))<cr>
+nnoremap <leader>ty "tyiw:call system('tmux loadb -', getreg("@t"))<cr>
+nnoremap <leader>tp :let @t=system('tmux showb')<cr>"tP
+vnoremap <leader>vy ygv<ESC>
+nnoremap <leader>/ /<C-R>/\\|
+vnoremap <leader>/ "sy:let @/=@/.'\\|<C-R>s'<cr>
+nnoremap <leader><PageDown> <PageDown>n
+nnoremap <leader><PageUp> <PageUp>N
+vnoremap <leader><space> "cy<C-w><C-l><C-w>"c<C-w><C-p>
+nnoremap <leader><space> "cyy<C-w><C-l><C-w>"c<C-w><C-p>
+
+inoremap <leader>m <C-O>:call SaveAndMake()<cr>
+nnoremap <leader>fh [[<left>0f(Be
+nnoremap <leader>fH [[<left>0f(Beviw
+nnoremap <leader>zc :let &foldcolumn = 1+max(map(range(1,line('$')), 'foldlevel(v:val)'))<cr>
+nnoremap <leader>zo zo]zzz
+nnoremap <leader>z/ :set fdm=expr<cr>:set foldminlines=1<cr>:set foldexpr=getline(v:lnum)!~@/<cr>:set fdm=manual<cr>
+nnoremap <leader>zn/ :set fdm=expr<cr>:set foldminlines=1<cr>:set foldexpr=getline(v:lnum)=~@/<cr>:set fdm=manual<cr>
+vnoremap <leader>zz "zy:set fdm=expr<cr>:set foldminlines=1<cr>:set foldexpr=getline(v:lnum)!~@z<cr>:set fdm=manual<cr>
+vnoremap <leader>znz "zy:set fdm=expr<cr>:set foldminlines=1<cr>:set foldexpr=getline(v:lnum)=~@z<cr>:set fdm=manual<cr>
+nnoremap <leader>zZ :set fdm=expr<cr>:set foldminlines=1<cr>:set foldexpr=getline(v:lnum)!~@z<cr>:set fdm=manual<cr>
+nnoremap <leader>znZ :set fdm=expr<cr>:set foldminlines=1<cr>:set foldexpr=getline(v:lnum)=~@z<cr>:set fdm=manual<cr>
+nnoremap <leader>tt :tab sp<cr>
+nnoremap <leader>md :echo system('printf %s "$(md5sum "'.@%.'")"')<cr>
+nnoremap <leader>cp :!cp -- % ~/copy<cr>:redraw!<cr>
+nnoremap <leader>so :w<cr>:so %<cr>
+nnoremap <leader>gc "cyiw:enew<cr>:set ft=diff<cr>:r!git log -p -n 1 <C-r>c<cr>:keepj 1<cr>:set buftype=nofile<cr>
+nnoremap <leader>gC "cyiw:enew<cr>:set ft=diff<cr>:r!git log -p -n 1 <C-r>c<cr>:keepj 1<cr>:set buftype=nofile<cr>
+nnoremap <leader>sH :SignifyHunkDiff<cr>
+nnoremap <leader>sD :SignifyDiff<cr>
+nnoremap <leader>sU :SignifyHunkUndo<cr>
+nnoremap <leader>sF :SignifyFold<cr>
+nnoremap <leader>tH :term<cr>
+nnoremap <leader>tW :vert term<cr>
+nnoremap <leader>tT :tab term<cr>
+nnoremap <leader>tC :term ++curwin<cr>
+nnoremap <leader>tD :let $VIM_TERM_CD=expand('%:p:h')<cr>:vert terminal<cr>cd "$VIM_TERM_CD"<cr>
+vnoremap <leader>ex "ey:@e<cr>
+noremap <leader>rn :set rnu<cr>
+noremap <leader>nrn :set nornu<cr>
+vnoremap <leader>su <esc>`>a)<esc>`<i(<esc>i
+noremap <leader>no :Notes<cr>
+
+inoremap <leader>mk <C-O>:call SaveAndMake()<cr>
+nnoremap <leader>mk :call SaveAndMake()<cr>
+
+function! MyQuickfixDelete()
+	let l:list = getqflist(0)
+	let l:line = line('.')
+	let l:column = col('.')
+	call remove(l:list, line - 1)
+	call setqflist(0, l:list)
+	call cursor(line, column)
+endfunction!
+
+function! MyLocDelete()
+	let l:list = getloclist(0)
+	let l:line = line('.')
+	let l:column = col('.')
+	call remove(l:list, line - 1)
+	call setloclist(0, l:list)
+	call cursor(line, column)
+endfunction!
+
+function! MyEscapeRegex(str)
+	return escape(a:str, '^$.*?/\[]~')
+endfunction
+
+function! MyHighlight(num, pattern)
+	silent! call matchdelete(100 + a:num)
+	call matchadd("Hi".a:num, a:pattern, 20, 100 + a:num)
+endfunction
+
+function! MyStringHighlight(num, string)
+	call MyHighlight(a:num, MyEscapeRegex(a:string))
+endfunction
+
+function! MyWordHighlight(num, string)
+	call MyHighlight(a:num, '\<'.MyEscapeRegex(a:string).'\>')
+endfunction
+
+function! HiSystemd()
+	let @z='\<systemd\[[0-9]*]'
+	call MyHighlight(2, '\<Start\(ed\|ing\)\>')
+	call MyHighlight(4, @z)
+	call MyHighlight(3, '@fromans')
+	call MyHighlight(1, '\<Stopp\(ed\|ing\)\>')
+	normal \zZ
+endfunction
+
+vnoremap <leader>h1 "hy:call MyWordHighlight(1, @h)<cr>
+vnoremap <leader>h2 "hy:call MyWordHighlight(2, @h)<cr>
+vnoremap <leader>h3 "hy:call MyWordHighlight(3, @h)<cr>
+vnoremap <leader>h4 "hy:call MyWordHighlight(4, @h)<cr>
+vnoremap <leader>h5 "hy:call MyWordHighlight(5, @h)<cr>
+vnoremap <leader>h6 "hy:call MyWordHighlight(6, @h)<cr>
+vnoremap <leader>h7 "hy:call MyWordHighlight(7, @h)<cr>
+vnoremap <leader>h8 "hy:call MyWordHighlight(8, @h)<cr>
+vnoremap <leader>h9 "hy:call MyWordHighlight(9, @h)<cr>
+
+vnoremap <leader>hA1 "hy:call MyStringHighlight(1, @h)<cr>
+vnoremap <leader>hA2 "hy:call MyStringHighlight(2, @h)<cr>
+vnoremap <leader>hA3 "hy:call MyStringHighlight(3, @h)<cr>
+vnoremap <leader>hA4 "hy:call MyStringHighlight(4, @h)<cr>
+vnoremap <leader>hA5 "hy:call MyStringHighlight(5, @h)<cr>
+vnoremap <leader>hA6 "hy:call MyStringHighlight(6, @h)<cr>
+vnoremap <leader>hA7 "hy:call MyStringHighlight(7, @h)<cr>
+vnoremap <leader>hA8 "hy:call MyStringHighlight(8, @h)<cr>
+vnoremap <leader>hA9 "hy:call MyStringHighlight(9, @h)<cr>
+
+nnoremap <leader>h<Backspace> :call FixColorscheme()<cr>
+
+nnoremap <leader>q :q<CR>
+inoremap <leader>q <C-O>:q<CR>
+vnoremap <leader>q <C-O>:q<CR>
+vnoremap <leader>y "+y<CR>
+
 " }}}
 
 " Extended base {{{
@@ -114,7 +273,7 @@ function! ColorsInsertMode()
 	hi! LineNr cterm=bold ctermbg=235 ctermfg=10
 	hi! LineNrAbove cterm=bold ctermbg=235 ctermfg=10
 	hi! LineNrBelow cterm=bold ctermbg=233 ctermfg=10
-	hi! CursorLineNr ctermbg=green ctermfg=white cterm=none
+	hi! CursorLineNr ctermbg=22 ctermfg=white cterm=none
 	hi! StatusLine ctermbg=darkgreen ctermfg=229 cterm=bold
 endfunction
 function! ColorsOtherModes()
@@ -128,80 +287,100 @@ autocmd InsertEnter * call ColorsInsertMode()
 autocmd InsertLeave * call ColorsOtherModes()
 
 function! FixColorscheme()
+	call clearmatches()
 	hi! Normal ctermbg=none guibg=black
-	hi! Search ctermfg=white ctermbg=24
-	hi! IncSearch ctermfg=white ctermbg=36
+	hi! Search ctermbg=darkblue ctermfg=white
+	hi! IncSearch ctermbg=darkcyan ctermfg=white
+	hi! FoldColumn ctermbg=236 ctermfg=229
 	hi! Folded cterm=bold ctermbg=235 ctermfg=167
 	hi! FoldColumn ctermbg=232 ctermfg=240 cterm=bold
 	hi! DiffDelete ctermfg=239 ctermbg=234
 	hi! diffRemoved ctermfg=239 ctermbg=234
 	hi! DiffAdd cterm=bold ctermfg=193 ctermbg=23
-	hi! diffAdded cterm=bold ctermfg=193 ctermbg=23
-	hi! DiffChange ctermfg=none ctermbg=234
+	hi! diffAdded cterm=none ctermfg=green
+	hi! DiffChange ctermbg=233
 	hi! DiffText cterm=bold ctermfg=229 ctermbg=101
 	hi! CursorLine cterm=none ctermbg=233
 	hi! CursorLineNr cterm=none ctermbg=13 ctermfg=white
-	hi! Comment cterm=italic ctermfg=8
+	call ColorsOtherModes()
+	hi! Comment cterm=italic ctermfg=242
 	hi! ModeMsg ctermfg=Black ctermbg=Green
 	hi! VertSplit ctermfg=179
-	hi! EndOfBuffer ctermbg=235
-	hi! TabLine ctermbg=235 ctermfg=229 cterm=bold
-	hi! TabLineSel ctermbg=darkmagenta ctermfg=229 cterm=bold
-	hi! TabLineFill ctermbg=none
+	hi! EndOfBuffer ctermbg=235 cterm=bold ctermfg=black
+	hi! TabLine ctermbg=235 ctermfg=3 cterm=bold
+	hi! TabLineSel ctermbg=5 ctermfg=3 cterm=bold
+	hi! TabLineFill ctermfg=235
 	hi! String ctermfg=2 ctermbg=235
 	hi! cFormat ctermfg=36 ctermbg=237
 	hi! SpecialChar ctermfg=142 ctermbg=236
 	hi! PreProc ctermfg=15 cterm=bold
-	hi! cDefine ctermfg=15 cterm=none
-	hi! Type ctermfg=95 cterm=none gui=none
+	hi! cDefine ctermfg=195 cterm=none
+	hi! Type ctermfg=95
 	hi! StorageClass ctermfg=101
-	hi! Operator ctermfg=yellow
+	hi! Operator ctermfg=222
 	hi! Number ctermfg=gray
-	hi! Constant ctermfg=gray
 	hi! Boolean ctermfg=gray
 	hi! Repeat ctermfg=202 cterm=bold gui=none
-	" hi! Statement ctermfg=202 cterm=bold gui=none
+	hi! Statement ctermfg=202 cterm=bold gui=none
 	hi! Conditional ctermfg=202 cterm=bold gui=none
+	hi! Constant ctermfg=gray
+	hi! Identifier ctermfg=225 cterm=none
 	hi! javaScopeDecl ctermfg=135
-	hi! StatusLineNC ctermbg=235 ctermfg=229 cterm=bold
-	hi! StatusLineTerm ctermbg=darkmagenta ctermfg=225 cterm=bold
-	hi! StatusLineTermNC ctermbg=235 ctermfg=225 cterm=bold
-	hi! SpecialKey ctermfg=236 cterm=bold,italic
-	hi! ExtraWhitespace ctermfg=blue
+	hi! StatusLine ctermbg=darkmagenta ctermfg=229 cterm=bold
+	hi! StatusLineNC cterm=none ctermbg=235 ctermfg=229
+	hi! StatusLineTerm ctermbg=24 ctermfg=121 cterm=bold
+	hi! StatusLineTermNC cterm=none ctermbg=235 ctermfg=121
+	hi! SpecialKey ctermfg=238 cterm=none
+	syn match Whitespace /\s/
+	" Show trailing whitespace:
+	syn match ExtraWhitespace /\s\+$/
+	" Show tabs that are not at the start of a line:
+	syn match ExtraWhitespace /[^\t]\zs\t\+/
+	hi! Whitespace cterm=none ctermfg=238
+	hi! ExtraWhitespace cterm=none ctermfg=magenta ctermbg=236
 	hi! MatchParen ctermbg=magenta ctermfg=yellow
 	hi! Visual ctermbg=none ctermfg=none cterm=reverse,italic
 	hi! luaFunc ctermbg=none ctermfg=white cterm=bold gui=none
 	hi! luaFunction ctermbg=none ctermfg=24
-	hi! Identifier ctermfg=white
-	hi! Statement ctermfg=white cterm=none
-	syntax match ifdef_begin "\v#(if(n?def)?|macro)>"
-	syntax match ifdef_end "\v#end(if|macro)>"
-	syntax match ifdef_else "\v#el(se|if(def)?)>"
-	hi! ifdef_begin ctermfg=white ctermbg=17
-	hi! ifdef_end ctermfg=white ctermbg=52
-	hi! ifdef_else ctermfg=black ctermbg=darkyellow
-	call ColorsOtherModes()
+	hi! Directory ctermbg=237 ctermfg=white
+	hi! straceSysCall ctermfg=229
+	hi! straceParenthesis ctermfg=blue ctermbg=235
+	hi! straceNumberRHS ctermfg=214 ctermbg=52
+	hi! Hi1 ctermbg=208 ctermfg=black
+	hi! Hi2 ctermbg=155 ctermfg=black
+	hi! Hi3 ctermbg=105 ctermfg=black
+	hi! Hi4 ctermbg=222 ctermfg=black
+	hi! Hi5 ctermbg=45 ctermfg=black
+	hi! Hi6 ctermbg=183 ctermfg=black
+	hi! Hi7 ctermbg=224 ctermfg=black
+	hi! Hi8 ctermbg=123 ctermfg=black
+	hi! Hi9 ctermbg=115 ctermfg=black
+	hi! MarkA ctermbg=52 ctermfg=white
+	hi! MarkB ctermbg=19 ctermfg=white
+	hi! MarkM ctermbg=22 ctermfg=white
+	hi! MarkQuote ctermbg=238 ctermfg=white
+	call matchadd('MarkA', "\\%'a", 20)
+	call matchadd('MarkB', "\\%'b", 20)
+	call matchadd('MarkM', "\\%'m", 20)
+	call matchadd('MarkA', "\\%'A", 20)
+	call matchadd('MarkB', "\\%'B", 20)
+	call matchadd('MarkM', "\\%'M", 20)
+	call matchadd('MarkQuote', "\\%''", 20)
+	call matchadd("EndOfBuffer", "^[[:space:]]*$", 0)
+	hi! NERDTreeCWD ctermfg=179 cterm=bold
+	hi! NERDTreeBookmark ctermfg=245 cterm=italic
+	hi! NERDTreeBookmarkName ctermfg=green
+	hi! NERDTreeBookmarksHeader ctermfg=none
 endfunction
 
 augroup MyColors
 	au!
 	au ColorScheme * call FixColorscheme()
+	au BufWinEnter * call FixColorscheme()
 augroup END
 
 call FixColorscheme()
-
-" Show trailing whitespace:
-match ExtraWhitespace /\s\+$/
-
-" Show trailing whitespace and spaces before a tab:
-match ExtraWhitespace /\s\+$\| \+\ze\t/
-
-" Show tabs that are not at the start of a line:
-match ExtraWhitespace /[^\t]\zs\t\+/
-
-au BufRead * call matchadd("EndOfBuffer", "^[[:space:]]*$")
-
-"}}}
+" }}}
 
 iabbrev heigth height
 
@@ -220,7 +399,17 @@ function! CSpecificConfig()
 	iabbrev <buffer> I] #include
 	iabbrev <buffer> fi] for(int i = 0; i < z; i++)<ESC>?z<CR>cl
 	iabbrev <buffer> fj] for(int j = 0; j < z; j++)<ESC>?z<CR>cl
+	iabbrev <buffer> p] printf();<ESC>hi
+	iabbrev <buffer> fp] fprintf(stderr, );<ESC>hi
 	set foldmarker=/*,*/
+	syn match cOperator1 "[&.;]"
+	syn match cOperator2 "\([-+*/&|%!=<>]=\|[-+><?:!%^~|]\|[&] \|&&\)"
+	syn match cOperator3 "[()]"
+	syn match cOperatorBracket "[{}]"
+	hi! cOperator1 ctermfg=magenta
+	hi! cOperator2 ctermfg=219
+	hi! cOperator3 ctermfg=214
+	hi! cOperatorBracket ctermfg=white cterm=bold
 endfunction
 
 autocmd FileType c call CSpecificConfig()
@@ -308,27 +497,117 @@ endfunction
 autocmd FileType nasm call NasmSpecificConfig()
 autocmd BufRead,BufNewFile *.nasm set ft=nasm | call NasmSpecificConfig()
 
+function! ShellSpecificConfig()
+	iabbrev if] if [  ]; then<ESC>7hi
+	iabbrev ifv] if [ "$" ]; then<ESC>8hi
+	hi! Identifier ctermfg=225 cterm=none
+	nnoremap <buffer> <leader>shd <C-w>v"gyiw:silent lgrep '<C-r>g='<cr>:redraw!<cr>:lwindow<cr>
+endfunction
+
+autocmd FileType sh call ShellSpecificConfig()
+
+function! QuickfixSpecificConfig()
+	setlocal nornu
+	nnoremap <buffer> <leader>dl :call MyLocDelete()<cr>
+	nnoremap <buffer> <leader>dq :call MyQuickfixDelete()<cr>
+endfunction
+
+autocmd FileType qf call QuickfixSpecificConfig()
 " }}}
 
+" Commands {{{
 command! Hidecomments hi! Comment ctermfg=236
 command! Showcomments hi! Comment ctermfg=8
-command! Mydiff execute 'w !diff -u % - | (command -v delta && delta --paging never || cat)'
+command! Mydiff execute 'w !diff -u --color % -'
+command! Edir e %:p:h
+command! Tedir tabedit %:p:h
+command! Fi tabnew | execute('r!ag -l') | set buftype=nofile
+command! -nargs=* Fig enew | execute('r!ag -lG <f-args>') | set buftype=nofile
 command! Nw set nowrap
-
-function! SaveAndMake()
-	:w
-	:silent make
+command! Re execute('resize ' . line('$'))
+command! -nargs=+ Ag :tabnew | execute('r!ag <f-args>')|set buftype=nofile
+command! -nargs=* Gd :tabnew | set ft=diff |  execute('r!git diff <f-args>') | set buftype=nofile
+command! -nargs=* Gb :let MyBlameFile=@% | let MyBlameLine=line('.')+1 | tabnew | execute('r!git atfile '.MyBlameFile.' blame '.MyBlameFile) | execute(':'.MyBlameLine)|set buftype=nofile|normal zz
+command! -nargs=+ Lg :silent! lgrep <f-args> | redraw! | lw
+command! -nargs=+ Gr :silent! grep <f-args>  | redraw! | botright cw
+command! Gadd !git -C %:p:h add %
+function! MyTemporaryGitLogBuffer()
+	set ft=diff
+	set buftype=nofile
+	let @z='\v^    ($|[^ ])'
+	normal \znZ
+	keepj normal gg
+	call MyHighlight(1, '^commit ')
 endfunction
+command! -nargs=* Glogf let MyGitLogFile=@% | tabnew |  execute('r!git atfile '.MyGitLogFile.' log -p --follow '.MyGitLogFile) | call MyTemporaryGitLogBuffer()
+command! -nargs=* -range Glogr let MyGitLogFile=@% | tabnew | execute('r!git atfile '.MyGitLogFile.' log -L '.<line1>.','.<line2>.':'.MyGitLogFile) | call MyTemporaryGitLogBuffer()
+command! Gplaces enew | execute('r!git recursive diffplaces') | set ft=diff | set buftype=nofile
+command! -nargs=* Cmd vert sp | enew | set buftype=nofile | execute('r!<args>')
+command! HiSystemd call HiSystemd()
+command! Sp2 set tabstop=2 expandtab shiftwidth=2
+command! Sp4 set tabstop=4 expandtab shiftwidth=4
+command! Tb set tabstop=4 noexpandtab shiftwidth=4
+function! Notes()
+	let l:notefile = findfile('.notes', '.;')
+	if len(l:notefile) > 0
+		execute('view '.l:notefile)
+	endif
+endfunction
+command! Notes call Notes()
+"command! -nargs=1 Tg enew|set ft=help|pu=map(taglist('<args>'), {pos,val -> printf('\|%s\| %s', val['name'], substitute(val['filename'], '.*/wave-next/', '', ''))})
 " }}}
 
-" Plugins {{{
+" }}}
+
+" {{{ Plugin options
+
+let g:termdebug_wide=1
+
+let g:undotree_WindowLayout = 3
+let g:undotree_DiffCommand = "diff -u"
+let g:undotree_HighlightSyntaxAdd = "DiffAdd"
+let g:undotree_HighlightSyntaxChange = "DiffChange"
+let g:undotree_HighlightSyntaxDel = "DiffDelete"
+
+let g:syntastic_mode_map = {'mode': 'passive'}
+
+let g:slime_target = "tmux"
+let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
+let g:slime_bracketed_paste = 1
+
+let g:TerminusCursorShape = 0
+
+let g:netrw_altv=1
+let g:netrw_bufsettings='number relativenumber'
+let g:netrw_silent=1
+
+let g:NERDTreeShowLineNumbers=1
+let g:NERDTreeWinPos="left"
+let g:NERDTreeWinSize=40
+let g:NERDTreeShowBookmarks=1
+au VimEnter * call NERDTreeAddKeyMap({
+\ 'key': 'yy',
+\ 'callback':  'MyNERDTreeCopyCurrentNode',
+\ 'quickhelpText': '(custom) put full path of file in tmux clipboard and the "0" register'})
+
+function! MyNERDTreeCopyCurrentNode()
+	let n = g:NERDTreeFileNode.GetSelected()
+	if n != {}
+		call setreg('0', n.path.str())
+		call setreg('"', n.path.str())
+		call system('tmux loadb -', n.path.str())
+	endif
+endfunction
+
+let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'lightred', 'lightmagenta']
+
+" }}}
+
+" Plugin mappings {{{
 noremap <leader>nt :NERDTreeToggle<cr>
 inoremap <leader>nt <C-O>:NERDTreeToggle<cr>
-noremap <leader>se :mksession!<cr>
-inoremap <leader>se <C-O>:mksession!<cr>
-
-inoremap <leader>mk <C-O>:call SaveAndMake()<cr>
-nnoremap <leader>mk :call SaveAndMake()<cr>
+noremap <leader>nf :NERDTreeFind<cr>
+nnoremap <leader>nb :NERDTreeFind<cr>:Bookmark<cr>
 
 map <Leader><C-k> <Plug>(easymotion-bd-jk)
 map <Leader><C-w> <Plug>(easymotion-overwin-w)
@@ -339,29 +618,14 @@ nnoremap <leader>lb :Buffers<CR>
 nnoremap <leader>lw :Windows<CR>
 nnoremap <leader>lf :Files<CR>
 nnoremap <leader>lc :Commands<CR>
-nnoremap <leader>q :q<CR>
-
-inoremap <leader>lb <C-O>:Buffers<CR>
-inoremap <leader>lw <C-O>:Windows<CR>
-inoremap <leader>lf <C-O>:Files<CR>
-inoremap <leader>lc <C-O>:Commands<CR>
-inoremap <leader>q <C-O>:q<CR>
-
-vnoremap <leader>lb <C-O>:Buffers<CR>
-vnoremap <leader>lw <C-O>:Windows<CR>
-vnoremap <leader>lf <C-O>:Files<CR>
-vnoremap <leader>lc <C-O>:Commands<CR>
-vnoremap <leader>q <C-O>:q<CR>
-vnoremap <leader>y "+y<CR>
 
 nnoremap <leader><Space> :SlimeSend<CR>
 inoremap <leader><Space> <C-O>:SlimeSend<CR>
 vnoremap <leader><Space> :SlimeSend<CR>
 
-packadd termdebug
-
 " {{{ Plugin options
 
+packadd termdebug
 let g:termdebug_wide=1
 
 let g:undotree_WindowLayout = 3
@@ -402,6 +666,9 @@ if exists('$XDG_CACHE_HOME')
 else
   let &g:directory=$HOME . '/.cache'
 endif
+if isdirectory('/local/fromans/.vim')
+	let &g:directory="/local/fromans/.vim"
+endif
 let &viminfofile=&g:directory . '/viminfo'
 let &g:undodir=&g:directory . '/vim/undo//'
 let &g:backupdir=&g:directory . '/vim/backup//'
@@ -417,3 +684,4 @@ if ! isdirectory(expand(&g:undodir))
   silent! call mkdir(expand(&g:undodir), 'p', 0700)
 endif
 " }}}
+
