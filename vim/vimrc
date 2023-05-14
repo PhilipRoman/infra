@@ -527,10 +527,10 @@ command! Nw set nowrap
 command! Re execute('resize ' . line('$'))
 command! -nargs=+ Ag :tabnew | execute('r!ag <f-args>')|set buftype=nofile
 command! -nargs=* Gd :tabnew | set ft=diff |  execute('r!git diff <f-args>') | set buftype=nofile
-command! -nargs=* Gb :let MyBlameFile=@% | let MyBlameLine=line('.')+1 | tabnew | execute('r!git atfile '.MyBlameFile.' blame '.MyBlameFile) | execute(':'.MyBlameLine)|set buftype=nofile|normal zz
+command! -nargs=* Gb :let MyBlameFile=@% | let MyBlameLine=line('.')+1 | tabnew | execute('r!git blame '.MyBlameFile) | execute(':'.MyBlameLine)|set buftype=nofile|normal zz
 command! -nargs=+ Lg :silent! lgrep <f-args> | redraw! | lw
 command! -nargs=+ Gr :silent! grep <f-args>  | redraw! | botright cw
-command! Gadd !git -C %:p:h add %
+command! Gadd !git add %
 function! MyTemporaryGitLogBuffer()
 	set ft=diff
 	set buftype=nofile
@@ -623,33 +623,6 @@ nnoremap <leader><Space> :SlimeSend<CR>
 inoremap <leader><Space> <C-O>:SlimeSend<CR>
 vnoremap <leader><Space> :SlimeSend<CR>
 
-" {{{ Plugin options
-
-packadd termdebug
-let g:termdebug_wide=1
-
-let g:undotree_WindowLayout = 3
-let g:undotree_DiffCommand = "diff -u"
-let g:undotree_HighlightSyntaxAdd = "DiffAdd"
-let g:undotree_HighlightSyntaxChange = "DiffChange"
-let g:undotree_HighlightSyntaxDel = "DiffDelete"
-
-let g:syntastic_mode_map = {'mode': 'passive'}
-
-let g:slime_target = "tmux"
-let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
-let g:slime_bracketed_paste = 1
-
-let g:TerminusCursorShape = 0
-
-let g:netrw_altv=1
-
-let g:NERDTreeShowLineNumbers=1
-let g:NERDTreeWinPos="right"
-
-let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'lightred', 'lightmagenta']
-
-" }}}
 " }}}
 
 " System-specific {{{
