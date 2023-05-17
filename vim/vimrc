@@ -585,11 +585,6 @@ let g:NERDTreeShowLineNumbers=1
 let g:NERDTreeWinPos="left"
 let g:NERDTreeWinSize=40
 let g:NERDTreeShowBookmarks=1
-au VimEnter * call NERDTreeAddKeyMap({
-\ 'key': 'yy',
-\ 'callback':  'MyNERDTreeCopyCurrentNode',
-\ 'quickhelpText': '(custom) put full path of file in tmux clipboard and the "0" register'})
-
 function! MyNERDTreeCopyCurrentNode()
 	let n = g:NERDTreeFileNode.GetSelected()
 	if n != {}
@@ -598,6 +593,15 @@ function! MyNERDTreeCopyCurrentNode()
 		call system('tmux loadb -', n.path.str())
 	endif
 endfunction
+function! MyNERDTreeSetup()
+	if exists('*NERDTreeAddKeyMap')
+		call NERDTreeAddKeyMap({
+			\ 'key': 'yy',
+			\ 'callback':  'MyNERDTreeCopyCurrentNode',
+			\ 'quickhelpText': '(custom) put full path of file in tmux clipboard and the "0" register'})
+	endif
+endfunction
+au VimEnter * call MyNERDTreeSetup()
 
 let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'lightred', 'lightmagenta']
 
