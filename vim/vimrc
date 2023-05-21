@@ -127,8 +127,6 @@ noremap <leader>. :lnext<cr>
 noremap <leader>, :lprev<cr>
 noremap <leader>> :cnext<cr>
 noremap <leader>< :cprev<cr>
-nnoremap <leader>[ <C-W>v<C-]>
-inoremap <leader>[ <C-O><C-W>v<C-O><C-]>
 
 inoremap <leader>; <C-O>:
 noremap <leader>1 :!
@@ -137,8 +135,8 @@ inoremap <leader>1 <C-O>:!
 nnoremap <leader>w viw
 nnoremap <leader>] <C-w><C-]><C-w>T
 inoremap <leader>] <C-O><C-w><C-]><C-O><C-w>T
-nnoremap <leader>] <C-w><C-v><C-w><C-]>
-inoremap <leader>] <C-O><C-w><C-v><C-O><C-w><C-]>
+nnoremap <leader>[ <C-w><C-v><C-w><C-]>
+inoremap <leader>[ <C-O><C-w><C-v><C-O><C-w><C-]>
 nnoremap <leader>tn :tnext<CR>
 inoremap <leader>tn <C-O>:tnext<CR>
 
