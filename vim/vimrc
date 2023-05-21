@@ -9,13 +9,12 @@ colorscheme desert
 
 set laststatus=2 cursorline
 set suffixesadd=.rst,.java
-set list listchars=tab:▸\ ,trail:⌀
+set list listchars=tab:›\ ,trail:·
 set fillchars+=vert:\ 
 set tabstop=3 noexpandtab shiftwidth=3 autoindent
 set splitbelow splitright
-set virtualedit+=onemore,block
-set tabpagemax=50 switchbuf=newtab
-set cursorline
+set virtualedit+=onemore,block scrolloff=0
+set tabpagemax=50 switchbuf=
 
 set guioptions-=m
 set guioptions-=T
@@ -26,7 +25,10 @@ set linespace=-1
 set foldmethod=manual foldminlines=1
 set foldopen=insert,mark,quickfix,tag,undo
 
-set belloff=all ttyfast mouse=a background=dark timeout timeoutlen=10000 ttimeoutlen=20 ttymouse=sgr
+set belloff=all ttyfast mouse=a background=dark timeout timeoutlen=10000 ttimeoutlen=20
+if &g:ttymouse != 'win32'
+	set ttymouse=sgr
+endif
 " ttymouse=sgr fixes issue where mouse position overflows past x=220, alternatively xterm2 can be used
 set whichwrap+=<,>,[,]
 
@@ -92,6 +94,10 @@ inoremap <C-@> <Esc>
 inoremap <C-l> <Esc>l
 vnoremap <C-l> <Esc>l
 nnoremap <C-l> :call MyCtrlL()<cr>
+
+map <C-G> gt
+imap <C-G> <C-o>gt
+tmap <C-G> <C-w>gt
 
 map <Insert> <C-w>w
 tmap <Insert> <C-w>w
@@ -309,7 +315,7 @@ function! FixColorscheme()
 	hi! EndOfBuffer ctermbg=235 cterm=bold ctermfg=black
 	hi! TabLine ctermbg=235 ctermfg=3 cterm=bold
 	hi! TabLineSel ctermbg=5 ctermfg=3 cterm=bold
-	hi! TabLineFill ctermfg=235
+	hi! TabLineFill ctermfg=235 ctermbg=235
 	hi! String ctermfg=2 ctermbg=235
 	hi! cFormat ctermfg=36 ctermbg=237
 	hi! SpecialChar ctermfg=142 ctermbg=236
@@ -522,14 +528,14 @@ command! Mydiff execute 'w !diff -u --color % -'
 command! Edir e %:p:h
 command! Tedir tabedit %:p:h
 command! Fi tabnew | execute('r!ag -l') | set buftype=nofile
-command! -nargs=* Fig enew | execute('r!ag -lG <f-args>') | set buftype=nofile
+command! -nargs=* Fig enew | execute('r!ag -lG <args>') | set buftype=nofile
 command! Nw set nowrap
 command! Re execute('resize ' . line('$'))
-command! -nargs=+ Ag :tabnew | execute('r!ag <f-args>')|set buftype=nofile
-command! -nargs=* Gd :tabnew | set ft=diff |  execute('r!git diff <f-args>') | set buftype=nofile
+command! -nargs=+ Ag :tabnew | execute('r!ag <args>')|set buftype=nofile
+command! -nargs=* Gd :tabnew | set ft=diff |  execute('r!git diff <args>') | set buftype=nofile
 command! -nargs=* Gb :let MyBlameFile=@% | let MyBlameLine=line('.')+1 | tabnew | execute('r!git blame '.MyBlameFile) | execute(':'.MyBlameLine)|set buftype=nofile|normal zz
-command! -nargs=+ Lg :silent! lgrep <f-args> | redraw! | lw
-command! -nargs=+ Gr :silent! grep <f-args>  | redraw! | botright cw
+command! -nargs=+ Lg :silent! lgrep <args> | redraw! | lw
+command! -nargs=+ Gr :silent! grep <args>  | redraw! | botright cw
 command! Gadd !git add %
 function! MyTemporaryGitLogBuffer()
 	set ft=diff
