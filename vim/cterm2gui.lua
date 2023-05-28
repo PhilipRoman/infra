@@ -313,7 +313,7 @@ for line in io.lines() do
 		local ctermfg = line:match 'ctermfg=(%w+)'
 		local ctermbg = line:match 'ctermbg=(%w+)'
 		ctermfg = namesToNumbers[string.lower(ctermfg or '')] or ctermfg
-		ctermbg = namesToNumbers[string.lower(ctermfg or '')] or ctermbg
+		ctermbg = namesToNumbers[string.lower(ctermbg or '')] or ctermbg
 		local gui = cterm
 		local guifg= colormap[ctermfg]
 		local guibg= colormap[ctermbg]
