@@ -1,0 +1,59 @@
+#!/bin/sh
+
+timeout=10
+lockfile=lock
+pidfile=pid
+workdir="$HOME"
+
+print_usage() {
+	echo 'Usage: '"$0"' [-l lockfile] [-p pidfile] [-t timeout] COMMAND ARGS...
+	-l   lock file to use for protecting service from running concurrently (default: '"$lockfile"')
+	-p   file where PID of the running process will be written to (default: '"$pidfile"')
+	-t   timeout in seconds for acquiring lock (default: '"$timeout"')
+	-d   working directory to use (default: $HOME)'
+}
+
+while getopts hl:t:p: opt; do
+	case "$opt" in
+	t)
+		timeout="$OPTARG"
+		echo "$timeout" | grep -E '^[0-9]+$' || (echo "Bad value for timeout: $timeout" >&2; exit 1)
+		;;
+	l)
+		lockfile="$OPTARG"
+		[ -d "$(dirname "$lockfile")" ] || (echo "Won't be able to create lock file as directory doesn't exist: $(dirname "$lockfile")" >&2; exit 1)
+		;;
+	p)
+		pidfile="$OPTARG"
+		[ -d "$(dirname "$pidfile")" ] || (echo "Won't be able to create pid file as directory doesn't exist: $(dirname "$pidfile")" >&2; exit 1)
+		;;
+	d)
+		workdir="$OPTARG"
+		[ -d "$workdir" ] || (echo "Working directory doesn't exist: $workdir" >&2; exit 1)
+		;;
+	h)
+		print_usage >&1
+		exit 0
+		;;
+	?)
+		print_usage >&2
+		exit 1
+		;;
+	esac
+done
+shift $((OPTIND - 1))
+
+if [ -z "$1" ]; then
+	print_usage >&2
+	exit 1
+fi
+
+printf "Changing current directory to %s\n" "$HOME"
+
+set -ex
+cd "$HOME"
+mkfifo -m 600 stdin 2>/dev/null || true
+exec 0<> stdin
+echo "$$" >"$pidfile"
+printf 'Waiting at most %s seconds for lock file: %s\n' "$timeout" "$lockfile" >&2
+exec flock -F -w "$timeout" "$lockfile" "$@"
