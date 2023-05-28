@@ -197,6 +197,11 @@ noremap <leader>no :Notes<cr>
 inoremap <leader>mk <C-O>:call SaveAndMake()<cr>
 nnoremap <leader>mk :call SaveAndMake()<cr>
 
+function! SaveAndMake()
+	w!
+	silent! make
+endfunction
+
 function! MyQuickfixDelete()
 	let l:list = getqflist(0)
 	let l:line = line('.')

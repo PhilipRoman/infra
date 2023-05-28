@@ -10,7 +10,6 @@ while read url; do
 	fi
 done <<EOM
 https://github.com/jlanzarotta/bufexplorer
-https://github.com/vim-scripts/c.vim
 https://github.com/mh21/errormarker.vim
 https://github.com/junegunn/fzf.vim
 https://github.com/preservim/nerdtree.git
