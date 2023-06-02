@@ -1,22 +1,22 @@
 " Minimal base {{{
 set nocompatible nomodeline
-set incsearch hlsearch nowrapscan
+set incsearch hlsearch nowrapscan ignorecase
 set number relativenumber
 set showcmd
 
 syntax on
 colorscheme desert
 
-set laststatus=2 cursorline
+set laststatus=2 cursorlineopt=number
 set suffixesadd=.rst,.java
 set list listchars=tab:›\ ,trail:·
 set fillchars+=vert:\ 
 set tabstop=3 noexpandtab shiftwidth=3 autoindent
 set splitbelow splitright
-set virtualedit+=onemore,block scrolloff=0
+set virtualedit+=onemore,block backspace=eol,nostop scrolloff=0
 set tabpagemax=50 switchbuf=
 
-set guioptions-=m
+set guioptions-=L
 set guioptions-=T
 set guifont=Droid\ Sans\ Mono:h11,Cascadia\ Code:h11,Consolas:h13,Droid\ Sans\ Mono
 set renderoptions=type:directx,level:0.75,gamma:1.25,contrast:0.25,geom:1,renmode:5,taamode:1
@@ -25,7 +25,7 @@ set linespace=-1
 set foldmethod=manual foldminlines=1
 set foldopen=insert,mark,quickfix,tag,undo
 
-set belloff=all ttyfast mouse=a background=dark timeout timeoutlen=10000 ttimeoutlen=20
+set visualbell t_vb= belloff=all ttyfast mouse=a background=dark timeout timeoutlen=10000 ttimeoutlen=20
 if &g:ttymouse != 'win32'
 	set ttymouse=sgr
 endif
@@ -52,6 +52,18 @@ noremap <C-F> <ESC>
 noremap! <C-F> <ESC>
 inoremap <C-F> <ESC>l
 inoremap <C-L> <ESC>l
+
+if has("gui_running")
+	map <M-l> <C-L>
+	inoremap <M-l> <ESC>l
+	map <M-w> <C-w>
+	inoremap <M-w> <C-w>
+	imap <C-Backspace> <C-w>
+	imap <M-Backspace> <C-w>
+	vmap <C-S-c> "+y
+	nmap <C-S-v> "+P
+	imap <C-S-v> <C-r>+
+endif
 
 noremap <S-F1> :1wincmd w<CR>
 noremap <S-F2> :2wincmd w<CR>
@@ -374,7 +386,7 @@ function! FixColorscheme()
 	call matchadd('MarkA', "\\%'A", 20)
 	call matchadd('MarkB', "\\%'B", 20)
 	call matchadd('MarkM', "\\%'M", 20)
-	call matchadd('MarkQuote', "\\%''", 20)
+	call matchadd('MarkQuote', "\\%''", 19)
 	call matchadd("EndOfBuffer", "^[[:space:]]*$", 0)
 	hi! NERDTreeCWD ctermfg=179 cterm=bold
 	hi! NERDTreeBookmark ctermfg=245 cterm=italic
