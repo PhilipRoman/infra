@@ -11,7 +11,7 @@ m4_define(NEWGIT,
 	diff = less
 [core]
 	pager = less
-	editor = nano
+	editor = vim
 	eol = lf
 	excludesFile = /etc/gitignore
 [push]
