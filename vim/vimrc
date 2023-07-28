@@ -7,7 +7,7 @@ set showcmd
 syntax on
 colorscheme desert
 
-set laststatus=2 cursorlineopt=number
+set laststatus=2 cursorline cursorlineopt=number
 set suffixesadd=.rst,.java
 set list listchars=tab:›\ ,trail:·
 set fillchars+=vert:\ 
@@ -44,6 +44,10 @@ set tags=tags;\
 " Key mappings {{{
 vnoremap az <Esc>:silent! normal! [z<cr>V]z
 omap az Vaz
+
+vnoremap a. <Esc>:call search('\(.)\\|,[[:space:]]*\zs[[:space:]]\\|,\)')<cr>v`<o
+vmap a, <Esc>:call search('[(,][[:space:]]*\zs', 'b')<cr>va.
+omap a, Va,
 
 nnoremap <C-@> <Esc>
 inoremap <C-@> <Esc>
@@ -131,6 +135,11 @@ vmap <leader>zm "zy<C-k>zM
 nmap <leader>zn "zyiw<C-k>zN
 nmap <leader>zm "zyiw<C-k>zM
 
+noremap <leader>gd :vert sp\|exe "norm gd"\|l\|q<cr>
+noremap <leader>gD :vert sp\|exe "norm gD"\|l\|q<cr>
+noremap <leader>gk :vert sp\|call search('^[[:alnum:]]', 'b')\|exe "norm {j"\|l\|q<cr>
+noremap <leader>gj :vert sp\|call search('^[[:alnum:]]')     \|exe "norm }k"\|l\|q<cr>
+
 nnoremap <leader>zs :set fdm=syntax<cr>:set fdm=manual<cr>
 nnoremap <leader>zm :set foldmethod=manual<cr>
 
@@ -147,8 +156,8 @@ inoremap <leader>1 <C-O>:!
 nnoremap <leader>w viw
 nnoremap <leader>] <C-w><C-]><C-w>T
 inoremap <leader>] <C-O><C-w><C-]><C-O><C-w>T
-nnoremap <leader>[ <C-w><C-v><C-w><C-]>
-inoremap <leader>[ <C-O><C-w><C-v><C-O><C-w><C-]>
+nnoremap <leader>[ <C-w><C-v><C-]>
+inoremap <leader>[ <C-O><C-w><C-v><C-O><C-]>
 nnoremap <leader>tn :tnext<CR>
 inoremap <leader>tn <C-O>:tnext<CR>
 
@@ -321,7 +330,7 @@ function! FixColorscheme()
 	hi! diffAdded cterm=none ctermfg=green
 	hi! DiffChange ctermbg=233
 	hi! DiffText cterm=bold ctermfg=229 ctermbg=101
-	hi! CursorLine cterm=none ctermbg=233
+	hi! CursorLine cterm=none ctermbg=none
 	hi! CursorLineNr cterm=none ctermbg=13 ctermfg=white
 	call ColorsOtherModes()
 	hi! Comment cterm=italic ctermfg=242
@@ -377,17 +386,20 @@ function! FixColorscheme()
 	hi! Hi8 ctermbg=123 ctermfg=black
 	hi! Hi9 ctermbg=115 ctermfg=black
 	hi! MarkA ctermbg=52 ctermfg=white
-	hi! MarkB ctermbg=19 ctermfg=white
+	hi! MarkB ctermbg=18 ctermfg=white
 	hi! MarkM ctermbg=22 ctermfg=white
+	hi! MarkC ctermbg=58 ctermfg=white
 	hi! MarkQuote ctermbg=238 ctermfg=white
+	call matchadd("EndOfBuffer", "^[[:space:]]*$", 0)
+	call matchadd('MarkQuote', "\\%''", 19)
 	call matchadd('MarkA', "\\%'a", 20)
 	call matchadd('MarkB', "\\%'b", 20)
+	call matchadd('MarkC', "\\%'c", 20)
 	call matchadd('MarkM', "\\%'m", 20)
 	call matchadd('MarkA', "\\%'A", 20)
 	call matchadd('MarkB', "\\%'B", 20)
+	call matchadd('MarkC', "\\%'C", 20)
 	call matchadd('MarkM', "\\%'M", 20)
-	call matchadd('MarkQuote', "\\%''", 19)
-	call matchadd("EndOfBuffer", "^[[:space:]]*$", 0)
 	hi! NERDTreeCWD ctermfg=179 cterm=bold
 	hi! NERDTreeBookmark ctermfg=245 cterm=italic
 	hi! NERDTreeBookmarkName ctermfg=green
@@ -410,7 +422,6 @@ function! LuaSpecificConfig()
 	iabbrev <buffer> fn] function()end<Left><Left><Left><Left>
 	iabbrev <buffer> ew] io.stderr:write("\n")<Left><Left><Left><Left><Left>
 	iabbrev <buffer> pr] print()<Left>
-	set foldmarker=--[[,]]
 endfunction
 
 autocmd FileType lua call LuaSpecificConfig()
@@ -422,7 +433,6 @@ function! CSpecificConfig()
 	iabbrev <buffer> fj] for(int j = 0; j < z; j++)<ESC>?z<CR>cl
 	iabbrev <buffer> p] printf();<ESC>hi
 	iabbrev <buffer> fp] fprintf(stderr, );<ESC>hi
-	set foldmarker=/*,*/
 	syn match cOperator1 "[&.;]"
 	syn match cOperator2 "\([-+*/&|%!=<>]=\|[-+><?:!%^~|]\|[&] \|&&\)"
 	syn match cOperator3 "[()]"
@@ -434,6 +444,7 @@ function! CSpecificConfig()
 endfunction
 
 autocmd FileType c call CSpecificConfig()
+autocmd FileType cpp call CSpecificConfig()
 
 function! JavaSpecificConfig()
 	iabbrev <buffer> psvm] public static void main(String[] args)
@@ -455,7 +466,6 @@ function! JavaSpecificConfig()
 	iabbrev <buffer> serr] System.err.println();<ESC>hi
 	iabbrev <buffer> ssout] System.out.println("");<ESC>hhi
 	iabbrev <buffer> sserr] System.err.println("");<ESC>hhi
-	set foldmarker=/**,*/
 endfunction
 
 autocmd FileType java call JavaSpecificConfig()
