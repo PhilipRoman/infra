@@ -15,3 +15,9 @@ core
 Session.vim
 .*~
 .viminfo
+afl-inputs
+afl-outputs
+*.gcda
+*.gcno
+*.gcov
+gmon.out
