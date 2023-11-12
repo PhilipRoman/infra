@@ -13,14 +13,31 @@ set list listchars=tab:›\ ,trail:·
 set fillchars+=vert:\ 
 set tabstop=3 noexpandtab shiftwidth=3 autoindent
 set splitbelow splitright
-set virtualedit+=onemore,block backspace=indent,eol,nostop scrolloff=0
+set virtualedit+=onemore,block backspace=indent,eol,start scrolloff=0
+silent! set backspace+=nostop
 set tabpagemax=50 switchbuf=
 
-set guioptions-=m
+" set guioptions-=m
+set guioptions-=L
 set guioptions-=T
-set guifont=Droid\ Sans\ Mono:h11,Cascadia\ Code:h11,Consolas:h13,Droid\ Sans\ Mono
+set guioptions-=a
+set guioptions-=P
+set clipboard=
+set guifont=Droid\ Sans\ Mono:h9,Cascadia\ Code:h11,Consolas:h11,Droid\ Sans\ Mono
+set winaltkeys=no
+function! GuiTabLabel()
+	if exists('t:Name')
+		return t:Name
+	else
+		return '%f'
+	endif
+endfunction
+let &guitablabel = '%{%GuiTabLabel()%}'
 set renderoptions=type:directx,level:0.75,gamma:1.25,contrast:0.25,geom:1,renmode:5,taamode:1
-set linespace=-1
+set linespace=0
+if has('win32')
+	set termguicolors
+endif
 
 set foldmethod=manual foldminlines=1
 set foldopen=insert,mark,quickfix,tag,undo
@@ -32,12 +49,14 @@ endif
 " ttymouse=sgr fixes issue where mouse position overflows past x=220, alternatively xterm2 can be used
 set whichwrap+=<,>,[,]
 
-set hidden undofile updatetime=60000
+set hidden undofile updatetime=1000 nofsync swapsync= history=10000
 let &errorformat="%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," . &errorformat
 
 set grepprg=ag\ --vimgrep\ $*
 set grepformat=%f:%l:%c:%m
 set tags=tags;\
+let g:is_posix = 1
+let g:is_bash = 1
 
 " }}}
 
@@ -49,6 +68,14 @@ vnoremap a. <Esc>:call search('\(.)\\|,[[:space:]]*\zs[[:space:]]\\|,\)')<cr>v`<
 vmap a, <Esc>:call search('[(,][[:space:]]*\zs', 'b')<cr>va.
 omap a, Va,
 
+nnoremap <F9> :tabp<CR>
+inoremap <F9> <C-o>:tabp<CR>
+vnoremap <F9> <C-o>:tabp<CR>
+tnoremap <F9> <C-w>:tabp<CR>
+nnoremap <F10> :tabn<CR>
+inoremap <F10> <C-o>:tabn<CR>
+vnoremap <F10> <C-o>:tabn<CR>
+tnoremap <F10> <C-w>:tabn<CR>
 nnoremap <C-@> <Esc>
 inoremap <C-@> <Esc>
 
@@ -57,17 +84,66 @@ noremap! <C-F> <ESC>
 inoremap <C-F> <ESC>l
 inoremap <C-L> <ESC>l
 
+tmap <C-w>; <C-w>:
+
 if has("gui_running")
+	silent! vunmap <C-V>
+	silent! nunmap <C-V>
+	silent! vunmap <C-X>
+	silent! nunmap <C-X>
 	map <M-l> <C-L>
 	inoremap <M-l> <ESC>l
 	map <M-w> <C-w>
 	inoremap <M-w> <C-w>
 	imap <C-Backspace> <C-w>
 	imap <M-Backspace> <C-w>
+	tmap <M-f> <Esc>f
+	tmap <M-b> <Esc>b
+	tmap <M-.> <Esc>.
+	tmap <M-Backspace> <Esc><Backspace>
 	vmap <C-S-c> "+y
 	nmap <C-S-v> "+P
 	imap <C-S-v> <C-r>+
+	tmap <C-S-v> <C-w>"+
+	vmap <M-c> y
+	nmap <M-v> "0P
+	imap <M-v> <C-r>0
+	tmap <M-v> <C-w>"0
+	imap <M-k> <C-k>
+	map <M-k> <C-k>
+	tmap <M-k> <C-k>
+	map <C-1> 1gt
+	map <C-2> 2gt
+	map <C-3> 3gt
+	map <C-4> 4gt
+	map <C-5> 5gt
+	map <C-6> 6gt
+	map <C-7> 7gt
+	map <C-8> 8gt
+	map <C-9> 9gt
+
+	imap <C-1> <ESC>1gt
+	imap <C-2> <ESC>2gt
+	imap <C-3> <ESC>3gt
+	imap <C-4> <ESC>4gt
+	imap <C-5> <ESC>5gt
+	imap <C-6> <ESC>6gt
+	imap <C-7> <ESC>7gt
+	imap <C-8> <ESC>8gt
+	imap <C-9> <ESC>9gt
+
+	tmap <C-1> <C-w>1gt
+	tmap <C-2> <C-w>2gt
+	tmap <C-3> <C-w>3gt
+	tmap <C-4> <C-w>4gt
+	tmap <C-5> <C-w>5gt
+	tmap <C-6> <C-w>6gt
+	tmap <C-7> <C-w>7gt
+	tmap <C-8> <C-w>8gt
+	tmap <C-9> <C-w>9gt
 endif
+
+tnoremap <C-PageUp> <C-w>N
 
 noremap <S-F1> :1wincmd w<CR>
 noremap <S-F2> :2wincmd w<CR>
@@ -92,6 +168,9 @@ nnoremap ; :
 nnoremap , ;
 nnoremap gw <C-W>w
 
+noremap ) t)
+noremap ( T(
+
 vnoremap <C-E> :!
 nnoremap <C-E> :%!
 inoremap <C-E> <C-O>:%!
@@ -113,9 +192,10 @@ inoremap <C-l> <Esc>l
 vnoremap <C-l> <Esc>l
 nnoremap <C-l> :call MyCtrlL()<cr>
 
-map <C-G> gt
-imap <C-G> <C-o>gt
-tmap <C-G> <C-w>gt
+nnoremap <C-g> gt
+inoremap <C-g> <C-o>gt
+vnoremap <C-g> <C-o>gt
+tnoremap <C-g> <C-w>gt
 
 map <Insert> <C-w>w
 tmap <Insert> <C-w>w
@@ -125,6 +205,7 @@ map <F12> <C-w>w
 tmap <F12> <C-w>w
 
 tmap <C-w>; <C-w>:
+tmap <ScrollWheelUp> <C-w>N
 
 " }}}
 
@@ -145,7 +226,7 @@ nmap <leader>zn "zyiw<C-k>zN
 nmap <leader>zm "zyiw<C-k>zM
 
 nnoremap <leader>zs :set fdm=syntax<cr>:set fdm=manual<cr>
-nnoremap <leader>zm :set foldmethod=manual<cr>
+"nnoremap <leader>zm :set foldmethod=manual<cr>
 
 noremap <leader>; :<Up><cr>
 noremap <leader>. :lnext<cr>
@@ -154,15 +235,24 @@ noremap <leader>> :cnext<cr>
 noremap <leader>< :cprev<cr>
 noremap <leader>gd :vert sp\|exe "norm gd"\|l\|q<cr>
 noremap <leader>gD :vert sp\|exe "norm gD"\|l\|q<cr>
-noremap <leader>gk :vert sp\|call search('^[[:alnum:]]','b')\|l\|q<cr>
-noremap <leader>gj :vert sp\|call search('^[[:alnum:]]'    )\|l\|q<cr>
-noremap <leader>K :exe "norm {j"\|call search('^[[:alnum:]]','b')<cr>
-noremap <leader>J :exe "norm }k"\|call search('^[[:alnum:]]'    )<cr>
+noremap <leader>gk :vert sp\|call search('^[[:alnum:]]','b')\|exe "norm {j"\|l\|q<cr>
+noremap <leader>gj :vert sp\|call search('^[[:alnum:]]'    )\|exe "norm }k"\|l\|q<cr>
+noremap <leader>K :call search('^[[:alnum:]]','b')\|exe "norm {j"<cr>
+noremap <leader>J :call search('^[[:alnum:]]'    )\|exe "norm }k"<cr>
+noremap g. :call search(g:MyMergeConflictMarkerRegex)<cr>
+noremap g, :call search(g:MyMergeConflictMarkerRegex, 'b')<cr>
+vnoremap g. :call search(g:MyMergeConflictMarkerRegex)<cr>
+vnoremap g, :call search(g:MyMergeConflictMarkerRegex, 'b')<cr>
+let g:MyMergeConflictMarkerRegex='^\(>>>>>>>\|<<<<<<<\||||||||\|=======\)'
+
 
 inoremap <leader>; <C-O>:
 noremap <leader>1 :!
 inoremap <leader>1 <C-O>:!
-map <leader>bn :let @n=bufnr('.')<cr>:echo bufnr('.')<cr>
+map <leader>bn :let @n=bufnr('%')<cr>:echo bufnr('%')<cr>
+
+tnoremap <leader>; <C-W>:
+tnoremap <leader>1 <C-W>:!
 
 nnoremap <leader>w viw
 nnoremap <leader>] <C-w><C-]><C-w>T
@@ -174,12 +264,15 @@ inoremap <leader>tn <C-O>:tnext<CR>
 
 noremap <leader>se :mksession!<cr>
 inoremap <leader>se <C-O>:mksession!<cr>
-noremap <leader>Y _"+yt#
+nnoremap <leader>Y _"+yt#
+vnoremap <leader>Y "+y
+noremap + "+y
 nnoremap <leader>zs :set foldmethod=syntax<cr>:set foldmethod=manual<cr>
 nmap <leader>gr viw<C-k>gr
-vnoremap <leader>gr "gy:let @/=@g<cr>:silent grep -F '<C-R>g'<cr>:redraw!<cr>:botright cw<cr>
+vnoremap <leader>gr "gy:let @/=@g<cr>:silent grep! -F '<C-R>g'<cr>:redraw!<cr>:cw<cr>
 nmap <leader>gl viw<C-k>gl
-vnoremap <leader>gl "gy:let @/=@g<cr>:silent lgrep -F '<C-R>g'<cr>:redraw!<cr>:botright lw<cr>
+vnoremap <leader>gl "gy:let @/=@g<cr>:silent lgrep! -F '<C-R>g'<cr>:redraw!<cr>:lw<cr>
+nnoremap <leader>g= "gyiw:silent lgrep '\.[[:space:]]*<C-r>g[[:space:]]*=[[:space:]]*'<cr>:redraw!<cr>:lfirst<cr>
 nmap <leader>gf :Fig <C-R><C-F><cr>
 nmap <leader>gF <C-w>v:Fig <C-R><C-F><cr>
 noremap <leader>t% :call system('tmux loadb -', @%)<cr>
@@ -191,14 +284,40 @@ nnoremap <leader>tp :let @t=system('tmux showb')<cr>"tP
 vnoremap <leader>vy ygv<ESC>
 nnoremap <leader>\| /<C-R>/\\|
 vnoremap <leader>\| "sy:let @/=@/.'\\|<C-R>s'<cr>
+nmap <leader>'a 'azv<C-k><space>''
+nmap <leader>'b 'bzv<C-k><space>''
+nmap <leader>'c 'czv<C-k><space>''
+nmap <leader>'d 'dzv<C-k><space>''
+nmap <leader>'e 'ezv<C-k><space>''
+nmap <leader>$ 0va[<Esc>wv$<C-k><space>
+vnoremap <leader>} "cy<C-w><C-l><C-w>"c<C-w><C-p>:silent call MyDecorateLine(line('.'), 3, 'sent_right')<cr>
+nnoremap <leader>} "cyy<C-w><C-l><C-w>"c<C-w><C-p>:silent call MyDecorateLine(line('.'), 3, 'sent_right')<cr>
+vnoremap <leader>{ "cy<C-w><C-h><C-w>"c<C-w><C-p>:silent call MyDecorateLine(line('.'), 2, 'sent_left')<cr>
+nnoremap <leader>{ "cyy<C-w><C-h><C-w>"c<C-w><C-p>:silent call MyDecorateLine(line('.'), 2, 'sent_left')<cr>
+vnoremap <leader>_ "cy<C-w><C-j><C-w>"c<C-w><C-p>:silent call MyDecorateLine(line('.'), 4, 'sent_down')<cr>
+nnoremap <leader>_ "cyy<C-w><C-j><C-w>"c<C-w><C-p>:silent call MyDecorateLine(line('.'), 4, 'sent_down')<cr>
+nnoremap <leader>) "cyip<C-w><C-l><C-w>"c<C-w><C-p>
+nnoremap <leader>( "cyip<C-w><C-h><C-w>"c<C-w><C-p>
+tnoremap <leader>sl <C-W>:SlowSend<CR>
+vnoremap <leader>* "cy:let orig_window=winnr()<cr>:windo call search(@c,'sw')<cr>:windo call MyHighlight(9, @c)<cr>:exe orig_window."wincmd w"<cr>
 nnoremap <leader>/ :call search(input("/"))<cr>
 vnoremap <leader>/ <C-o>:call search(input("/"))<cr>
 nnoremap <leader>? :call search(input("?"),"b")<cr>
 vnoremap <leader>/ <C-o>:call search(input("?"),"b")<cr>
 nnoremap <leader><PageDown> <PageDown>n
 nnoremap <leader><PageUp> <PageUp>N
-vnoremap <leader><space> "cy<C-w><C-l><C-w>"c<C-w><C-p>
-nnoremap <leader><space> "cyy<C-w><C-l><C-w>"c<C-w><C-p>
+sign define sent       text=●+ texthl=Hi21
+sign define sent_left  text=●< texthl=Hi22
+sign define sent_right text=●> texthl=Hi23
+sign define sent_down  text=●_ texthl=Hi24
+sign define sourced    text=●: texthl=Hi25
+vnoremap <leader><space> "cy<C-w><C-w><C-w>"c<C-w><C-p>:silent call MyDecorateLine(line('.'), 1, 'sent')<cr>
+nmap <leader><space> V<C-k><space>
+
+nmap <leader>* vi[<C-k>*
+nnoremap <leader>ip4 /[0-9]\{1,3}\.[0-9]\{1,3}\.[0-9]\{1,3}\.[0-9]\{1,3}<cr>
+nnoremap <leader>mac /[0-9a-fA-F]\{2}:[0-9a-fA-F]\{2}:[0-9a-fA-F]\{2}:[0-9a-fA-F]\{2}:[0-9a-fA-F]\{2}:[0-9a-fA-F]\{2}<cr>
+tnoremap <leader>19 192.168.
 
 nnoremap <leader>fh [[<left>0f(Be
 nnoremap <leader>fH [[<left>0f(Beviw
@@ -214,8 +333,10 @@ nnoremap <leader>tt :tab sp<cr>
 nnoremap <leader>md :echo system('printf %s "$(md5sum "'.@%.'")"')<cr>
 nnoremap <leader>cp :!cp -- % ~/copy<cr>:redraw!<cr>
 nnoremap <leader>so :w<cr>:so %<cr>
-nnoremap <leader>gc "cyiw:enew<cr>:set ft=diff<cr>:0r!git log -p -n 1 <C-r>c<cr>:keepj 1<cr>:set buftype=nofile<cr>
-nnoremap <leader>gC "cyiw:enew<cr>:set ft=diff<cr>:0r!git log -p -n 1 <C-r>c<cr>:keepj 1<cr>:set buftype=nofile<cr>
+nnoremap <leader>gc "cyiw:enew<cr>:set ft=diff<cr>:r!git log -p -n 1 <C-r>c<cr>:keepj 1<cr>:set buftype=nofile<cr>
+nmap <leader>gC :tab sp<cr><C-k>gc
+nnoremap <leader>d1 :tabnew<cr>:wincmd v<cr>:enew<cr>:windo difft<cr>:windo set buftype=nofile<cr>
+vnoremap <leader>d1 m`y``:tabnew<cr>:norm "0p<cr>:wincmd v<cr>:enew<cr>:windo difft<cr>:windo set buftype=nofile<cr>
 nnoremap <leader>sH :SignifyHunkDiff<cr>
 nnoremap <leader>sD :SignifyDiff<cr>
 nnoremap <leader>sU :SignifyHunkUndo<cr>
@@ -225,20 +346,44 @@ nnoremap <leader>tW :vert term<cr>
 nnoremap <leader>tT :tab term<cr>
 nnoremap <leader>tC :term ++curwin<cr>
 nnoremap <leader>tD :let $VIM_TERM_CD=expand('%:p:h')<cr>:vert terminal<cr>cd "$VIM_TERM_CD"<cr>
-vnoremap <leader>ex "ey:@e<cr>
+vnoremap <leader>ex "ey:@e<cr>:silent call MyDecorateLine(line('.'), 5, 'sourced')<cr>
 noremap <leader>rn :set nu rnu<cr>
 noremap <leader>nrn :set nu nornu<cr>
 noremap <leader>nn :set nonu nornu<cr>
 vnoremap <leader>su <esc>`>a)<esc>`<i(<esc>i
 noremap <leader>no :Notes<cr>
+noremap <leader>er :e %:r<cr>
+noremap <leader>eh :e %:r.h<cr>
+noremap <leader>ec :e %:r.c<cr>
 
 inoremap <leader>mk <C-O>:call SaveAndMake()<cr>
 nnoremap <leader>mk :call SaveAndMake()<cr>
 
 function! SaveAndMake()
-	w
-	make
+	if !exists('w:MakeWindow') && &ft != 'qf'
+		tab sp
+	endif
+	let w:MakeWindow=1
+	wa
+	silent make
+	cw
 endfunction
+
+function! FastSend(data)
+	for item in split(a:data, '\zs')
+		call term_sendkeys(bufnr('%'), item)
+		sleep 1m
+		redraw
+	endfor
+endfunction
+function! SlowSend(data)
+	for item in split(a:data, '\zs')
+		call term_sendkeys(bufnr('%'), item)
+		sleep 10m
+		redraw
+	endfor
+endfunction
+command! SlowSend call SlowSend(@")
 
 function! MyQuickfixDelete()
 	let l:list = getqflist(0)
@@ -267,6 +412,16 @@ function! MyHighlight(num, pattern)
 	call matchadd("Hi".a:num, a:pattern, 20, 100 + a:num)
 endfunction
 
+function! MyLineHighlight(num, lineno, priority)
+	silent! call matchdelete(100 + a:num)
+	call matchadd("Hi".a:num, '^\%'.a:lineno.'l.*$', a:priority, 100 + a:num)
+endfunction
+
+function! MyDecorateLine(lineno, signid, signname)
+	exe 'sign unplace '.a:signid.' group=my'
+	call sign_place(a:signid, 'my', a:signname, bufnr('%'), {'lnum':a:lineno, 'priority':-20})
+endfunction
+
 function! MyStringHighlight(num, string)
 	call MyHighlight(a:num, MyEscapeRegex(a:string))
 endfunction
@@ -284,6 +439,7 @@ function! HiSystemd()
 	normal \zZ
 endfunction
 
+vnoremap <leader>h0 "hy:call MyWordHighlight(0, @h)<cr>
 vnoremap <leader>h1 "hy:call MyWordHighlight(1, @h)<cr>
 vnoremap <leader>h2 "hy:call MyWordHighlight(2, @h)<cr>
 vnoremap <leader>h3 "hy:call MyWordHighlight(3, @h)<cr>
@@ -293,7 +449,7 @@ vnoremap <leader>h6 "hy:call MyWordHighlight(6, @h)<cr>
 vnoremap <leader>h7 "hy:call MyWordHighlight(7, @h)<cr>
 vnoremap <leader>h8 "hy:call MyWordHighlight(8, @h)<cr>
 vnoremap <leader>h9 "hy:call MyWordHighlight(9, @h)<cr>
-vnoremap <leader>h0 "hy:call MyWordHighlight(0, @h)<cr>
+vnoremap <leader>hB0 "hy:call MyWordHighlight(10, @h)<cr>
 vnoremap <leader>hB1 "hy:call MyWordHighlight(11, @h)<cr>
 vnoremap <leader>hB2 "hy:call MyWordHighlight(12, @h)<cr>
 vnoremap <leader>hB3 "hy:call MyWordHighlight(13, @h)<cr>
@@ -303,8 +459,8 @@ vnoremap <leader>hB6 "hy:call MyWordHighlight(16, @h)<cr>
 vnoremap <leader>hB7 "hy:call MyWordHighlight(17, @h)<cr>
 vnoremap <leader>hB8 "hy:call MyWordHighlight(18, @h)<cr>
 vnoremap <leader>hB9 "hy:call MyWordHighlight(19, @h)<cr>
-vnoremap <leader>hB0 "hy:call MyWordHighlight(10, @h)<cr>
 
+vnoremap <leader>hA0 "hy:call MyStringHighlight(0, @h)<cr>
 vnoremap <leader>hA1 "hy:call MyStringHighlight(1, @h)<cr>
 vnoremap <leader>hA2 "hy:call MyStringHighlight(2, @h)<cr>
 vnoremap <leader>hA3 "hy:call MyStringHighlight(3, @h)<cr>
@@ -314,7 +470,6 @@ vnoremap <leader>hA6 "hy:call MyStringHighlight(6, @h)<cr>
 vnoremap <leader>hA7 "hy:call MyStringHighlight(7, @h)<cr>
 vnoremap <leader>hA8 "hy:call MyStringHighlight(8, @h)<cr>
 vnoremap <leader>hA9 "hy:call MyStringHighlight(9, @h)<cr>
-vnoremap <leader>hA0 "hy:call MyStringHighlight(0, @h)<cr>
 vnoremap <leader>hAB1 "hy:call MyStringHighlight(11, @h)<cr>
 vnoremap <leader>hAB2 "hy:call MyStringHighlight(12, @h)<cr>
 vnoremap <leader>hAB3 "hy:call MyStringHighlight(13, @h)<cr>
@@ -338,6 +493,27 @@ vnoremap <leader>y "+y<CR>
 " Extended base {{{
 
 " Colors {{{
+
+let g:terminal_ansi_colors = [
+	\ "#000000",
+	\ "#b80b11",
+	\ "#64a55c",
+	\ "#FEA649",
+	\ "#506ce3",
+	\ "#9e404e",
+	\ "#007566",
+	\ "#e0e0e0",
+	\
+	\ "#535669",
+	\ "#F2592E",
+	\ "#67b559",
+	\ "#fafa60",
+	\ "#5559dd",
+	\ "#a83248",
+	\ "#32e3d1",
+	\ "#ffffff"
+\]
+
 function! ColorsInsertMode()
 	hi! LineNr cterm=bold ctermbg=235 ctermfg=10
 	hi! LineNrAbove cterm=bold ctermbg=235 ctermfg=10
@@ -355,16 +531,34 @@ endfunction
 autocmd InsertEnter * call ColorsInsertMode()
 autocmd InsertLeave * call ColorsOtherModes()
 
+if !exists('Act')
+	let g:Act = 0
+endif
+function! MyCursorHold()
+	if g:Act == 1
+		silent! exe "ptag " . expand("<cword>")
+	endif
+	if g:Act == 2
+		silent! cal MyWordHighlight(0, expand("<cword>"))
+	endif
+	if g:Act == 3
+		silent! cal MyStringHighlight(0, getline("."))
+	endif
+endfunction
+
 function! FixColorscheme()
 	call clearmatches()
-	hi! Normal ctermbg=none guibg=black
+	hi! Normal ctermbg=none
+	hi! Error cterm=underline ctermfg=red ctermbg=235
+	hi! Cursor guibg=lime
+	hi! SignColumn guibg=#333333
 	hi! Search ctermbg=darkblue ctermfg=white
 	hi! IncSearch ctermbg=darkcyan ctermfg=white
 	hi! FoldColumn ctermbg=236 ctermfg=229
 	hi! Folded cterm=bold ctermbg=235 ctermfg=167
 	hi! FoldColumn ctermbg=232 ctermfg=240 cterm=bold
 	hi! DiffDelete ctermfg=239 ctermbg=234
-	hi! diffRemoved ctermfg=239 ctermbg=234
+	hi! diffRemoved ctermfg=red ctermbg=52
 	hi! DiffAdd cterm=bold ctermfg=193 ctermbg=23
 	hi! diffAdded cterm=none ctermfg=green
 	hi! DiffChange ctermbg=233
@@ -389,9 +583,9 @@ function! FixColorscheme()
 	hi! Operator ctermfg=222
 	hi! Number ctermfg=gray
 	hi! Boolean ctermfg=gray
-	hi! Repeat ctermfg=202 cterm=bold gui=none
-	hi! Statement ctermfg=202 cterm=bold gui=none
-	hi! Conditional ctermfg=202 cterm=bold gui=none
+	hi! Repeat ctermfg=202 cterm=bold
+	hi! Statement ctermfg=202 cterm=bold
+	hi! Conditional ctermfg=202 cterm=bold
 	hi! Constant ctermfg=gray
 	hi! Identifier ctermfg=225 cterm=none
 	hi! javaScopeDecl ctermfg=135
@@ -411,32 +605,38 @@ function! FixColorscheme()
 	hi! ExtraWhitespace cterm=none ctermfg=magenta ctermbg=236
 	hi! MatchParen ctermbg=magenta ctermfg=yellow
 	hi! Visual ctermbg=none ctermfg=none cterm=reverse,italic
-	hi! luaFunc ctermbg=none ctermfg=white cterm=bold gui=none
+	hi! luaFunc ctermbg=none ctermfg=white cterm=bold
 	hi! luaFunction ctermbg=none ctermfg=24
 	hi! Directory ctermbg=237 ctermfg=white
 	hi! straceSysCall ctermfg=229
 	hi! straceParenthesis ctermfg=blue ctermbg=235
 	hi! straceNumberRHS ctermfg=214 ctermbg=52
 	hi! Hi1 ctermbg=208 ctermfg=black
-	hi! Hi2 ctermbg=155 ctermfg=black
-	hi! Hi3 ctermbg=105 ctermfg=black
-	hi! Hi4 ctermbg=222 ctermfg=black
-	hi! Hi5 ctermbg=45 ctermfg=black
-	hi! Hi6 ctermbg=183 ctermfg=black
-	hi! Hi7 ctermbg=224 ctermfg=black
-	hi! Hi8 ctermbg=123 ctermfg=black
-	hi! Hi9 ctermbg=115 ctermfg=black
-	hi! Hi0 ctermbg=236 guibg=#333333
-	hi! Hi11 ctermfg=208 guifg=#ff8700 cterm=bold gui=bold
-	hi! Hi12 ctermfg=155 guifg=#afff5f cterm=bold gui=bold
-	hi! Hi13 ctermfg=105 guifg=#8787ff cterm=bold gui=bold
-	hi! Hi14 ctermfg=222 guifg=#ffdf87 cterm=bold gui=bold
-	hi! Hi15 ctermfg=45  guifg=#00dfff cterm=bold gui=bold
-	hi! Hi16 ctermfg=183 guifg=#dfafff cterm=bold gui=bold
-	hi! Hi17 ctermfg=224 guifg=#ffdfdf cterm=bold gui=bold
-	hi! Hi18 ctermfg=123 guifg=#87ffff cterm=bold gui=bold
-	hi! Hi19 ctermfg=115 guifg=#87dfaf cterm=bold gui=bold
-	hi! Hi10 ctermfg=238 guifg=#777777 cterm=bold gui=bold
+	hi! Hi2 ctermbg=179 ctermfg=black
+	hi! Hi3 ctermbg=228 ctermfg=black
+	hi! Hi4 ctermbg=104 ctermfg=black
+	hi! Hi5 ctermbg=110 ctermfg=black
+	hi! Hi6 ctermbg=153 ctermfg=black
+	hi! Hi7 ctermbg=155 ctermfg=black
+	hi! Hi8 ctermbg=46 ctermfg=black
+	hi! Hi9 ctermbg=34 ctermfg=black
+	hi! Hi0 ctermbg=236
+	hi! Hi11 ctermfg=208
+	hi! Hi12 ctermfg=179
+	hi! Hi13 ctermfg=228
+	hi! Hi14 ctermfg=104
+	hi! Hi15 ctermfg=110
+	hi! Hi16 ctermfg=153
+	hi! Hi17 ctermfg=155
+	hi! Hi18 ctermfg=46
+	hi! Hi19 ctermfg=34
+	hi! Hi10 ctermfg=238
+	hi! Hi20 ctermbg=238
+	hi! Hi21 ctermbg=238
+	hi! Hi22 ctermbg=238
+	hi! Hi23 ctermbg=238
+	hi! Hi24 ctermbg=238
+	hi! Hi25 ctermbg=238
 	hi! MarkA ctermbg=52 ctermfg=white
 	hi! MarkB ctermbg=19 ctermfg=white
 	hi! MarkM ctermbg=22 ctermfg=white
@@ -452,6 +652,8 @@ function! FixColorscheme()
 	call matchadd('MarkB', "\\%'B", 20)
 	call matchadd('MarkC', "\\%'C", 20)
 	call matchadd('MarkM', "\\%'M", 20)
+	call matchadd('MarkA', '^\(<<<<<<<\||||||||\)', 0)
+	call matchadd('MarkB', '^\(=======\|>>>>>>>\)', 0)
 	hi! NERDTreeCWD ctermfg=179 cterm=bold
 	hi! NERDTreeBookmark ctermfg=245 cterm=italic
 	hi! NERDTreeBookmarkName ctermfg=green
@@ -460,8 +662,9 @@ endfunction
 
 augroup MyColors
 	au!
-	au ColorScheme * call FixColorscheme()
-	au BufWinEnter * call FixColorscheme()
+	au! ColorScheme * call FixColorscheme()
+	au! BufWinEnter * call FixColorscheme()
+	au! CursorMoved * silent! call MyCursorHold()
 augroup END
 
 call FixColorscheme()
@@ -586,6 +789,8 @@ function! ShellSpecificConfig()
 	iabbrev ifv] if [ "$" ]; then<ESC>8hi
 	hi! Identifier ctermfg=225 cterm=none
 	nnoremap <buffer> <leader>shd <C-w>v"gyiw:silent lgrep '<C-r>g='<cr>:redraw!<cr>:lwindow<cr>
+	syntax match InlineVimCommand "^:.*$"
+	hi! InlineVimCommand
 endfunction
 
 autocmd FileType sh call ShellSpecificConfig()
@@ -602,16 +807,29 @@ autocmd FileType qf call QuickfixSpecificConfig()
 " Commands {{{
 command! Hidecomments hi! Comment ctermfg=236
 command! Showcomments hi! Comment ctermfg=8
-command! Mydiff execute 'w !diff -u --color % -'
+if has('win32')
+	command! Mydiff execute 'w !diff -u % -'
+else
+	command! Mydiff execute 'w !diff -u --color % -'
+endif
 command! Edir e %:p:h
 command! Tedir tabedit %:p:h
-command! Fi tabnew | execute('0r!ag -l') | set buftype=nofile
-command! -nargs=* Fig enew | execute('0r!ag -lG <f-args>') | set buftype=nofile
+command! Fi tabnew | execute('0r!ag -lU') | set buftype=nofile
+function! MyFileGrep()
+	silent! call MyHighlight(10, '.*/')
+	silent! call MyHighlight(0, '/')
+	silent! call MyHighlight(17, '[^/]*\.c$')
+	silent! call MyHighlight(15, '[^/]*\.h$')
+	if line('$') == 2
+		norm gf
+	endif
+endfunction
+command! -nargs=* Fig enew | execute('0r!ag -lUG <f-args> | sort') | set buftype=nofile | call MyFileGrep()
 command! Nw set nowrap
 command! Re execute('resize ' . line('$'))
 command! -nargs=+ Ag :tabnew | execute('0r!ag <f-args>')|set buftype=nofile
 command! -nargs=* Gd :tabnew | set ft=diff |  execute('0r!git diff <f-args>') | set buftype=nofile
-command! -nargs=* Gb :let MyBlameFile=@% | let MyBlameLine=line('.')+1 | tabnew | execute('0r!git atfile '.MyBlameFile.' blame '.MyBlameFile) | execute(':'.MyBlameLine)|set buftype=nofile|normal zz
+command! -nargs=* Gb :let MyBlameFile=@% | let MyBlameLine=line('.')+1 | tabnew | execute('r!git blame '.MyBlameFile) | execute(':'.MyBlameLine)|set buftype=nofile|normal zz
 command! -nargs=+ Lg :silent! lgrep <f-args> | redraw! | lw
 command! -nargs=+ Gr :silent! grep <f-args>  | redraw! | botright cw
 command! Gadd !git -C %:p:h add %:t
@@ -632,6 +850,7 @@ command! Sp2 set tabstop=2 expandtab shiftwidth=2
 command! Sp3 set tabstop=3 expandtab shiftwidth=3
 command! Sp4 set tabstop=4 expandtab shiftwidth=4
 command! Tb set tabstop=4 noexpandtab shiftwidth=4
+command! Foldmerge set fdm=marker foldmarker=<<<<<<<,>>>>>>>
 function! Notes()
 	let l:notefile = findfile('.notes', '.;')
 	if len(l:notefile) > 0
@@ -711,17 +930,23 @@ nnoremap <leader>nb :NERDTreeFind<cr>:Bookmark<cr>
 
 map <Leader><C-k> <Plug>(easymotion-bd-jk)
 map <Leader><C-w> <Plug>(easymotion-overwin-w)
-map s <Plug>(easymotion-overwin-f)
-map <Space> <Plug>(easymotion-bd-w)
+nmap s <Plug>(easymotion-bd-f)
+nmap <Space> <Plug>(easymotion-bd-w)
+
+if has("gui_running")
+	map <M-s> <Plug>(easymotion-overwin-f)
+endif
 
 nnoremap <leader>lb :Buffers<CR>
 nnoremap <leader>lw :Windows<CR>
 nnoremap <leader>lf :Files<CR>
 nnoremap <leader>lc :Commands<CR>
 
-nnoremap <leader><Space> :SlimeSend<CR>
-inoremap <leader><Space> <C-O>:SlimeSend<CR>
-vnoremap <leader><Space> :SlimeSend<CR>
+if exists(':SlimeSend')
+	nnoremap <leader><Space> :SlimeSend<CR>
+	inoremap <leader><Space> <C-O>:SlimeSend<CR>
+	vnoremap <leader><Space> :SlimeSend<CR>
+endif
 
 " }}}
 
@@ -755,6 +980,9 @@ if ! isdirectory(expand(&g:backupdir))
 endif
 if ! isdirectory(expand(&g:undodir))
   silent! call mkdir(expand(&g:undodir), 'p', 0700)
+endif
+if filereadable($HOME.'/.vimrc.local')
+	exe "so ".$HOME.'/.vimrc.local'
 endif
 " }}}
 
