@@ -28,4 +28,5 @@ https://github.com/tpope/vim-commentary
 https://github.com/azabiong/vim-highlighter
 https://github.com/michaeljsmith/vim-indent-object
 https://github.com/m42e/vim-gcov-marker
+https://github.com/AndrewRadev/linediff.vim
 EOM
