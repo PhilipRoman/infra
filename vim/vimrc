@@ -792,7 +792,7 @@ function! ShellSpecificConfig()
 	hi! Identifier ctermfg=225 cterm=none
 	nnoremap <buffer> <leader>shd <C-w>v"gyiw:silent lgrep '<C-r>g='<cr>:redraw!<cr>:lwindow<cr>
 	syntax match InlineVimCommand "^:.*$"
-	hi! InlineVimCommand
+	"hi! InlineVimCommand
 endfunction
 
 autocmd FileType sh call ShellSpecificConfig()
@@ -829,7 +829,7 @@ endfunction
 command! -nargs=* Fig enew | execute('0r!ag -lUG <f-args> | sort') | set buftype=nofile | call MyFileGrep()
 command! Nw set nowrap
 command! Re execute('resize ' . line('$'))
-command! -nargs=+ Ag :tabnew | execute('0r!ag <f-args>')|set buftype=nofile
+command! -nargs=+ AgX :tabnew | execute('0r!ag <f-args>')|set buftype=nofile
 command! -nargs=* Gd :tabnew | set ft=diff |  execute('0r!git diff <f-args>') | set buftype=nofile
 command! -nargs=* Gb :let MyBlameFile=@% | let MyBlameLine=line('.')+1 | tabnew | execute('r!git blame '.MyBlameFile) | execute(':'.MyBlameLine)|set buftype=nofile|normal zz
 command! -nargs=+ Lg :silent! lgrep <f-args> | redraw! | lw
