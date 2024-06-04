@@ -6,7 +6,7 @@ m4_define(NEWGIT,
 [user]
 	name = PhilipRoman
 	email = frfilips@gmail.com
-	signingkey = 086D4086FB9A3AA6EF325782EC23F3796F88A723
+	signingkey = 72517358551CF46F41CBAD4FAAF3E9F46B05F69C
 [pager]
 	diff = less
 [core]
