@@ -24,7 +24,7 @@ export IGNOREEOF='0'
 export FIGNORE='..:.'
 export GRADLE_OPTS=''
 less_prompt='file\ %g\ (%i\ of\ %m)\ line\ %lt╱%L\ =\ %Pt\%'
-export LESS='--jump-target=2 --tabs=3 --RAW-CONTROL-CHARS --QUIET --ignore-case --clear-screen -P'"$less_prompt"
+export LESS='--jump-target=2 --tabs=3 --RAW-CONTROL-CHARS --QUIET --ignore-case --clear-screen --no-vbell -P'"$less_prompt"
 export MANOPT='--nh -r '"${less_prompt/\%g/\$MAN_PN}"
 export GPG_TTY="$(tty)"
 export PAGER="$(command -v less)"
