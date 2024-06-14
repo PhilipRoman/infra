@@ -31,5 +31,4 @@ https://github.com/m42e/vim-gcov-marker
 https://github.com/AndrewRadev/linediff.vim
 https://github.com/vimwiki/vimwiki.git
 https://github.com/bogado/file-line
-https://github.com/wellle/context.vim
 EOM
