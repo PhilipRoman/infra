@@ -35,7 +35,7 @@ if command -v fzf >/dev/null; then
 	hist() {
 		# sort & uniq by second field; then "unsort" using first field
 		cmd="$(history | sort -u -k2 | sort -n |
-			sed -n 's/^\s*[0-9]*\s*//; /......../p' |
+			sed -n 's/^\s*[0-9]*\s*//; /...../p' |
 			fzf --tac --reverse --height='80%')"
 		printf '%s\n' "$cmd"
 	}
