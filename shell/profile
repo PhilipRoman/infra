@@ -34,6 +34,8 @@ export VISUAL="$EDITOR"
 export LESSGLOBALTAGS=global
 command -v lesspipe.sh >/dev/null && export LESSOPEN='||lesspipe.sh %s'
 
+export CMAKE_BUILD_PARALLEL_LEVEL="$(nproc --all || echo 4)"
+
 umask 022
 # allow core dumps
 ulimit -c unlimited
