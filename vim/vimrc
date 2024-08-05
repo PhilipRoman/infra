@@ -528,7 +528,7 @@ function! ColorsOtherModes()
 	hi! LineNrAbove cterm=bold ctermbg=235 ctermfg=167
 	hi! LineNrBelow cterm=bold ctermbg=233 ctermfg=167
 	hi! CursorLineNr ctermbg=13 ctermfg=white cterm=none
-	hi! StatusLine ctermbg=darkmagenta ctermfg=229 cterm=bold
+	hi! StatusLine ctermbg=202 ctermfg=229 cterm=bold
 endfunction
 autocmd InsertEnter * call ColorsInsertMode()
 autocmd InsertLeave * call ColorsOtherModes()
@@ -570,7 +570,6 @@ function! FixColorscheme()
 	call ColorsOtherModes()
 	hi! Comment cterm=italic ctermfg=242
 	hi! ModeMsg ctermfg=Black ctermbg=Green
-	hi! VertSplit ctermfg=179
 	hi! EndOfBuffer ctermbg=235 cterm=bold ctermfg=black
 	hi! TabLine ctermbg=235 ctermfg=3 cterm=bold
 	hi! TabLineSel ctermbg=5 ctermfg=3 cterm=bold
@@ -580,9 +579,10 @@ function! FixColorscheme()
 	hi! SpecialChar ctermfg=142 ctermbg=236
 	hi! PreProc ctermfg=15 cterm=bold
 	hi! cDefine ctermfg=195 cterm=none
-	hi! Type cterm=bold ctermfg=white
+	hi! Type ctermfg=104
 	hi! StorageClass ctermfg=96
 	hi! Operator ctermfg=222
+	hi! Function cterm=bold ctermfg=white
 	hi! Number ctermfg=gray
 	hi! Boolean ctermfg=gray
 	hi! Repeat ctermfg=202 cterm=bold
@@ -591,10 +591,11 @@ function! FixColorscheme()
 	hi! Constant ctermfg=gray
 	hi! Identifier ctermfg=225 cterm=none
 	hi! javaScopeDecl ctermfg=135
-	hi! StatusLine ctermbg=darkmagenta ctermfg=229 cterm=bold
-	hi! StatusLineNC cterm=none ctermbg=235 ctermfg=229
-	hi! StatusLineTerm ctermbg=24 ctermfg=121 cterm=bold
-	hi! StatusLineTermNC cterm=none ctermbg=235 ctermfg=121
+	hi! VertSplit ctermbg=240
+	hi! StatusLine ctermbg=202 ctermfg=229 cterm=bold
+	hi! StatusLineNC cterm=none ctermbg=240 ctermfg=229
+	hi! StatusLineTerm ctermbg=202 ctermfg=121 cterm=bold
+	hi! StatusLineTermNC cterm=none ctermbg=240 ctermfg=121
 	hi! SpecialKey ctermfg=238 cterm=none
 	hi! Special ctermfg=white cterm=bold
 	hi! helpHyperTextJump ctermfg=blue
@@ -697,8 +698,14 @@ function! CSpecificConfig()
 	syn match Type '\<[a-zA-Z_]_t\>'
 	hi! cOperator1 ctermfg=magenta
 	hi! cOperator2 ctermfg=219
-	hi! cOperator3 ctermfg=214
+	hi! cOperator3 ctermfg=241
 	hi! cOperatorBracket ctermfg=white cterm=bold
+	syn match Endif /^#\s*endif\>/
+	hi! Endif ctermbg=darkred
+	syn match StartIf /^#\s*if\(n\?def\)\?\>/
+	hi! StartIf ctermbg=darkblue
+	syn match dFunction "\zs\(\k\w*\)*\s*\ze("
+	hi link dFunction Function
 endfunction
 
 autocmd FileType c call CSpecificConfig()
