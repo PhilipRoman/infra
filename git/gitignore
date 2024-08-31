@@ -21,3 +21,4 @@ afl-outputs
 *.gcno
 *.gcov
 gmon.out
+.gdb_history
